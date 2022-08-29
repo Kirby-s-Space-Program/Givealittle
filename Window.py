@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_Dialog(object):
    def setupUi(self, Dialog):
-      Dialog.setObjectName("Give-a-Little")
+      Dialog.setObjectName("Dialog")
       Dialog.resize(1124, 845)
       Dialog.setAutoFillBackground(False)
       self.horizontalLayoutWidget = QtWidgets.QWidget(Dialog)
@@ -36,7 +36,7 @@ class Ui_Dialog(object):
 
    def retranslateUi(self, Dialog):
       _translate = QtCore.QCoreApplication.translate
-      Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+      Dialog.setWindowTitle(_translate("Dialog", "Give-a-Little"))
       self.btnLogin.setText(_translate("Dialog", "Login"))
       self.btnRegister.setText(_translate("Dialog", "Register"))
 
