@@ -1,13 +1,5 @@
 import sys
-from Subwindows2 import *
-
-# def main():
-#     app = QtWidgets.QApplication(sys.argv)
-#     Dialog = QtWidgets.QDialog()
-#     ui = Ui_Dialog()
-#     ui.setupUi(Dialog)
-#     Dialog.show()
-#     sys.exit(app.exec_())
+from Window import *
 
 def main():
    app = QApplication(sys.argv)
