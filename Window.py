@@ -1,6 +1,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+from configurations import *
 
 class Window(QWidget):  #Base Class Window
     def __init__(self):
@@ -15,8 +16,9 @@ class Window(QWidget):  #Base Class Window
         self.InitUI()
 
     def InitUI(self) :  #set window attributes
-        self.setWindowTitle (self. title)
+        self.setWindowTitle (self.title)
         self.setGeometry (self.left, self.top, self. width, self.height)
+        self.setWindowIcon(QIcon("logo.png"))
         self.vbox = QVBoxLayout()
         self.setLayout (self.vbox)
 
@@ -25,22 +27,22 @@ class MainWindow(Window): #Subclass MainWindow
         super().__init__()
 
         self.title = "Give-a-Little" #define window attributes
-        self.left = 250
-        self.top = 250
-        self.width = 1000
-        self.height = 1000
+        self.left = 0
+        self.top = 0
+        self.width = SIZE_WIDTH_MAIN
+        self.height = SIZE_HEIGHT_MAIN
 
         self.InitUI()
         self.addLoginButtons()
+        self.showMaximized()
         self.show()
 
     def addLoginButtons(self):               #Add login/register buttons
         self.hLayoutWidget = QWidget(self)
-        self.hLayoutWidget.setGeometry(QRect(600, 0, 400, 50))
+        self.hLayoutWidget.setGeometry(QRect(HLAYOUT_LEFT, HLAYOUT_TOP, HLAYOUT_WIDTH, HLAYOUT_HEIGHT))
         self.hLayoutWidget.setObjectName("hLayoutWidget")
         self.hLayout = QHBoxLayout(self.hLayoutWidget)
-        self.hLayout.setContentsMargins(20, 0, 20, 0)
-        self.hLayout.setSpacing(20)
+        self.hLayout.setSpacing(HLAYOUT_SPACING)
         self.hLayout.setObjectName("hLayout")
         self.vbox.addWidget(self.hLayoutWidget)
 
