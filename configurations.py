@@ -1,5 +1,6 @@
 #App Configurations
 import sys
+from tkinter import LEFT
 from PyQt5 import QtWidgets
 
 app = QtWidgets.QApplication(sys.argv)
@@ -19,3 +20,6 @@ WIDTH_SUB = int(WIDTH_MAIN/4)
 HEIGHT_SUB = int(HEIGHT_MAIN/2.5)
 LEFT_SUB = int(WIDTH_MAIN/2 - WIDTH_SUB/2)
 TOP_SUB = int(HEIGHT_MAIN/4)
+LEFT_SUB_VBOX = int(WIDTH_SUB/4)
+TOP_SUB_VBOX = int(HEIGHT_SUB/8)
+RIGHT_SUB_EDIT = int(WIDTH_SUB/5)

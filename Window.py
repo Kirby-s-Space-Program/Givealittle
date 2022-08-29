@@ -13,6 +13,10 @@ class Window(QWidget):  #Base Class Window
       self.width = WIDTH_SUB
       self.height = HEIGHT_SUB
 
+      self.vbox = QVBoxLayout()
+      self.vbox.setContentsMargins(LEFT_SUB_VBOX, TOP_SUB_VBOX, 0, TOP_SUB_VBOX)
+      self.setLayout(self.vbox)
+
       self.InitUI()
 
    def InitUI(self) :  #set window attributes
@@ -70,3 +74,42 @@ class LoginWindow(Window): #Subclass LoginWindow
       self.title = "Login"
 
       self.InitUI()
+      self.addLoginWidgets()
+   
+   def addLoginWidgets(self):
+      self.lblLoginHeader = QLabel('Login', self)             #Login label
+      self.lblLoginHeader.setFont(QFont('AnyStyle', 25))
+      self.vbox.addWidget(self.lblLoginHeader)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
+
+      self.vboxEmailWidget = QWidget(self)                    #Email
+      self.vboxEmailWidget.setObjectName("vboxEmailWidget")
+      self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
+      self.vboxEmail.setContentsMargins(0, 0, RIGHT_SUB_EDIT, 0)
+      self.vboxEmail.setObjectName("vboxEmail")
+      self.vbox.addWidget(self.vboxEmailWidget)
+
+      self.lblEmail= QLabel('Email', self.vboxEmailWidget)
+      self.lblEmail.setFont(QFont('AnyStyle', 15))
+      self.vboxEmail.addWidget(self.lblEmail)
+
+      self.ledtEmail = QLineEdit(self.vboxEmailWidget)
+      self.vboxEmail.addWidget(self.ledtEmail)
+
+      self.vboxPassWidget = QWidget(self)                    #Password
+      self.vboxPassWidget.setObjectName("vboxPassWidget")
+      self.vboxPass = QVBoxLayout(self.vboxPassWidget)
+      self.vboxPass.setContentsMargins(0, 0, RIGHT_SUB_EDIT, 0)
+      self.vboxPass.setObjectName("vboxPass")
+      self.vbox.addWidget(self.vboxPassWidget)
+
+      self.lblPass= QLabel('Password', self.vboxPassWidget)
+      self.lblPass.setFont(QFont('AnyStyle', 15))
+      self.vboxPass.addWidget(self.lblPass)
+
+      self.ledtPass = QLineEdit(self.vboxPassWidget)
+      self.ledtPass.setEchoMode(QLineEdit.Password)
+      self.vboxPass.addWidget(self.ledtPass)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
