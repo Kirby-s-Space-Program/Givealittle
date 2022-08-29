@@ -20,14 +20,6 @@ class Window(QWidget):
         self.setWindowTitle (self. title)
         self.setGeometry (self.left, self.top, self. width, self.height)
 
-    def addButton(self):
-        vbox = QVBoxLayout ()
-        self.btn = QPushButton ("Open Second Dialog")
-        self.btn. setFont (QtGui.QFont ("Sanserif", 15) )
-        vbox.addWidget (self.btn)
-        self.setLayout (vbox)
-
-
 class MainWindow(Window):
     def __init__(self):
         super().__init__()
@@ -39,4 +31,17 @@ class MainWindow(Window):
         self.height = 1000
 
         self.InitUI()
+        self.addButton()
+        self.show()
 
+    def addButton(self):
+        vbox = QVBoxLayout ()
+        self.btn = QPushButton ("Open Second Dialog")
+        self.btn. setFont (QtGui.QFont("Sanserif", 15))
+        self.btn.clicked.connect(self.openNewWindow)
+        vbox.addWidget (self.btn)
+        self.setLayout (vbox)
+
+    def openNewWindow(self):
+        self.mydialog = Window()
+        self.mydialog.show()
