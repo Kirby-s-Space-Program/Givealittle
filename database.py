@@ -26,13 +26,12 @@ def login(email, password): #take in user info
         cursor.execute("SELECT Password FROM Users WHERE Email = ?", (email,))
         if (cursor.fetchall()[0][0] == password): #attempt make sure password is matching
             connection.commit()
-            return "Login"
+            return 0
         else:
-            return "incorrect"
+            return 1
     except:
-        print("error")
-        return False
-        #return Login if login success, incorrect if details entered were incorrect and False if external error
+        return -1
+        #return 0 if login success, 1 if details entered were incorrect and -1 if external error
 
 #============================================================================================
 

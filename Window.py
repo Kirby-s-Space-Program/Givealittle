@@ -2,8 +2,14 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from configurations import *
+from database import register, login
+from user import *
+from encrypter import *
 
-class Window(QWidget):  #Base Class Window
+logged = 2 #-1=external error, 0=logged in, 1=wrong details, 2=have not tried
+user=currUser()
+#-------------------------------------------------------------------------------------Base Class Window
+class Window(QWidget):  
    def __init__(self):
       super ().__init__()
 
@@ -14,7 +20,7 @@ class Window(QWidget):  #Base Class Window
       self.height = HEIGHT_SUB
 
       self.vbox = QVBoxLayout()
-      self.vbox.setContentsMargins(LEFT_SUB_VBOX, TOP_SUB_VBOX, 0, TOP_SUB_VBOX)  #TODO: set right margin
+      self.vbox.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX) 
       self.setLayout(self.vbox)
 
       self.InitUI()
@@ -24,7 +30,8 @@ class Window(QWidget):  #Base Class Window
       self.setGeometry(self.left, self.top, self. width, self.height)
       self.setWindowIcon(QIcon("logo.png"))
 
-class MainWindow(Window): #Subclass MainWindow
+#-----------------------------------------------------------------------------------------Subclass MainWindow
+class MainWindow(Window): 
    def __init__(self):
       super().__init__()
 
@@ -67,7 +74,8 @@ class MainWindow(Window): #Subclass MainWindow
       self.mydialog = Window()
       self.mydialog.show()
 
-class LoginWindow(Window): #Subclass LoginWindow
+#----------------------------------------------------------------------------------------------Subclass LoginWindow
+class LoginWindow(Window): 
    def __init__(self):
       super().__init__()
 
@@ -86,7 +94,6 @@ class LoginWindow(Window): #Subclass LoginWindow
       self.vboxEmailWidget = QWidget(self)                    #Email
       self.vboxEmailWidget.setObjectName("vboxEmailWidget")
       self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
-      self.vboxEmail.setContentsMargins(0, 0, RIGHT_SUB_EDIT, 0)  #TODO: remove right margin
       self.vboxEmail.setObjectName("vboxEmail")
       self.vbox.addWidget(self.vboxEmailWidget)
 
@@ -100,7 +107,6 @@ class LoginWindow(Window): #Subclass LoginWindow
       self.vboxPassWidget = QWidget(self)                    #Password
       self.vboxPassWidget.setObjectName("vboxPassWidget")
       self.vboxPass = QVBoxLayout(self.vboxPassWidget)
-      self.vboxPass.setContentsMargins(0, 0, RIGHT_SUB_EDIT, 0) #TODO: remove right margin
       self.vboxPass.setObjectName("vboxPass")
       self.vbox.addWidget(self.vboxPassWidget)
 
@@ -114,19 +120,30 @@ class LoginWindow(Window): #Subclass LoginWindow
 
       self.vbox.addWidget(QLabel(self))                       #Space
 
-      self.hboxWidget = QWidget(self)                         #Login  TODO: fix margins scaling
+      self.hboxWidget = QWidget(self)                         #Login  
       self.hboxWidget.setObjectName("hboxWidget")
       self.hbox = QVBoxLayout(self.hboxWidget)
-      self.hbox.setContentsMargins(LEFT_BUTTON, 0, RIGHT_BUTTON, 0)
+      self.hbox.setContentsMargins(MARGIN_BUTTON, 0, MARGIN_BUTTON, 0)
       self.hbox.setObjectName("hbox")
-      #self.vbox.addWidget(self.hboxWidget)
+      self.vbox.addWidget(self.hboxWidget)
 
       self.btnLogin = QPushButton(self.hboxWidget)            #Login Button
       self.btnLogin.setObjectName("btnLogin")
       self.btnLogin.setText("Login")
-      #self.btnLogin.setFixedWidth(WIDTH_BUTTON)
       self.btnLogin.clicked.connect(self.btnLogin_clicked)
-      self.vbox.addWidget(self.btnLogin)
+      self.hbox.addWidget(self.btnLogin)
 
-   def btnLogin_clicked(self): #check login details
-      print("Login successful")
+   def btnLogin_clicked(self): #check login details  TODO: check user login
+      self.email = self.ledtEmail.text()
+      self.password = self.ledtPass.text()
+      logged = login(self.email, self.password)
+      
+      if(not logged):
+         user = currUser(email=self.email)
+         print("Login successful ", logged)
+      elif(logged==1):
+         print("Incorrect details", logged)
+      elif(logged==-1):
+         print("There was an external error", logged)
+      
+#-------------------------------------------------------------------------------------------------END
