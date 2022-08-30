@@ -14,7 +14,7 @@ class Window(QWidget):  #Base Class Window
       self.height = HEIGHT_SUB
 
       self.vbox = QVBoxLayout()
-      self.vbox.setContentsMargins(LEFT_SUB_VBOX, TOP_SUB_VBOX, 0, TOP_SUB_VBOX)
+      self.vbox.setContentsMargins(LEFT_SUB_VBOX, TOP_SUB_VBOX, 0, TOP_SUB_VBOX)  #TODO: set right margin
       self.setLayout(self.vbox)
 
       self.InitUI()
@@ -86,7 +86,7 @@ class LoginWindow(Window): #Subclass LoginWindow
       self.vboxEmailWidget = QWidget(self)                    #Email
       self.vboxEmailWidget.setObjectName("vboxEmailWidget")
       self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
-      self.vboxEmail.setContentsMargins(0, 0, RIGHT_SUB_EDIT, 0)
+      self.vboxEmail.setContentsMargins(0, 0, RIGHT_SUB_EDIT, 0)  #TODO: remove right margin
       self.vboxEmail.setObjectName("vboxEmail")
       self.vbox.addWidget(self.vboxEmailWidget)
 
@@ -100,7 +100,7 @@ class LoginWindow(Window): #Subclass LoginWindow
       self.vboxPassWidget = QWidget(self)                    #Password
       self.vboxPassWidget.setObjectName("vboxPassWidget")
       self.vboxPass = QVBoxLayout(self.vboxPassWidget)
-      self.vboxPass.setContentsMargins(0, 0, RIGHT_SUB_EDIT, 0)
+      self.vboxPass.setContentsMargins(0, 0, RIGHT_SUB_EDIT, 0) #TODO: remove right margin
       self.vboxPass.setObjectName("vboxPass")
       self.vbox.addWidget(self.vboxPassWidget)
 
@@ -113,3 +113,20 @@ class LoginWindow(Window): #Subclass LoginWindow
       self.vboxPass.addWidget(self.ledtPass)
 
       self.vbox.addWidget(QLabel(self))                       #Space
+
+      self.hboxWidget = QWidget(self)                         #Login  TODO: fix margins scaling
+      self.hboxWidget.setObjectName("hboxWidget")
+      self.hbox = QVBoxLayout(self.hboxWidget)
+      self.hbox.setContentsMargins(LEFT_BUTTON, 0, RIGHT_BUTTON, 0)
+      self.hbox.setObjectName("hbox")
+      #self.vbox.addWidget(self.hboxWidget)
+
+      self.btnLogin = QPushButton(self.hboxWidget)            #Login Button
+      self.btnLogin.setObjectName("btnLogin")
+      self.btnLogin.setText("Login")
+      #self.btnLogin.setFixedWidth(WIDTH_BUTTON)
+      self.btnLogin.clicked.connect(self.btnLogin_clicked)
+      self.vbox.addWidget(self.btnLogin)
+
+   def btnLogin_clicked(self): #check login details
+      print("Login successful")
