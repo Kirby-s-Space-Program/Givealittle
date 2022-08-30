@@ -2,7 +2,7 @@ import database
 
 class currUser:
     def __init__(self, email): #this is called after users login has been verified
-        userInfo = database.getInfo(email)
+        userInfo = database.getUserInfo(email)
         self.email = email
         self.fName = userInfo[0]
         self.surname = userInfo[1]
