@@ -3,12 +3,12 @@
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/Kirby-s-Space-Program/Givealittle/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/Kirby-s-Space-Program/Givealittle/tree/main)
 
 This is an online marketplace, similar to Takealot. Among other features, users should be able to:
-Browse items for sale
-Add items to a shopping cart
-Process dummy transactions
-Track deliveries
-Rate items
-etc
+-Browse items for sale
+-Add items to a shopping cart
+-Process dummy transactions
+-Track deliveries
+-Rate items
+-etc
 
 # Get Started
 
