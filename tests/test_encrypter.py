@@ -1,8 +1,6 @@
 import unittest
 from encrypter import *
 import numpy.random as np
-import os
-os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 class EncrypterTest(unittest.TestCase):
     #Test if generates new salt without kwargs
