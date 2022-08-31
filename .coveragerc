@@ -3,4 +3,4 @@ branch = True
 omit = 
     tests/__init__.py
     tests/test_simple.py
-    tests/test_login.py
+    tests/test_window.py

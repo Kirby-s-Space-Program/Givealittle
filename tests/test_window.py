@@ -1,11 +1,9 @@
 import unittest
 from Window import *
 import os
-import sys
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 class WindowTest(unittest.TestCase):
-    app = QApplication(sys.argv)
     base_window = Window()
     main_window = MainWindow()
     login_window = LoginWindow()
