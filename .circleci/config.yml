@@ -2,7 +2,7 @@
 
 version: 2.1
 orbs: 
-  codecov: codecov/codecov@3.0.0
+  codecov: codecov/codecov@3.2.3
 jobs:
   run-and-test:
     docker:
@@ -17,6 +17,8 @@ jobs:
           command: |
             pip install -r requirements.txt
             pip install coverage
+            RUN apt-get install -y --no-install-recommends qt5-default && \
+                apt-get clean -y
       - run: 
           name: Run tests
           command: |
