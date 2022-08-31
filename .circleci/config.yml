@@ -17,8 +17,7 @@ jobs:
           command: |
             pip install -r requirements.txt
             pip install coverage
-            RUN apt-get install -y --no-install-recommends qt5-default && \
-                apt-get clean -y
+            apt-get install -y --no-install-recommends qt5-default && \
       - run: 
           name: Run tests
           command: |
