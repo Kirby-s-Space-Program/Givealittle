@@ -1,7 +1,8 @@
 import string
-specialChar= set(string.punctuation)
 
 def checkFName(fName):
+    specialChar= set(string.punctuation)
+
     l = len(fName)
     if(l>16):  #FName too long
         return 1
@@ -17,6 +18,8 @@ def checkFName(fName):
     return 0 #FName is valid
         
 def checkSurname(surname):
+    specialChar= set(string.punctuation)
+
     l = len(surname)
     if(l>32):  #surname too long
         return 1
@@ -29,9 +32,9 @@ def checkSurname(surname):
     return 0 #surname is valid
 
 def checkEmail(email):
-    tempSpecials = specialChar
-    tempSpecials.remove(".")
-    tempSpecials.remove("@")
+    specialChar = set(string.punctuation)
+    specialChar.remove('@')
+    specialChar.remove('.')
 
     l = len(email)
     if(l>48):  #email too long
