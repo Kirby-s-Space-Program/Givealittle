@@ -16,7 +16,7 @@ jobs:
           name: Install dependencies
           command: |
             pip install --upgrade pip
-            
+            pip install -r requirements.txt
             pip install coverage
       - run: 
           name: Run tests
