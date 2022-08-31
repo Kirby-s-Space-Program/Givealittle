@@ -18,7 +18,6 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
             pip install coverage
-            apt-get install qt5-default
       - run: 
           name: Run tests
           command: |
