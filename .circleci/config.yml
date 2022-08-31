@@ -22,7 +22,8 @@ jobs:
           command: |
             coverage run -m unittest discover
             coverage report
-      - codecov/upload
+      - codecov/upload:
+          token: '1aef3c07-49f7-4557-bbd5-65907c54db9f' 
 
 workflows:
   version: 2.1
