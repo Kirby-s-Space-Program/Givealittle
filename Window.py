@@ -72,7 +72,7 @@ class MainWindow(Window):
       self.mydialog.show()
 
    def btnRegister_clicked(self): #Open new Window when register button pressed
-      self.mydialog = Window()
+      self.mydialog = RegisterWindow()
       self.mydialog.show()
 
 #----------------------------------------------------------------------------------------------Subclass LoginWindow
@@ -134,17 +134,134 @@ class LoginWindow(Window):
       self.btnLogin.clicked.connect(self.btnLogin_clicked)
       self.hbox.addWidget(self.btnLogin)
 
-   def btnLogin_clicked(self): #check login details  TODO: check user login
-      self.email = self.ledtEmail.text()
-      self.password = self.ledtPass.text()
-      logged = login(self.email, self.password)
+   def btnLogin_clicked(self): #check login details
+      email = self.ledtEmail.text()
+      password = self.ledtPass.text()
+      logged = login(email, password)
       
       if(not logged):
-         user = currUser(email=self.email)
-         print("Login successful ", logged)
+         user = currUser(email=email)
+         print("Login successful")
       elif(logged==1):
-         print("Incorrect details", logged)
+         print("Incorrect details")
       elif(logged==-1):
-         print("There was an external error", logged)
+         print("There was an external error")
       
-#-------------------------------------------------------------------------------------------------END
+#----------------------------------------------------------------------------------------------Subclass RegisterWindow
+class RegisterWindow(Window): 
+   def __init__(self):
+      super().__init__()
+
+      self.title = "Register"
+
+      self.InitUI()
+      self.addRegisterWidgets()
+   
+   def addRegisterWidgets(self):
+      self.lblRegisterHeader = QLabel('Register', self)             #Register label
+      self.lblRegisterHeader.setFont(QFont('AnyStyle', 25))
+      self.vbox.addWidget(self.lblRegisterHeader)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
+
+      self.vboxFNameWidget = QWidget(self)                    #First Name
+      self.vboxFNameWidget.setObjectName("vboxFNameWidget")
+      self.vboxFName = QVBoxLayout(self.vboxFNameWidget)
+      self.vboxFName.setObjectName("vboxFName")
+      self.vbox.addWidget(self.vboxFNameWidget)
+
+      self.lblFName= QLabel('First Name', self.vboxFNameWidget)
+      self.lblFName.setFont(QFont('AnyStyle', 15))
+      self.vboxFName.addWidget(self.lblFName)
+
+      self.ledtFName = QLineEdit(self.vboxFNameWidget)
+      self.vboxFName.addWidget(self.ledtFName)
+
+      self.vboxSurnameWidget = QWidget(self)                    #Surname
+      self.vboxSurnameWidget.setObjectName("vboxSurnameWidget")
+      self.vboxSurname = QVBoxLayout(self.vboxSurnameWidget)
+      self.vboxSurname.setObjectName("vboxSurname")
+      self.vbox.addWidget(self.vboxSurnameWidget)
+
+      self.lblSurname= QLabel('Surname', self.vboxSurnameWidget)
+      self.lblSurname.setFont(QFont('AnyStyle', 15))
+      self.vboxSurname.addWidget(self.lblSurname)
+
+      self.ledtSurname = QLineEdit(self.vboxSurnameWidget)
+      self.vboxSurname.addWidget(self.ledtSurname)
+
+      self.vboxEmailWidget = QWidget(self)                    #Email
+      self.vboxEmailWidget.setObjectName("vboxEmailWidget")
+      self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
+      self.vboxEmail.setObjectName("vboxEmail")
+      self.vbox.addWidget(self.vboxEmailWidget)
+
+      self.lblEmail= QLabel('Email', self.vboxEmailWidget)
+      self.lblEmail.setFont(QFont('AnyStyle', 15))
+      self.vboxEmail.addWidget(self.lblEmail)
+
+      self.ledtEmail = QLineEdit(self.vboxEmailWidget)
+      self.vboxEmail.addWidget(self.ledtEmail)
+
+      self.vboxPassWidget = QWidget(self)                    #Password
+      self.vboxPassWidget.setObjectName("vboxPassWidget")
+      self.vboxPass = QVBoxLayout(self.vboxPassWidget)
+      self.vboxPass.setObjectName("vboxPass")
+      self.vbox.addWidget(self.vboxPassWidget)
+
+      self.lblPass= QLabel('Password', self.vboxPassWidget)
+      self.lblPass.setFont(QFont('AnyStyle', 15))
+      self.vboxPass.addWidget(self.lblPass)
+
+      self.ledtPass = QLineEdit(self.vboxPassWidget)
+      self.ledtPass.setEchoMode(QLineEdit.Password)
+      self.vboxPass.addWidget(self.ledtPass)
+
+      self.vboxPass2Widget = QWidget(self)                    #Password Retype
+      self.vboxPass2Widget.setObjectName("vboxPass2Widget")
+      self.vboxPass2 = QVBoxLayout(self.vboxPass2Widget)
+      self.vboxPass2.setObjectName("vboxPass2")
+      self.vbox.addWidget(self.vboxPass2Widget)
+
+      self.lblPass2= QLabel('Retype Password', self.vboxPass2Widget)
+      self.lblPass2.setFont(QFont('AnyStyle', 15))
+      self.vboxPass2.addWidget(self.lblPass2)
+
+      self.ledtPass2 = QLineEdit(self.vboxPass2Widget)
+      self.ledtPass2.setEchoMode(QLineEdit.Password)
+      self.vboxPass2.addWidget(self.ledtPass2)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
+
+      self.hboxWidget = QWidget(self)                         #Register 
+      self.hboxWidget.setObjectName("hboxWidget")
+      self.hbox = QVBoxLayout(self.hboxWidget)
+      self.hbox.setContentsMargins(MARGIN_BUTTON, 0, MARGIN_BUTTON, 0)
+      self.hbox.setObjectName("hbox")
+      self.vbox.addWidget(self.hboxWidget)
+
+      self.btnRegister = QPushButton(self.hboxWidget)            #Refgister Button
+      self.btnRegister.setObjectName("btnRegister")
+      self.btnRegister.setText("Register")
+      self.btnRegister.clicked.connect(self.btnRegister_clicked)
+      self.hbox.addWidget(self.btnRegister)
+
+   def btnRegister_clicked(self): #check login details  TODO: check user login
+      fname = self.ledtFName.text()
+      surname = self.ledtSurname.text()
+      email = self.ledtEmail.text()
+      password = self.ledtPass.text()
+      password2 = self.ledtPass2.text()
+      
+      if(password!=password2):
+         print("Passwords do not match")
+      else:
+         snhpassword, salt = encrypt(password)
+         reg = register(fname,surname,email,snhpassword, salt)
+         if(not reg):
+            user = currUser(email=email)
+            print("Successfully Registered")
+         else:
+            print("There was an error registering")
+      
+      logged = login(email, password)

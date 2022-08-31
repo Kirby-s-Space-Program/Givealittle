@@ -12,11 +12,11 @@ def register(fname, surname, email, password, salt):
     try:
         cursor.execute("INSERT INTO Users VALUES (?, ?, ?, ?, ?)", (fname, surname, email, password, salt)) #attempt registration
     except:
-        return False
+        return 1
         
     connection.commit()
-    return True
-    #return True or registration success, false if there was an error
+    return 0
+    #return 0 on registration success, 1 if there was an error
     
 
 #============================================================================================
@@ -24,7 +24,7 @@ def register(fname, surname, email, password, salt):
 def login(email, password): #take in user info
     cursor = connection.cursor()
     salt=getSalt(email)
-    snhpassword = encrypt(password, salt=salt)
+    snhpassword, salt = encrypt(password, salt=salt)
     try:
         cursor.execute("SELECT Password FROM Users WHERE Email = ?", (email,))
         pas = cursor.fetchall()[0][0]
