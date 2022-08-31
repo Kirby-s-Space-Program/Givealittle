@@ -243,7 +243,7 @@ class RegisterWindow(Window):
       self.btnRegister.clicked.connect(self.btnRegister_clicked)
       self.hbox.addWidget(self.btnRegister)
 
-   def btnRegister_clicked(self): #check login details  TODO: check user login
+   def btnRegister_clicked(self): #check login details
       fname = self.ledtFName.text()
       surname = self.ledtSurname.text()
       email = self.ledtEmail.text()

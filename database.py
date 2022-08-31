@@ -1,7 +1,4 @@
-from collections import UserList
 import sqlite3
-from multiprocessing import connection
-from sys import flags
 from encrypter import encrypt
 
 connection = sqlite3.connect('KirbysDatabase.db')
