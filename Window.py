@@ -72,7 +72,7 @@ class MainWindow(Window):
       self.mydialog.show()
 
    def btnRegister_clicked(self): #Open new Window when register button pressed
-      self.mydialog = Window()
+      self.mydialog = RegisterWindow()
       self.mydialog.show()
 
 #----------------------------------------------------------------------------------------------Subclass LoginWindow
@@ -147,4 +147,88 @@ class LoginWindow(Window):
       elif(logged==-1):
          print("There was an external error", logged)
       
-#-------------------------------------------------------------------------------------------------END
+#----------------------------------------------------------------------------------------------Subclass RegisterWindow
+
+class RegisterWindow(Window): 
+   def __init__(self):
+      super().__init__()
+
+      self.title = "Register"
+
+      self.InitUI()
+      self.addRegisterWidgets()
+   
+   def addRegisterWidgets(self):
+      self.lblRegisterHeader = QLabel('Register', self)             #Register label
+      self.lblRegisterHeader.setFont(QFont('AnyStyle', 25))
+      self.vbox.addWidget(self.lblRegisterHeader)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
+
+      self.vboxFNameWidget = QWidget(self)                    #First Name
+      self.vboxFNameWidget.setObjectName("vboxFNameWidget")
+      self.vboxFName = QHBoxLayout(self.vboxFNameWidget)
+      self.vboxFName.setObjectName("vboxFName")
+      self.vbox.addWidget(self.vboxFNameWidget)
+
+      self.lblFName= QLabel('First Name', self.vboxFNameWidget)
+      self.lblFName.setFont(QFont('AnyStyle', 15))
+      self.vboxFName.addWidget(self.lblFName)
+
+      self.ledtFName = QLineEdit(self.vboxFNameWidget)
+      self.vboxFName.addWidget(self.ledtFName)
+
+      self.vboxEmailWidget = QWidget(self)                    #Email
+      self.vboxEmailWidget.setObjectName("vboxEmailWidget")
+      self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
+      self.vboxEmail.setObjectName("vboxEmail")
+      self.vbox.addWidget(self.vboxEmailWidget)
+
+      self.lblEmail= QLabel('Email', self.vboxEmailWidget)
+      self.lblEmail.setFont(QFont('AnyStyle', 15))
+      self.vboxEmail.addWidget(self.lblEmail)
+
+      self.ledtEmail = QLineEdit(self.vboxEmailWidget)
+      self.vboxEmail.addWidget(self.ledtEmail)
+
+      self.vboxPassWidget = QWidget(self)                    #Password
+      self.vboxPassWidget.setObjectName("vboxPassWidget")
+      self.vboxPass = QVBoxLayout(self.vboxPassWidget)
+      self.vboxPass.setObjectName("vboxPass")
+      self.vbox.addWidget(self.vboxPassWidget)
+
+      self.lblPass= QLabel('Password', self.vboxPassWidget)
+      self.lblPass.setFont(QFont('AnyStyle', 15))
+      self.vboxPass.addWidget(self.lblPass)
+
+      self.ledtPass = QLineEdit(self.vboxPassWidget)
+      self.ledtPass.setEchoMode(QLineEdit.Password)
+      self.vboxPass.addWidget(self.ledtPass)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
+
+      self.hboxWidget = QWidget(self)                         #Login  
+      self.hboxWidget.setObjectName("hboxWidget")
+      self.hbox = QVBoxLayout(self.hboxWidget)
+      self.hbox.setContentsMargins(MARGIN_BUTTON, 0, MARGIN_BUTTON, 0)
+      self.hbox.setObjectName("hbox")
+      self.vbox.addWidget(self.hboxWidget)
+
+      self.btnLogin = QPushButton(self.hboxWidget)            #Login Button
+      self.btnLogin.setObjectName("btnLogin")
+      self.btnLogin.setText("Login")
+      self.btnLogin.clicked.connect(self.btnLogin_clicked)
+      self.hbox.addWidget(self.btnLogin)
+
+   def btnLogin_clicked(self): #check login details  TODO: check user login
+      self.email = self.ledtEmail.text()
+      self.password = self.ledtPass.text()
+      logged = login(self.email, self.password)
+      
+      if(not logged):
+         user = currUser(email=self.email)
+         print("Login successful ", logged)
+      elif(logged==1):
+         print("Incorrect details", logged)
+      elif(logged==-1):
+         print("There was an external error", logged)
