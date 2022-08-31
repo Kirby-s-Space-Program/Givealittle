@@ -43,7 +43,6 @@ class MainWindow(Window):
 
       self.InitUI()
       self.addLoginButtons()
-      self.showMaximized()
 
    def addLoginButtons(self):               #Add login/register buttons
       self.hLayoutWidget = QWidget(self)

@@ -3,7 +3,6 @@ from Window import *
 import os
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 
-
 class WindowTest(unittest.TestCase):
     base_window = Window()
     main_window = MainWindow()
@@ -25,5 +24,3 @@ class WindowTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    
-
