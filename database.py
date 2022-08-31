@@ -7,10 +7,10 @@ from encrypter import encrypt
 connection = sqlite3.connect('KirbysDatabase.db')
 #============================================================================================
 
-def register(fname, surname, email, password):
+def register(fname, surname, email, password, salt):
     cursor = connection.cursor()
     try:
-        cursor.execute("INSERT INTO Users VALUES (?, ?, ?, ?)", (fname, surname, email, password)) #attempt registration
+        cursor.execute("INSERT INTO Users VALUES (?, ?, ?, ?, ?)", (fname, surname, email, password, salt)) #attempt registration
     except:
         return False
         
@@ -60,3 +60,24 @@ def getSalt(email): #Gets salt to compare passwords
     except:
         print("There was an external error")
         return -1
+    
+#============================================================================================
+
+def addProduct(ProductName, ProductPrice, ProductEmail): #adds a product to the database, auto increments and sets the ID
+    cursor = connection.cursor()
+    try:
+        cursor.execute("INSERT INTO Products (ProductName, ProductPrice, ProductOwner) VALUES (?, ?, ?)", (ProductName, ProductPrice, ProductEmail))
+    except:
+        return 1
+        
+    connection.commit()
+    return 0
+
+def removeProduct(productID): #removes item from the databse using only the ID since the ID is unique to each product
+    cursor = connection.cursor()
+    try:
+        cursor.execute("DELETE FROM Products WHERE ProductID = ?", (productID,))
+    except:
+        return 1
+    connection.commit()
+    return 0
