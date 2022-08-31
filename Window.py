@@ -1,4 +1,3 @@
-import hashlib
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -36,7 +35,7 @@ class MainWindow(Window):
    def __init__(self):
       super().__init__()
 
-      self.title = "Give-a-Little" #define window attributes
+      self.title = "Kirby's Marketplace" #define window attributes
       self.left = 0
       self.top = 0
       self.width = WIDTH_MAIN
@@ -44,8 +43,6 @@ class MainWindow(Window):
 
       self.InitUI()
       self.addLoginButtons()
-      self.showMaximized()
-      self.show()
 
    def addLoginButtons(self):               #Add login/register buttons
       self.hLayoutWidget = QWidget(self)
