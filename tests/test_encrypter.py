@@ -1,5 +1,5 @@
 import unittest
-from encrypter import *
+from login.encrypter import *
 import numpy.random as np
 
 class EncrypterTest(unittest.TestCase):

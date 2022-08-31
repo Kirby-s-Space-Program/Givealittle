@@ -4,7 +4,8 @@ from PyQt5.QtWidgets import *
 from configurations import *
 from database import register, login
 from user import *
-from encrypter import *
+from login.encrypter import encrypt
+from login.verification import *
 
 logged = 2 #-1=external error, 0=logged in, 1=wrong details, 2=have not tried
 user=currUser()
@@ -243,10 +244,46 @@ class RegisterWindow(Window):
       self.btnRegister.clicked.connect(self.btnRegister_clicked)
       self.hbox.addWidget(self.btnRegister)
 
-   def btnRegister_clicked(self): #check login details  TODO: check user login
+   def btnRegister_clicked(self): #check login details
       fname = self.ledtFName.text()
+      fNameCheck = checkFName(fname)
+      if(fNameCheck==1):
+         print("First name too long")
+         return 1
+      elif(fNameCheck==2):
+         print("First name too short")
+         return 2
+      elif(fNameCheck==3):
+         print("First name cannot contain special characters")
+         return 3
+
       surname = self.ledtSurname.text()
+      surnameCheck = checkSurname(surname)
+      if(surnameCheck==1):
+         print("Surname too long")
+         return 1
+      elif(surnameCheck==2):
+         print("Surname too short")
+         return 2
+      elif(surnameCheck==3):
+         print("Surname cannot contain special characters")
+         return 3
+
       email = self.ledtEmail.text()
+      emailCheck = checkEmail(email)
+      if(emailCheck==1):
+         print("Email too long")
+         return 1
+      elif(emailCheck==2):
+         print("Email too short")
+         return 2
+      elif(emailCheck==3):
+         print("Email cannot contain special characters")
+         return 3
+      elif(emailCheck==4):
+         print("Email does not contain @")
+         return 4
+
       password = self.ledtPass.text()
       password2 = self.ledtPass2.text()
       
