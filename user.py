@@ -10,3 +10,5 @@ class currUser:
             self.password = userInfo[3]
             self.Inventory = [] #this will later be use to store the items the user is selling
         
+    def get_Name(self):
+        return self.fName
