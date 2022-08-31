@@ -23,14 +23,6 @@ jobs:
             coverage run -m unittest discover
             coverage report
       - codecov/upload
-        
-dependencies:
-  pre:
-    - sudo apt-get install apt -y
-    - sudo add-apt-repository ppa:beineri/opt-qt542-trusty -y
-    - sudo apt-get update -y; true
-    - sudo apt-get install -y qt54webkit libwebkit-dev libgstreamer0.10-dev
-    - echo "/opt/qt54/bin/qt54-env.sh" >> ~/.circlerc
 
 workflows:
   version: 2.1
