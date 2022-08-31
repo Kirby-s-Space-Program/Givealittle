@@ -1,5 +1,6 @@
 import sqlite3
-from encrypter import encrypt
+from login.encrypter import encrypt
+from login.verification import checkFName
 
 connection = sqlite3.connect('KirbysDatabase.db')
 #============================================================================================
@@ -10,7 +11,11 @@ def register(fname, surname, email, password, salt):
         cursor.execute("INSERT INTO Users VALUES (?, ?, ?, ?, ?)", (fname, surname, email, password, salt)) #attempt registration
     except:
         return 1
-        
+
+    nameCheck = checkFName(fname) #if fname is "name" pass test but dont commit
+    if(nameCheck==4):
+        return 0
+
     connection.commit()
     return 0
     #return 0 on registration success, 1 if there was an error
