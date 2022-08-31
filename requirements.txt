@@ -1,1 +1,1 @@
-mayavi PyQt5
+qt5-default
