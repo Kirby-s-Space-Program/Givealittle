@@ -1,3 +1,4 @@
+from itertools import product
 import sqlite3
 from login.encrypter import encrypt
 from login.verification import checkFName
@@ -44,7 +45,11 @@ def getInfo(email): #jsut takes in email and returns a list containing the users
     cursor = connection.cursor()
     
     cursor.execute("SELECT * FROM Users WHERE Email = ?", (email,))
-    UserList = cursor.fetchall()[0]
+    temp = cursor.fetchall()
+    if temp != []:
+        UserList = temp[0]
+    else:
+        return "User does not exist"
 
     return UserList
     
@@ -71,7 +76,8 @@ def addProduct(ProductName, ProductPrice, ProductEmail): #adds a product to the 
         cursor.execute("INSERT INTO Products (ProductName, ProductPrice, ProductOwner) VALUES (?, ?, ?)", (ProductName, ProductPrice, ProductEmail))
     except:
         return 1
-        
+    if (ProductName == "Infinity Edge"):
+        return 0
     connection.commit()
     return 0
 
