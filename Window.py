@@ -45,13 +45,14 @@ class MainWindow(Window):
       self.height = HEIGHT_MAIN
       
       self.logged = 1 #0=logged in, 1=not logged in
-      self.menubar = QtWidgets.QMenuBar(self)
+      self.menubar = QMenuBar(self)
       self.menubar.setGeometry(QRect(0, 0, 1116, 21))
       self.menubar.setObjectName("menubar")
 
       self.InitUI()
       self.addMenu()
-      #self.addLoginButtons()
+      self.addHeader()
+      self.addSearch()
 
    def addMenu(self):
       self.menuAccount = self.menubar.addMenu('Account') #account menu tab
@@ -106,7 +107,36 @@ class MainWindow(Window):
       self.menuHelp.setObjectName("menuHelp")
       self.menuHelp.triggered.connect(self.btnHelp_click)
       self.menubar.addAction(self.menuHelp)
-      
+   
+   def addHeader(self):
+      self.Header = QLabel("KIRBY'S MARKETPLACE", self)
+      self.Header.setObjectName("Header")
+      self.Header.setGeometry(QRect(LEFT_HEADER, TOP_HEADER, WIDTH_HEADER, HEIGHT_HEADER))
+      font = QFont()
+      font.setPointSize(100)
+      font.setBold(True)
+      font.setItalic(True)
+      font.setWeight(75)
+      self.Header.setFont(font)
+
+   def addSearch(self):
+      self.hboxSearchWidget = QWidget(self)                    #Search
+      self.hboxSearchWidget.setObjectName("hboxSearchWidget")
+      self.hboxSearchWidget.setGeometry(QRect(LEFT_SEARCH, TOP_SEARCH, WIDTH_SEARCH, HEIGHT_SEARCH))
+      self.hboxSearch = QHBoxLayout(self.hboxSearchWidget)
+      self.hboxSearch.setObjectName("hboxSearch")
+      #self.vbox.addWidget(self.hboxSearchWidget)
+
+      self.ledtSearch = QLineEdit(self.hboxSearchWidget)
+      self.ledtSearch.setPlaceholderText("Search for products")
+      self.hboxSearch.addWidget(self.ledtSearch)
+
+      self.btnSearch = QPushButton('Search', self.hboxSearchWidget)
+      self.btnSearch.setObjectName("btnSearch")
+      self.btnSearch.clicked.connect(self.btnTemp)
+      self.hboxSearch.addWidget(self.btnSearch)
+      #self.btnLogin.setText("Login")
+
    def addNewMenu(self):
       self.menubar.clear()
       self.logged = 0
@@ -117,26 +147,6 @@ class MainWindow(Window):
       self.logged = 1
       self.addMenu()
       print("Logout Successful")
-
-   def addLoginButtons(self):               #Add login/register buttons
-      self.hLayoutWidget = QWidget(self)
-      self.hLayoutWidget.setGeometry(QRect(HLAYOUT_LEFT, HLAYOUT_TOP, HLAYOUT_WIDTH, HLAYOUT_HEIGHT))
-      self.hLayoutWidget.setObjectName("hLayoutWidget")
-      self.hLayout = QHBoxLayout(self.hLayoutWidget)
-      self.hLayout.setSpacing(HLAYOUT_SPACING)
-      self.hLayout.setObjectName("hLayout")
-
-      self.btnLogin = QPushButton(self.hLayoutWidget) #Login Button
-      self.btnLogin.setObjectName("btnLogin")
-      self.btnLogin.setText("Login")
-      self.btnLogin.clicked.connect(self.btnLogin_clicked)
-      self.hLayout.addWidget(self.btnLogin)
-
-      self.btnRegister = QPushButton(self.hLayoutWidget) #Register button
-      self.btnRegister.setObjectName("btnRegister")
-      self.btnRegister.setText("Register")
-      self.btnRegister.clicked.connect(self.btnRegister_clicked)
-      self.hLayout.addWidget(self.btnRegister)
 
    def btnLogin_clicked(self): #Open new Window when login button pressed
       self.mydialog = LoginWindow()
