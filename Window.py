@@ -1,3 +1,4 @@
+import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -9,6 +10,7 @@ from login.verification import *
 
 logged = 2 #-1=external error, 0=logged in, 1=wrong details, 2=have not tried
 user=currUser()
+
 #-------------------------------------------------------------------------------------Base Class Window
 class Window(QWidget):  
    def __init__(self):
@@ -41,9 +43,59 @@ class MainWindow(Window):
       self.top = 0
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
+      
+      self.logged = 1 #0=logged in, 1=not logged in
+      self.menubar = QtWidgets.QMenuBar(self)
+      self.menubar.setGeometry(QRect(0, 0, 1116, 21))
+      self.menubar.setObjectName("menubar")
 
       self.InitUI()
-      self.addLoginButtons()
+      self.addMenu()
+      #self.addLoginButtons()
+
+   def addMenu(self):
+      self.menuAccount = self.menubar.addMenu('Account') #account menu tab
+      self.menuAccount.setObjectName("menuAccount")
+      if(not self.logged): #if they are logged in show all menu buttons
+         self.actionAccountDetails = QAction('Details', self) #account sub tabs
+         self.actionAccountDetails.setObjectName("actionAccountDetails")
+         self.actionAccountDetails.triggered.connect(self.btnTemp)
+         self.menuAccount.addAction(self.actionAccountDetails)
+
+         # self.actionTrack_Order = QtWidgets.QAction(MainWindow)
+         # self.actionTrack_Order.setObjectName("actionTrack_Order")
+         # self.actionLogout = QtWidgets.QAction(MainWindow)
+         # self.actionLogout.setObjectName("actionLogout")
+      
+
+         self.menuWish_List = self.menubar.addMenu('Wish List') 
+         self.menuWish_List.setObjectName("menuWish_List")
+
+         self.menuCart = self.menubar.addMenu('Cart') 
+         self.menuCart.setObjectName("menuCart")
+
+         self.menuSell = self.menubar.addMenu('Sell') 
+         self.menuSell.setObjectName("menuSell")
+      else:  #if they are not logged in show account and help
+         self.actionLogin = QAction('Login', self.menubar) #Login sub button
+         self.actionLogin.setObjectName("actionLogin")
+         self.actionLogin.triggered.connect(self.btnLogin_clicked)
+         self.menuAccount.addAction(self.actionLogin)
+
+         self.actionRegister = QAction('Register', self.menubar) #Register sub button
+         self.actionRegister.setObjectName("actionRegister")
+         self.actionRegister.triggered.connect(self.btnRegister_clicked)
+         self.menuAccount.addAction(self.actionRegister)
+
+      self.menuHelp = QAction('Help', self) #Help main button
+      self.menuHelp.setObjectName("menuHelp")
+      self.menuHelp.triggered.connect(self.btnHelp_click)
+      self.menubar.addAction(self.menuHelp)
+      
+   def addNewMenu(self):
+      self.menubar.clear()
+      self.logged = 0
+      self.addMenu()
 
    def addLoginButtons(self):               #Add login/register buttons
       self.hLayoutWidget = QWidget(self)
@@ -72,6 +124,14 @@ class MainWindow(Window):
    def btnRegister_clicked(self): #Open new Window when register button pressed
       self.mydialog = RegisterWindow()
       self.mydialog.show()
+
+   #TODO: make functions for post login buttons
+   def btnTemp(self): #Placeholder on click function for post login menu buttons
+      print("Clicked")
+   
+   def btnHelp_click(self): #Help button clicked
+      #TODO: add help
+      print("We are experiencing a high number of tickets, it will take longer than usual to get back to you")
 
 #----------------------------------------------------------------------------------------------Subclass LoginWindow
 class LoginWindow(Window): 
@@ -140,6 +200,8 @@ class LoginWindow(Window):
       if(not logged):
          user = currUser(email=email)
          print("Login successful")
+         ex.addNewMenu()
+         self.close()
       elif(logged==1):
          print("Incorrect details")
       elif(logged==-1):
@@ -147,6 +209,7 @@ class LoginWindow(Window):
       
 #----------------------------------------------------------------------------------------------Subclass RegisterWindow
 class RegisterWindow(Window): 
+
    def __init__(self):
       super().__init__()
 
@@ -295,7 +358,17 @@ class RegisterWindow(Window):
          if(not reg):
             user = currUser(email=email)
             print("Successfully Registered")
+            ex.addNewMenu()
+            self.close()
          else:
             print("There was an error registering")
       
       logged = login(email, password)
+
+
+ex = MainWindow() #create MainWindow object
+#-------------------------------------------------------------------------------------Start Program
+def createMain():
+   app = QApplication(sys.argv)          
+   ex.showMaximized()
+   sys.exit(app.exec_())
