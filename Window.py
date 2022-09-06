@@ -1,3 +1,4 @@
+import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -9,6 +10,7 @@ from login.verification import *
 
 logged = 2 #-1=external error, 0=logged in, 1=wrong details, 2=have not tried
 user=currUser()
+
 #-------------------------------------------------------------------------------------Base Class Window
 class Window(QWidget):  
    def __init__(self):
@@ -41,29 +43,110 @@ class MainWindow(Window):
       self.top = 0
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
+      
+      self.logged = 1 #0=logged in, 1=not logged in
+      self.menubar = QMenuBar(self)
+      self.menubar.setGeometry(QRect(0, 0, 1116, 21))
+      self.menubar.setObjectName("menubar")
 
       self.InitUI()
-      self.addLoginButtons()
+      self.addMenu()
+      self.addHeader()
+      self.addSearch()
 
-   def addLoginButtons(self):               #Add login/register buttons
-      self.hLayoutWidget = QWidget(self)
-      self.hLayoutWidget.setGeometry(QRect(HLAYOUT_LEFT, HLAYOUT_TOP, HLAYOUT_WIDTH, HLAYOUT_HEIGHT))
-      self.hLayoutWidget.setObjectName("hLayoutWidget")
-      self.hLayout = QHBoxLayout(self.hLayoutWidget)
-      self.hLayout.setSpacing(HLAYOUT_SPACING)
-      self.hLayout.setObjectName("hLayout")
+   def addMenu(self):
+      self.menuAccount = self.menubar.addMenu('Account') #account menu tab
+      self.menuAccount.setObjectName("menuAccount")
+      if(not self.logged): #if they are logged in show all menu buttons
+         #Account sub tabs
+         self.actionAccountDetails = QAction('Details', self.menubar) #account details
+         self.actionAccountDetails.setObjectName("actionAccountDetails")
+         self.actionAccountDetails.triggered.connect(self.btnTemp)
+         self.menuAccount.addAction(self.actionAccountDetails)
 
-      self.btnLogin = QPushButton(self.hLayoutWidget) #Login Button
-      self.btnLogin.setObjectName("btnLogin")
-      self.btnLogin.setText("Login")
-      self.btnLogin.clicked.connect(self.btnLogin_clicked)
-      self.hLayout.addWidget(self.btnLogin)
+         self.actionTrack_Order = QAction('Track Order', self.menubar) #track order
+         self.actionTrack_Order.setObjectName("actionTrack_Order")
+         self.actionTrack_Order.triggered.connect(self.btnTemp)
+         self.menuAccount.addAction(self.actionTrack_Order)
 
-      self.btnRegister = QPushButton(self.hLayoutWidget) #Register button
-      self.btnRegister.setObjectName("btnRegister")
-      self.btnRegister.setText("Register")
-      self.btnRegister.clicked.connect(self.btnRegister_clicked)
-      self.hLayout.addWidget(self.btnRegister)
+         self.actionLogout = QAction('Logout', self.menubar) #logout
+         self.actionLogout.setObjectName("actionLogout")
+         self.actionLogout.triggered.connect(self.Logout)
+         self.menuAccount.addAction(self.actionLogout)
+      
+         #Wish List sub tabs
+         self.menuWish_List = QAction('Wish List', self.menubar)
+         self.menuWish_List.setObjectName("menuWish_List")
+         self.menuWish_List.triggered.connect(self.btnTemp)
+         self.menubar.addAction(self.menuWish_List)
+
+         #Cart sub tabs
+         self.menuCart = QAction('Cart', self.menubar)
+         self.menuCart.setObjectName("menuCart")
+         self.menuCart.triggered.connect(self.btnTemp)
+         self.menubar.addAction(self.menuCart)
+
+         #Sell sub tabs
+         self.menuSell = QAction('Sell', self.menubar)
+         self.menuSell.setObjectName("menuSell")
+         self.menuSell.triggered.connect(self.btnTemp)
+         self.menubar.addAction(self.menuSell)
+
+      else:  #if they are not logged in show account and help
+         self.actionLogin = QAction('Login', self.menubar) #Login sub button
+         self.actionLogin.setObjectName("actionLogin")
+         self.actionLogin.triggered.connect(self.btnLogin_clicked)
+         self.menuAccount.addAction(self.actionLogin)
+
+         self.actionRegister = QAction('Register', self.menubar) #Register sub button
+         self.actionRegister.setObjectName("actionRegister")
+         self.actionRegister.triggered.connect(self.btnRegister_clicked)
+         self.menuAccount.addAction(self.actionRegister)
+
+      self.menuHelp = QAction('Help', self.menubar) #Help main button
+      self.menuHelp.setObjectName("menuHelp")
+      self.menuHelp.triggered.connect(self.btnHelp_click)
+      self.menubar.addAction(self.menuHelp)
+   
+   def addHeader(self):
+      self.Header = QLabel("KIRBY'S MARKETPLACE", self)
+      self.Header.setObjectName("Header")
+      self.Header.setGeometry(QRect(LEFT_HEADER, TOP_HEADER, WIDTH_HEADER, HEIGHT_HEADER))
+      font = QFont()
+      font.setPointSize(100)
+      font.setBold(True)
+      font.setItalic(True)
+      font.setWeight(75)
+      self.Header.setFont(font)
+
+   def addSearch(self):
+      self.hboxSearchWidget = QWidget(self)                    #Search
+      self.hboxSearchWidget.setObjectName("hboxSearchWidget")
+      self.hboxSearchWidget.setGeometry(QRect(LEFT_SEARCH, TOP_SEARCH, WIDTH_SEARCH, HEIGHT_SEARCH))
+      self.hboxSearch = QHBoxLayout(self.hboxSearchWidget)
+      self.hboxSearch.setObjectName("hboxSearch")
+      #self.vbox.addWidget(self.hboxSearchWidget)
+
+      self.ledtSearch = QLineEdit(self.hboxSearchWidget)
+      self.ledtSearch.setPlaceholderText("Search for products")
+      self.hboxSearch.addWidget(self.ledtSearch)
+
+      self.btnSearch = QPushButton('Search', self.hboxSearchWidget)
+      self.btnSearch.setObjectName("btnSearch")
+      self.btnSearch.clicked.connect(self.btnTemp)
+      self.hboxSearch.addWidget(self.btnSearch)
+      #self.btnLogin.setText("Login")
+
+   def addNewMenu(self):
+      self.menubar.clear()
+      self.logged = 0
+      self.addMenu()
+
+   def Logout(self):
+      self.menubar.clear()
+      self.logged = 1
+      self.addMenu()
+      print("Logout Successful")
 
    def btnLogin_clicked(self): #Open new Window when login button pressed
       self.mydialog = LoginWindow()
@@ -72,6 +155,14 @@ class MainWindow(Window):
    def btnRegister_clicked(self): #Open new Window when register button pressed
       self.mydialog = RegisterWindow()
       self.mydialog.show()
+
+   #TODO: make functions for post login buttons
+   def btnTemp(self): #Placeholder on click function for post login menu buttons
+      print("Clicked")
+   
+   def btnHelp_click(self): #Help button clicked
+      #TODO: add help
+      print("We are experiencing a high number of tickets, it will take longer than usual to get back to you")
 
 #----------------------------------------------------------------------------------------------Subclass LoginWindow
 class LoginWindow(Window): 
@@ -140,6 +231,8 @@ class LoginWindow(Window):
       if(not logged):
          user = currUser(email=email)
          print("Login successful")
+         ex.addNewMenu()
+         self.close()
       elif(logged==1):
          print("Incorrect details")
       elif(logged==-1):
@@ -147,6 +240,7 @@ class LoginWindow(Window):
       
 #----------------------------------------------------------------------------------------------Subclass RegisterWindow
 class RegisterWindow(Window): 
+
    def __init__(self):
       super().__init__()
 
@@ -295,7 +389,17 @@ class RegisterWindow(Window):
          if(not reg):
             user = currUser(email=email)
             print("Successfully Registered")
+            ex.addNewMenu()
+            self.close()
          else:
             print("There was an error registering")
       
       logged = login(email, password)
+
+
+ex = MainWindow() #create MainWindow object
+#-------------------------------------------------------------------------------------Start Program
+def createMain():
+   app = QApplication(sys.argv)          
+   ex.showMaximized()
+   sys.exit(app.exec_())
