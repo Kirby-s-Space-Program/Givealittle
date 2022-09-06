@@ -57,25 +57,40 @@ class MainWindow(Window):
       self.menuAccount = self.menubar.addMenu('Account') #account menu tab
       self.menuAccount.setObjectName("menuAccount")
       if(not self.logged): #if they are logged in show all menu buttons
-         self.actionAccountDetails = QAction('Details', self) #account sub tabs
+         #Account sub tabs
+         self.actionAccountDetails = QAction('Details', self.menubar) #account details
          self.actionAccountDetails.setObjectName("actionAccountDetails")
          self.actionAccountDetails.triggered.connect(self.btnTemp)
          self.menuAccount.addAction(self.actionAccountDetails)
 
-         # self.actionTrack_Order = QtWidgets.QAction(MainWindow)
-         # self.actionTrack_Order.setObjectName("actionTrack_Order")
-         # self.actionLogout = QtWidgets.QAction(MainWindow)
-         # self.actionLogout.setObjectName("actionLogout")
+         self.actionTrack_Order = QAction('Track Order', self.menubar) #track order
+         self.actionTrack_Order.setObjectName("actionTrack_Order")
+         self.actionTrack_Order.triggered.connect(self.btnTemp)
+         self.menuAccount.addAction(self.actionTrack_Order)
+
+         self.actionLogout = QAction('Logout', self.menubar) #logout
+         self.actionLogout.setObjectName("actionLogout")
+         self.actionLogout.triggered.connect(self.Logout)
+         self.menuAccount.addAction(self.actionLogout)
       
-
-         self.menuWish_List = self.menubar.addMenu('Wish List') 
+         #Wish List sub tabs
+         self.menuWish_List = QAction('Wish List', self.menubar)
          self.menuWish_List.setObjectName("menuWish_List")
+         self.menuWish_List.triggered.connect(self.btnTemp)
+         self.menubar.addAction(self.menuWish_List)
 
-         self.menuCart = self.menubar.addMenu('Cart') 
+         #Cart sub tabs
+         self.menuCart = QAction('Cart', self.menubar)
          self.menuCart.setObjectName("menuCart")
+         self.menuCart.triggered.connect(self.btnTemp)
+         self.menubar.addAction(self.menuCart)
 
-         self.menuSell = self.menubar.addMenu('Sell') 
+         #Sell sub tabs
+         self.menuSell = QAction('Sell', self.menubar)
          self.menuSell.setObjectName("menuSell")
+         self.menuSell.triggered.connect(self.btnTemp)
+         self.menubar.addAction(self.menuSell)
+
       else:  #if they are not logged in show account and help
          self.actionLogin = QAction('Login', self.menubar) #Login sub button
          self.actionLogin.setObjectName("actionLogin")
@@ -87,7 +102,7 @@ class MainWindow(Window):
          self.actionRegister.triggered.connect(self.btnRegister_clicked)
          self.menuAccount.addAction(self.actionRegister)
 
-      self.menuHelp = QAction('Help', self) #Help main button
+      self.menuHelp = QAction('Help', self.menubar) #Help main button
       self.menuHelp.setObjectName("menuHelp")
       self.menuHelp.triggered.connect(self.btnHelp_click)
       self.menubar.addAction(self.menuHelp)
@@ -96,6 +111,12 @@ class MainWindow(Window):
       self.menubar.clear()
       self.logged = 0
       self.addMenu()
+
+   def Logout(self):
+      self.menubar.clear()
+      self.logged = 1
+      self.addMenu()
+      print("Logout Successful")
 
    def addLoginButtons(self):               #Add login/register buttons
       self.hLayoutWidget = QWidget(self)
