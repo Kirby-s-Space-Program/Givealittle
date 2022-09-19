@@ -1,6 +1,5 @@
 #App Configurations
 import sys
-from tkinter import LEFT
 from PyQt5 import QtWidgets
 
 app = QtWidgets.QApplication(sys.argv)
@@ -35,3 +34,10 @@ MARGIN_SUB_VBOX = int(WIDTH_SUB/4)
 TOP_SUB_VBOX = int(HEIGHT_SUB/10)
 
 MARGIN_BUTTON = int(WIDTH_SUB/8)
+
+DARK_PINK = 0xdd0459
+PINK = 0xeb6896
+SOFT_PINK = 0xfd99a7
+YELLOW = 0xfbfb8f
+WHITE = 0xeeeeee
+BLACK = 0x070a0d
