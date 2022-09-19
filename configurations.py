@@ -1,6 +1,7 @@
 #App Configurations
 import sys
 from PyQt5 import QtWidgets
+from PyQt5.QtGui import QColor
 
 app = QtWidgets.QApplication(sys.argv)
 screen = app.primaryScreen()
@@ -13,6 +14,7 @@ LEFT_HEADER = int(WIDTH_MAIN/12)
 TOP_HEADER = int(HEIGHT_MAIN/75)
 WIDTH_HEADER = WIDTH_MAIN
 HEIGHT_HEADER = int(HEIGHT_MAIN/10)
+TOP_HEADER_SHADOW = int(TOP_HEADER + HEIGHT_HEADER/10)
 
 LEFT_SEARCH = int(WIDTH_MAIN/5)
 TOP_SEARCH = int(HEIGHT_MAIN/6)
@@ -35,9 +37,14 @@ TOP_SUB_VBOX = int(HEIGHT_SUB/10)
 
 MARGIN_BUTTON = int(WIDTH_SUB/8)
 
-DARK_PINK = 0xdd0459
-PINK = 0xeb6896
-SOFT_PINK = 0xfd99a7
-YELLOW = 0xfbfb8f
+#Color pallette
+DARK_PINK = QColor(221, 4, 89) #"rgb(221, 4, 89)" #0xdd0459
+PINK = QColor(235, 104, 150) #"rgb(235, 104, 150)" #0xeb6896
+SOFT_PINK = QColor(253, 153, 167)   #"rgb(253, 153, 167)" #0xfd99a7
+YELLOW = "rgb(251, 251, 143)" #0xfbfb8f
 WHITE = 0xeeeeee
 BLACK = 0x070a0d
+
+#Images
+SEARCH = "./icons/search.png"
+HEADER_TITLE = "./icons/header_title.png"
