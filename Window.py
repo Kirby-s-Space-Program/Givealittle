@@ -21,6 +21,13 @@ class Window(QWidget):
       self.top = TOP_SUB
       self.width = WIDTH_SUB
       self.height = HEIGHT_SUB
+      self.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      self.opacityEffect = QGraphicsOpacityEffect()
+      self.opacityEffect.setOpacity(0.5)
+      self.HeaderColorEffect = QGraphicsColorizeEffect()
+      self.HeaderColorEffect.setColor(PINK)
+      self.HeaderShadowColorEffect = QGraphicsColorizeEffect()
+      self.HeaderShadowColorEffect.setColor(DARK_PINK)
 
       self.vbox = QVBoxLayout()
       self.vbox.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX) 
@@ -43,6 +50,7 @@ class MainWindow(Window):
       self.top = 0
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
+      
       
       self.logged = 1 #0=logged in, 1=not logged in
       self.menubar = QMenuBar(self)
@@ -109,15 +117,34 @@ class MainWindow(Window):
       self.menubar.addAction(self.menuHelp)
    
    def addHeader(self):
+      #Header text
       self.Header = QLabel("KIRBY'S MARKETPLACE", self)
       self.Header.setObjectName("Header")
       self.Header.setGeometry(QRect(LEFT_HEADER, TOP_HEADER, WIDTH_HEADER, HEIGHT_HEADER))
-      font = QFont()
+      # font = QFont('Kirby Classic')
+      # font.setPointSize(100)
+      # font.setWeight(75)
+      # self.Header.setFont(font)
+
+      self.pixmap = QPixmap(HEADER_TITLE)
+      self.Header.setPixmap(self.pixmap)
+
+      
+      # self.Header.setGraphicsEffect(self.opacityEffect)
+      # self.Header.setGraphicsEffect(self.HeaderColorEffect)
+      font = QFont('Kirby Classic')
       font.setPointSize(100)
-      font.setBold(True)
-      font.setItalic(True)
       font.setWeight(75)
       self.Header.setFont(font)
+
+      #Header shadow
+      # self.HeaderShadow = QLabel("KIRBY'S MARKETPLACE", self)
+      # self.HeaderShadow.setObjectName("HeaderShadow")
+      # self.HeaderShadow.setGeometry(QRect(LEFT_HEADER, TOP_HEADER_SHADOW, WIDTH_HEADER, HEIGHT_HEADER))
+      # self.HeaderShadow.setGraphicsEffect(self.opacityEffect)
+      # self.HeaderShadow.setGraphicsEffect(self.HeaderColorEffect)
+      # self.HeaderShadow.setFont(font)
+      
 
    def addSearch(self):
       self.hboxSearchWidget = QWidget(self)                    #Search
