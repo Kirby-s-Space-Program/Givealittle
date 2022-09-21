@@ -28,6 +28,8 @@ class Window(QWidget):
       self.HeaderColorEffect.setColor(PINK)
       self.HeaderShadowColorEffect = QGraphicsColorizeEffect()
       self.HeaderShadowColorEffect.setColor(DARK_PINK)
+      self.font = QFont('Kirby Classic')
+      self.font.setPointSize(100)
 
       self.vbox = QVBoxLayout()
       self.vbox.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX) 
@@ -121,30 +123,10 @@ class MainWindow(Window):
       self.Header = QLabel("KIRBY'S MARKETPLACE", self)
       self.Header.setObjectName("Header")
       self.Header.setGeometry(QRect(LEFT_HEADER, TOP_HEADER, WIDTH_HEADER, HEIGHT_HEADER))
-      # font = QFont('Kirby Classic')
-      # font.setPointSize(100)
-      # font.setWeight(75)
-      # self.Header.setFont(font)
-
+      print(WIDTH_HEADER - 2*LEFT_HEADER)
       self.pixmap = QPixmap(HEADER_TITLE)
-      self.Header.setPixmap(self.pixmap)
-
-      
-      # self.Header.setGraphicsEffect(self.opacityEffect)
-      # self.Header.setGraphicsEffect(self.HeaderColorEffect)
-      font = QFont('Kirby Classic')
-      font.setPointSize(100)
-      font.setWeight(75)
-      self.Header.setFont(font)
-
-      #Header shadow
-      # self.HeaderShadow = QLabel("KIRBY'S MARKETPLACE", self)
-      # self.HeaderShadow.setObjectName("HeaderShadow")
-      # self.HeaderShadow.setGeometry(QRect(LEFT_HEADER, TOP_HEADER_SHADOW, WIDTH_HEADER, HEIGHT_HEADER))
-      # self.HeaderShadow.setGraphicsEffect(self.opacityEffect)
-      # self.HeaderShadow.setGraphicsEffect(self.HeaderColorEffect)
-      # self.HeaderShadow.setFont(font)
-      
+      #self.pixmap = self.pixmap.scaled(WIDTH_HEADER, HEIGHT_HEADER, Qt.KeepAspectRatio, Qt.FastTransformation)
+      self.Header.setPixmap(self.pixmap) 
 
    def addSearch(self):
       self.hboxSearchWidget = QWidget(self)                    #Search
@@ -152,7 +134,6 @@ class MainWindow(Window):
       self.hboxSearchWidget.setGeometry(QRect(LEFT_SEARCH, TOP_SEARCH, WIDTH_SEARCH, HEIGHT_SEARCH))
       self.hboxSearch = QHBoxLayout(self.hboxSearchWidget)
       self.hboxSearch.setObjectName("hboxSearch")
-      #self.vbox.addWidget(self.hboxSearchWidget)
 
       self.ledtSearch = QLineEdit(self.hboxSearchWidget)
       self.ledtSearch.setPlaceholderText("Search for products")

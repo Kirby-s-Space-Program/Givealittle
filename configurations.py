@@ -10,10 +10,10 @@ screen = app.primaryScreen()
 WIDTH_MAIN = screen.size().width()
 HEIGHT_MAIN = screen.size().height()
 
-LEFT_HEADER = int(WIDTH_MAIN/12)
-TOP_HEADER = int(HEIGHT_MAIN/75)
-WIDTH_HEADER = WIDTH_MAIN
-HEIGHT_HEADER = int(HEIGHT_MAIN/10)
+LEFT_HEADER = int(WIDTH_MAIN/5)
+TOP_HEADER = int(HEIGHT_MAIN/25)
+WIDTH_HEADER = int(3*WIDTH_MAIN/5)
+HEIGHT_HEADER = int(HEIGHT_MAIN/8)
 TOP_HEADER_SHADOW = int(TOP_HEADER + HEIGHT_HEADER/10)
 
 LEFT_SEARCH = int(WIDTH_MAIN/5)
@@ -38,13 +38,21 @@ TOP_SUB_VBOX = int(HEIGHT_SUB/10)
 MARGIN_BUTTON = int(WIDTH_SUB/8)
 
 #Color pallette
-DARK_PINK = QColor(221, 4, 89) #"rgb(221, 4, 89)" #0xdd0459
-PINK = QColor(235, 104, 150) #"rgb(235, 104, 150)" #0xeb6896
-SOFT_PINK = QColor(253, 153, 167)   #"rgb(253, 153, 167)" #0xfd99a7
-YELLOW = "rgb(251, 251, 143)" #0xfbfb8f
-WHITE = 0xeeeeee
-BLACK = 0x070a0d
+DARK_PINK = QColor(221, 4, 89)      #0xdd0459
+PINK = QColor(235, 104, 150)        #0xeb6896
+SOFT_PINK = QColor(253, 153, 167)   #0xfd99a7
+YELLOW = QColor(251, 251, 143)      #0xfbfb8f
+WHITE = QColor(238, 238, 238)       #0xeeeeee
+BLACK = QColor(7, 10, 13)           #0x070a0d
 
 #Images
 SEARCH = "./icons/search.png"
 HEADER_TITLE = "./icons/header_title.png"
+BALL = "./icons/ball.png"
+BOOK = "./icons/book.png"
+CART = "./icons/cart.png"
+MOUSE = "./icons/mouse.png"
+SHIRT = "./icons/shirt.png"
+SOAP = "./icons/soap.png"
+USER = "./icons/user.png"
+WISHLIST = "./icons/wishlist.png"
