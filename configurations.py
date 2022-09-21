@@ -19,7 +19,7 @@ TOP_HEADER_SHADOW = int(TOP_HEADER + HEIGHT_HEADER/10)
 LEFT_SEARCH = int(WIDTH_MAIN/5)
 TOP_SEARCH = int(HEIGHT_MAIN/6)
 WIDTH_SEARCH = int(3*WIDTH_MAIN/5)
-HEIGHT_SEARCH = int(HEIGHT_MAIN/30)
+HEIGHT_SEARCH = int(HEIGHT_MAIN/25)
 
 HLAYOUT_HEIGHT = int(HEIGHT_MAIN/20)
 HLAYOUT_WIDTH = int(WIDTH_MAIN/5)
@@ -46,8 +46,8 @@ WHITE = QColor(238, 238, 238)       #0xeeeeee
 BLACK = QColor(7, 10, 13)           #0x070a0d
 
 #Images
-SEARCH = "./icons/search.png"
 HEADER_TITLE = "./icons/header_title.png"
+SEARCH = "./icons/search.png"
 BALL = "./icons/ball.png"
 BOOK = "./icons/book.png"
 CART = "./icons/cart.png"
