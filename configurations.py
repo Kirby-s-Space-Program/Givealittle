@@ -33,6 +33,8 @@ LEFT_SUB = int(WIDTH_MAIN/2 - WIDTH_SUB/2)
 TOP_SUB = int(HEIGHT_MAIN/4)
 
 MARGIN_SUB_VBOX = int(WIDTH_SUB/4)
+HEIGHT_SUB_VBOX = int(HEIGHT_SUB/6)
+WIDTH_SUB_VBOX = int(WIDTH_SUB/2)
 TOP_SUB_VBOX = int(HEIGHT_SUB/10)
 
 MARGIN_BUTTON = int(WIDTH_SUB/8)
@@ -47,6 +49,7 @@ BLACK = QColor(7, 10, 13)           #0x070a0d
 
 #Images
 HEADER_TITLE = "./icons/header_title.png"
+LOGIN_TITLE = "./icons/login_title.png"
 SEARCH = "./icons/search.png"
 BALL = "./icons/ball.png"
 BOOK = "./icons/book.png"

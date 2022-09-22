@@ -16,20 +16,20 @@ class Window(QWidget):
    def __init__(self):
       super ().__init__()
 
-      self.title = "Window" #define window attributes
+      self.title = "Kirby's Marketplace" #define window attributes
       self.left = LEFT_SUB
       self.top = TOP_SUB
       self.width = WIDTH_SUB
       self.height = HEIGHT_SUB
       self.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
-      self.opacityEffect = QGraphicsOpacityEffect()
-      self.opacityEffect.setOpacity(0.5)
-      self.HeaderColorEffect = QGraphicsColorizeEffect()
-      self.HeaderColorEffect.setColor(PINK)
-      self.HeaderShadowColorEffect = QGraphicsColorizeEffect()
-      self.HeaderShadowColorEffect.setColor(DARK_PINK)
+
       self.font = QFont('Kirby Classic')
-      self.font.setPointSize(100)
+      self.font.setPointSize(50)
+
+      self.labelColorEffect = QGraphicsColorizeEffect()
+      self.labelColorEffect.setColor(PINK)
+      self.labelShadowColorEffect = QGraphicsColorizeEffect()
+      self.labelShadowColorEffect.setColor(DARK_PINK)
 
       self.vbox = QVBoxLayout()
       self.vbox.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX) 
@@ -42,12 +42,17 @@ class Window(QWidget):
       self.setGeometry(self.left, self.top, self. width, self.height)
       self.setWindowIcon(QIcon("logo.png"))
 
+   def roundCorners(self, radius, widget): #round the corners    
+      path = QPainterPath()
+      path.addRoundedRect(QRectF(widget.rect()), radius, radius)
+      mask = QRegion(path.toFillPolygon().toPolygon())
+      widget.setMask(mask)
+
 #-----------------------------------------------------------------------------------------Subclass MainWindow
 class MainWindow(Window): 
    def __init__(self):
       super().__init__()
 
-      self.title = "Kirby's Marketplace" #define window attributes
       self.left = 0
       self.top = 0
       self.width = WIDTH_MAIN
@@ -133,13 +138,8 @@ class MainWindow(Window):
       self.hboxSearchWidget.setGeometry(QRect(LEFT_SEARCH, TOP_SEARCH, WIDTH_SEARCH, HEIGHT_SEARCH))
       self.hboxSearch = QHBoxLayout(self.hboxSearchWidget)
       self.hboxSearch.setObjectName("hboxSearch")
-      self.hboxSearchWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-radius: 45px; padding: 4px; border-style: outset;")
-
-      radius = 10.0           #round the corners
-      path = QPainterPath()
-      path.addRoundedRect(QRectF(self.hboxSearchWidget.rect()), radius, radius)
-      mask = QRegion(path.toFillPolygon().toPolygon())
-      self.hboxSearchWidget.setMask(mask)
+      self.hboxSearchWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.roundCorners(10.0, self.hboxSearchWidget)
       #self.hboxSearchWidget.move(QCursor.pos())                                    #Set object position to mouse position
 
       self.ledtSearch = QLineEdit(self.hboxSearchWidget)
@@ -147,13 +147,8 @@ class MainWindow(Window):
       self.ledtSearch.setMaximumHeight(HEIGHT_SEARCH)
       self.ledtSearch.setMinimumWidth(WIDTH_SEARCH - 65)
       self.ledtSearch.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + ");")
+      self.roundCorners(6.0, self.ledtSearch)
       self.hboxSearch.addWidget(self.ledtSearch)
-
-      radius2 = 6.0           #round the corners
-      path2 = QPainterPath()
-      path2.addRoundedRect(QRectF(self.ledtSearch.rect()), radius2, radius2)
-      mask2 = QRegion(path2.toFillPolygon().toPolygon())
-      self.ledtSearch.setMask(mask2)
 
       self.btnSearch = QPushButton(self.hboxSearchWidget)
       self.btnSearch.setObjectName("btnSearch")
@@ -202,7 +197,8 @@ class LoginWindow(Window):
    
    def addLoginWidgets(self):
       self.lblLoginHeader = QLabel('Login', self)             #Login label
-      self.lblLoginHeader.setFont(QFont('AnyStyle', 25))
+      self.pixmapHeader = QPixmap(LOGIN_TITLE)
+      self.lblLoginHeader.setPixmap(self.pixmapHeader)
       self.vbox.addWidget(self.lblLoginHeader)
 
       self.vbox.addWidget(QLabel(self))                       #Space
@@ -212,12 +208,21 @@ class LoginWindow(Window):
       self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
       self.vboxEmail.setObjectName("vboxEmail")
       self.vbox.addWidget(self.vboxEmailWidget)
+      self.vboxEmailWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      self.vboxEmailWidget.setMinimumWidth(WIDTH_SUB_VBOX)
+      self.vboxEmailWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      self.roundCorners(15.0, self.vboxEmailWidget)
+      
 
       self.lblEmail= QLabel('Email', self.vboxEmailWidget)
       self.lblEmail.setFont(QFont('AnyStyle', 15))
       self.vboxEmail.addWidget(self.lblEmail)
 
       self.ledtEmail = QLineEdit(self.vboxEmailWidget)
+      self.ledtEmail.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      self.ledtEmail.setMinimumWidth(WIDTH_SUB_VBOX-20)
+      self.ledtEmail.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, self.ledtEmail)
       self.vboxEmail.addWidget(self.ledtEmail)
 
       self.vboxPassWidget = QWidget(self)                    #Password
@@ -225,6 +230,10 @@ class LoginWindow(Window):
       self.vboxPass = QVBoxLayout(self.vboxPassWidget)
       self.vboxPass.setObjectName("vboxPass")
       self.vbox.addWidget(self.vboxPassWidget)
+      self.vboxPassWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      self.vboxPassWidget.setMinimumWidth(WIDTH_SUB_VBOX)
+      self.vboxPassWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      self.roundCorners(15.0, self.vboxPassWidget)
 
       self.lblPass= QLabel('Password', self.vboxPassWidget)
       self.lblPass.setFont(QFont('AnyStyle', 15))
@@ -232,6 +241,10 @@ class LoginWindow(Window):
 
       self.ledtPass = QLineEdit(self.vboxPassWidget)
       self.ledtPass.setEchoMode(QLineEdit.Password)
+      self.ledtPass.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      self.ledtPass.setMinimumWidth(WIDTH_SUB_VBOX-20)
+      self.ledtPass.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, self.ledtPass)
       self.vboxPass.addWidget(self.ledtPass)
 
       self.vbox.addWidget(QLabel(self))                       #Space
@@ -246,6 +259,7 @@ class LoginWindow(Window):
       self.btnLogin = QPushButton(self.hboxWidget)            #Login Button
       self.btnLogin.setObjectName("btnLogin")
       self.btnLogin.setText("Login")
+      self.roundCorners(10.0, self.btnLogin)
       self.btnLogin.clicked.connect(self.btnLogin_clicked)
       self.hbox.addWidget(self.btnLogin)
 
