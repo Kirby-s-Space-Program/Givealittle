@@ -66,8 +66,8 @@ class MainWindow(Window):
       self.addSearch()
       self.addItemGrid()
 
-def addItemGrid(self):
-   self.itemGrid = itemGrid(self)
+   def addItemGrid(self):
+      self.itemGrid = itemGrid(self)
 
    def addMenu(self):
       self.menuAccount = self.menubar.addMenu('Account') #account menu tab
