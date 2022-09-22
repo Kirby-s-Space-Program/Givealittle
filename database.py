@@ -69,10 +69,10 @@ def getSalt(email): #Gets salt to compare passwords
     
 #============================================================================================
 
-def addProduct(ProductName, ProductPrice, ProductEmail): #adds a product to the database, auto increments and sets the ID
+def addProduct(ProductName, ProductPrice, ProductEmail, ProductCategory, imagePath): #adds a product to the database, auto increments and sets the ID
     cursor = connection.cursor()
     try:
-        cursor.execute("INSERT INTO Products (ProductName, ProductPrice, ProductOwner) VALUES (?, ?, ?)", (ProductName, ProductPrice, ProductEmail))
+        cursor.execute("INSERT INTO Products (ProductName, ProductPrice, ProductOwner) VALUES (?, ?, ?, ?, ?)", (ProductName, ProductPrice, ProductEmail, ProductCategory, imagePath))
     except:
         return 1
     if (ProductName == "Infinity Edge"):
@@ -88,3 +88,14 @@ def removeProduct(productID): #removes item from the databse using only the ID s
         return 1
     connection.commit()
     return 0
+
+def categoryList(category):
+    cursor = connection.cursor()
+    try:
+        cursor.execute("SELECT ProductName, imagePath FROM Products WHERE ProductCategory = ?", (category,))
+        return cursor.fetchall()
+    except:
+        print("There was an external error")
+        return -1
+
+
