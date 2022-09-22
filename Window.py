@@ -259,7 +259,10 @@ class LoginWindow(Window):
       self.btnLogin = QPushButton(self.hboxWidget)            #Login Button
       self.btnLogin.setObjectName("btnLogin")
       self.btnLogin.setText("Login")
-      self.roundCorners(10.0, self.btnLogin)
+      self.btnLogin.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.btnLogin.setMinimumWidth(2*MARGIN_BUTTON)
+      self.btnLogin.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(6.0, self.btnLogin)
       self.btnLogin.clicked.connect(self.btnLogin_clicked)
       self.hbox.addWidget(self.btnLogin)
 
