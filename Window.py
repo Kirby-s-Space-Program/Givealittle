@@ -7,6 +7,7 @@ from database import register, login
 from user import *
 from login.encrypter import encrypt
 from login.verification import *
+from ItemGrid import *
 
 logged = 2 #-1=external error, 0=logged in, 1=wrong details, 2=have not tried
 user=currUser()
@@ -63,6 +64,10 @@ class MainWindow(Window):
       self.addMenu()
       self.addHeader()
       self.addSearch()
+      self.addItemGrid()
+
+def addItemGrid(self):
+   self.itemGrid = itemGrid(self)
 
    def addMenu(self):
       self.menuAccount = self.menubar.addMenu('Account') #account menu tab
