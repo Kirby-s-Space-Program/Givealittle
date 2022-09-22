@@ -196,7 +196,7 @@ class LoginWindow(Window):
       self.addLoginWidgets()
    
    def addLoginWidgets(self):
-      self.lblLoginHeader = QLabel('Login', self)             #Login label
+      self.lblLoginHeader = QLabel(self)             #Login label
       self.pixmapHeader = QPixmap(LOGIN_TITLE)
       self.lblLoginHeader.setPixmap(self.pixmapHeader)
       self.vbox.addWidget(self.lblLoginHeader)
@@ -207,12 +207,11 @@ class LoginWindow(Window):
       self.vboxEmailWidget.setObjectName("vboxEmailWidget")
       self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
       self.vboxEmail.setObjectName("vboxEmail")
-      self.vbox.addWidget(self.vboxEmailWidget)
       self.vboxEmailWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
       self.vboxEmailWidget.setMinimumWidth(WIDTH_SUB_VBOX)
       self.vboxEmailWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
       self.roundCorners(15.0, self.vboxEmailWidget)
-      
+      self.vbox.addWidget(self.vboxEmailWidget)
 
       self.lblEmail= QLabel('Email', self.vboxEmailWidget)
       self.lblEmail.setFont(QFont('AnyStyle', 15))
@@ -293,8 +292,9 @@ class RegisterWindow(Window):
       self.addRegisterWidgets()
    
    def addRegisterWidgets(self):
-      self.lblRegisterHeader = QLabel('Register', self)             #Register label
-      self.lblRegisterHeader.setFont(QFont('AnyStyle', 25))
+      self.lblRegisterHeader = QLabel(self)             #Register label
+      self.pixmapHeader = QPixmap(REGISTER_TITLE)
+      self.lblRegisterHeader.setPixmap(self.pixmapHeader)
       self.vbox.addWidget(self.lblRegisterHeader)
 
       self.vbox.addWidget(QLabel(self))                       #Space
@@ -303,6 +303,10 @@ class RegisterWindow(Window):
       self.vboxFNameWidget.setObjectName("vboxFNameWidget")
       self.vboxFName = QVBoxLayout(self.vboxFNameWidget)
       self.vboxFName.setObjectName("vboxFName")
+      self.vboxFNameWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      self.vboxFNameWidget.setMinimumWidth(self.pixmapHeader.width())
+      self.vboxFNameWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      self.roundCorners(15.0, self.vboxFNameWidget)
       self.vbox.addWidget(self.vboxFNameWidget)
 
       self.lblFName= QLabel('First Name', self.vboxFNameWidget)
@@ -310,12 +314,20 @@ class RegisterWindow(Window):
       self.vboxFName.addWidget(self.lblFName)
 
       self.ledtFName = QLineEdit(self.vboxFNameWidget)
+      self.ledtFName.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      self.ledtFName.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
+      self.ledtFName.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, self.ledtFName)
       self.vboxFName.addWidget(self.ledtFName)
 
       self.vboxSurnameWidget = QWidget(self)                    #Surname
       self.vboxSurnameWidget.setObjectName("vboxSurnameWidget")
       self.vboxSurname = QVBoxLayout(self.vboxSurnameWidget)
       self.vboxSurname.setObjectName("vboxSurname")
+      self.vboxSurnameWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      self.vboxSurnameWidget.setMinimumWidth(self.pixmapHeader.width())
+      self.vboxSurnameWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      self.roundCorners(15.0, self.vboxSurnameWidget)
       self.vbox.addWidget(self.vboxSurnameWidget)
 
       self.lblSurname= QLabel('Surname', self.vboxSurnameWidget)
@@ -323,12 +335,20 @@ class RegisterWindow(Window):
       self.vboxSurname.addWidget(self.lblSurname)
 
       self.ledtSurname = QLineEdit(self.vboxSurnameWidget)
+      self.ledtSurname.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      self.ledtSurname.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
+      self.ledtSurname.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, self.ledtSurname)
       self.vboxSurname.addWidget(self.ledtSurname)
 
       self.vboxEmailWidget = QWidget(self)                    #Email
       self.vboxEmailWidget.setObjectName("vboxEmailWidget")
       self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
       self.vboxEmail.setObjectName("vboxEmail")
+      self.vboxEmailWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      self.vboxEmailWidget.setMinimumWidth(self.pixmapHeader.width())
+      self.vboxEmailWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      self.roundCorners(15.0, self.vboxEmailWidget)
       self.vbox.addWidget(self.vboxEmailWidget)
 
       self.lblEmail= QLabel('Email', self.vboxEmailWidget)
@@ -336,12 +356,20 @@ class RegisterWindow(Window):
       self.vboxEmail.addWidget(self.lblEmail)
 
       self.ledtEmail = QLineEdit(self.vboxEmailWidget)
+      self.ledtEmail.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      self.ledtEmail.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
+      self.ledtEmail.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, self.ledtEmail)
       self.vboxEmail.addWidget(self.ledtEmail)
 
       self.vboxPassWidget = QWidget(self)                    #Password
       self.vboxPassWidget.setObjectName("vboxPassWidget")
       self.vboxPass = QVBoxLayout(self.vboxPassWidget)
       self.vboxPass.setObjectName("vboxPass")
+      self.vboxPassWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      self.vboxPassWidget.setMinimumWidth(self.pixmapHeader.width())
+      self.vboxPassWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      self.roundCorners(15.0, self.vboxPassWidget)
       self.vbox.addWidget(self.vboxPassWidget)
 
       self.lblPass= QLabel('Password', self.vboxPassWidget)
@@ -350,12 +378,20 @@ class RegisterWindow(Window):
 
       self.ledtPass = QLineEdit(self.vboxPassWidget)
       self.ledtPass.setEchoMode(QLineEdit.Password)
+      self.ledtPass.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      self.ledtPass.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
+      self.ledtPass.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, self.ledtPass)
       self.vboxPass.addWidget(self.ledtPass)
 
       self.vboxPass2Widget = QWidget(self)                    #Password Retype
       self.vboxPass2Widget.setObjectName("vboxPass2Widget")
       self.vboxPass2 = QVBoxLayout(self.vboxPass2Widget)
       self.vboxPass2.setObjectName("vboxPass2")
+      self.vboxPass2Widget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      self.vboxPass2Widget.setMinimumWidth(self.pixmapHeader.width())
+      self.vboxPass2Widget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      self.roundCorners(15.0, self.vboxPass2Widget)
       self.vbox.addWidget(self.vboxPass2Widget)
 
       self.lblPass2= QLabel('Retype Password', self.vboxPass2Widget)
@@ -364,6 +400,10 @@ class RegisterWindow(Window):
 
       self.ledtPass2 = QLineEdit(self.vboxPass2Widget)
       self.ledtPass2.setEchoMode(QLineEdit.Password)
+      self.ledtPass2.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      self.ledtPass2.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
+      self.ledtPass2.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, self.ledtPass2)
       self.vboxPass2.addWidget(self.ledtPass2)
 
       self.vbox.addWidget(QLabel(self))                       #Space
@@ -378,6 +418,10 @@ class RegisterWindow(Window):
       self.btnRegister = QPushButton(self.hboxWidget)            #Refgister Button
       self.btnRegister.setObjectName("btnRegister")
       self.btnRegister.setText("Register")
+      self.btnRegister.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.btnRegister.setMinimumWidth(4*MARGIN_BUTTON)
+      self.btnRegister.setMaximumHeight(int(HEIGHT_SUB_VBOX/4))
+      self.roundCorners(6.0, self.btnRegister)
       self.btnRegister.clicked.connect(self.btnRegister_clicked)
       self.hbox.addWidget(self.btnRegister)
 

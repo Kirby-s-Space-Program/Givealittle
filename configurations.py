@@ -50,6 +50,7 @@ BLACK = QColor(7, 10, 13)           #0x070a0d
 #Images
 HEADER_TITLE = "./icons/header_title.png"
 LOGIN_TITLE = "./icons/login_title.png"
+REGISTER_TITLE = "./icons/register_title.png"
 SEARCH = "./icons/search.png"
 BALL = "./icons/ball.png"
 BOOK = "./icons/book.png"
