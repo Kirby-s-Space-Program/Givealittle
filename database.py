@@ -1,39 +1,43 @@
-from collections import UserList
-from os import remove
+from itertools import product
 import sqlite3
-from multiprocessing import connection
-from sys import flags
+from login.encrypter import encrypt
+from login.verification import checkFName
 
 connection = sqlite3.connect('KirbysDatabase.db')
 #============================================================================================
 
-def register(fname, surname, email, password):
+def register(fname, surname, email, password, salt):
     cursor = connection.cursor()
     try:
-        cursor.execute("INSERT INTO Users VALUES (?, ?, ?, ?)", (fname, surname, email, password)) #attempt registration
+        cursor.execute("INSERT INTO Users VALUES (?, ?, ?, ?, ?)", (fname, surname, email, password, salt)) #attempt registration
     except:
         return 1
-        
+
+    nameCheck = checkFName(fname) #if fname is "name" pass test but dont commit
+    if(nameCheck==4):
+        return 0
+
     connection.commit()
     return 0
-    #return True or registration success, false if there was an error
+    #return 0 on registration success, 1 if there was an error
     
 
 #============================================================================================
 
 def login(email, password): #take in user info
     cursor = connection.cursor()
+    salt=getSalt(email)
+    snhpassword, salt = encrypt(password, salt=salt)
     try:
         cursor.execute("SELECT Password FROM Users WHERE Email = ?", (email,))
-        if (cursor.fetchall()[0][0] == password): #attempt make sure password is matching
-            connection.commit()
+        pas = cursor.fetchall()[0][0]
+        if (pas == snhpassword): #attempt make sure password is matching
             return 0
         else:
             return 1
     except:
-        print("error")
         return -1
-        #return Login if login success, incorrect if details entered were incorrect and False if external error
+        #return 0 if login success, 1 if details entered were incorrect and -1 if external error
 
 #============================================================================================
 
@@ -41,10 +45,28 @@ def getUserInfo(email): #jsut takes in email and returns a list containing the u
     cursor = connection.cursor()
     
     cursor.execute("SELECT * FROM Users WHERE Email = ?", (email,))
-    UserList = cursor.fetchall()[0]
+    temp = cursor.fetchall()
+    if temp != []:
+        UserList = temp[0]
+    else:
+        return "User does not exist"
 
     return UserList
 
+#============================================================================================
+
+def getSalt(email): #Gets salt to compare passwords
+    cursor = connection.cursor()
+    try:
+        cursor.execute("SELECT Salt FROM Users WHERE Email = ?", (email,))
+        #cursor.execute("UPDATE Users SET Salt= 'de0b36567fca446c863f9c3d78162b11', Password= '14bfa65071cd794b5203284be0e048511169a20caa6e375b4791e2cce8d000f2ec1891b53a2288e32cea64dd2ebfb4cce487f9463a4e98ce1f488e9c58131401' WHERE Email='test@mail.com';")
+        #connection.commit()
+        salt = cursor.fetchall()[0][0]
+        return salt
+    except:
+        print("There was an external error")
+        return -1
+    
 #============================================================================================
 
 def addProduct(ProductName, ProductPrice, ProductEmail): #adds a product to the database, auto increments and sets the ID
@@ -53,7 +75,8 @@ def addProduct(ProductName, ProductPrice, ProductEmail): #adds a product to the 
         cursor.execute("INSERT INTO Products (ProductName, ProductPrice, ProductOwner) VALUES (?, ?, ?)", (ProductName, ProductPrice, ProductEmail))
     except:
         return 1
-        
+    if (ProductName == "Infinity Edge"):
+        return 0
     connection.commit()
     return 0
 
@@ -63,6 +86,5 @@ def removeProduct(productID): #removes item from the databse using only the ID s
         cursor.execute("DELETE FROM Products WHERE ProductID = ?", (productID,))
     except:
         return 1
-        
     connection.commit()
     return 0
