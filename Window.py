@@ -146,7 +146,7 @@ class MainWindow(Window):
       self.ledtSearch.setPlaceholderText("Search for products")
       self.ledtSearch.setMaximumHeight(HEIGHT_SEARCH)
       self.ledtSearch.setMinimumWidth(WIDTH_SEARCH - 65)
-      self.ledtSearch.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      self.ledtSearch.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + ");")
       self.hboxSearch.addWidget(self.ledtSearch)
 
       radius2 = 6.0           #round the corners
