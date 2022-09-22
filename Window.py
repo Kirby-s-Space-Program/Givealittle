@@ -28,6 +28,8 @@ class Window(QWidget):
       self.HeaderColorEffect.setColor(PINK)
       self.HeaderShadowColorEffect = QGraphicsColorizeEffect()
       self.HeaderShadowColorEffect.setColor(DARK_PINK)
+      self.font = QFont('Kirby Classic')
+      self.font.setPointSize(100)
 
       self.vbox = QVBoxLayout()
       self.vbox.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX) 
@@ -121,30 +123,9 @@ class MainWindow(Window):
       self.Header = QLabel("KIRBY'S MARKETPLACE", self)
       self.Header.setObjectName("Header")
       self.Header.setGeometry(QRect(LEFT_HEADER, TOP_HEADER, WIDTH_HEADER, HEIGHT_HEADER))
-      # font = QFont('Kirby Classic')
-      # font.setPointSize(100)
-      # font.setWeight(75)
-      # self.Header.setFont(font)
 
-      self.pixmap = QPixmap(HEADER_TITLE)
-      self.Header.setPixmap(self.pixmap)
-
-      
-      # self.Header.setGraphicsEffect(self.opacityEffect)
-      # self.Header.setGraphicsEffect(self.HeaderColorEffect)
-      font = QFont('Kirby Classic')
-      font.setPointSize(100)
-      font.setWeight(75)
-      self.Header.setFont(font)
-
-      #Header shadow
-      # self.HeaderShadow = QLabel("KIRBY'S MARKETPLACE", self)
-      # self.HeaderShadow.setObjectName("HeaderShadow")
-      # self.HeaderShadow.setGeometry(QRect(LEFT_HEADER, TOP_HEADER_SHADOW, WIDTH_HEADER, HEIGHT_HEADER))
-      # self.HeaderShadow.setGraphicsEffect(self.opacityEffect)
-      # self.HeaderShadow.setGraphicsEffect(self.HeaderColorEffect)
-      # self.HeaderShadow.setFont(font)
-      
+      self.pixmapHeader = QPixmap(HEADER_TITLE)
+      self.Header.setPixmap(self.pixmapHeader) 
 
    def addSearch(self):
       self.hboxSearchWidget = QWidget(self)                    #Search
@@ -152,17 +133,35 @@ class MainWindow(Window):
       self.hboxSearchWidget.setGeometry(QRect(LEFT_SEARCH, TOP_SEARCH, WIDTH_SEARCH, HEIGHT_SEARCH))
       self.hboxSearch = QHBoxLayout(self.hboxSearchWidget)
       self.hboxSearch.setObjectName("hboxSearch")
-      #self.vbox.addWidget(self.hboxSearchWidget)
+      self.hboxSearchWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-radius: 45px; padding: 4px; border-style: outset;")
+
+      radius = 10.0           #round the corners
+      path = QPainterPath()
+      path.addRoundedRect(QRectF(self.hboxSearchWidget.rect()), radius, radius)
+      mask = QRegion(path.toFillPolygon().toPolygon())
+      self.hboxSearchWidget.setMask(mask)
+      #self.hboxSearchWidget.move(QCursor.pos())                                    #Set object position to mouse position
 
       self.ledtSearch = QLineEdit(self.hboxSearchWidget)
       self.ledtSearch.setPlaceholderText("Search for products")
+      self.ledtSearch.setMaximumHeight(HEIGHT_SEARCH)
+      self.ledtSearch.setMinimumWidth(WIDTH_SEARCH - 65)
+      self.ledtSearch.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + ");")
       self.hboxSearch.addWidget(self.ledtSearch)
 
-      self.btnSearch = QPushButton('Search', self.hboxSearchWidget)
+      radius2 = 6.0           #round the corners
+      path2 = QPainterPath()
+      path2.addRoundedRect(QRectF(self.ledtSearch.rect()), radius2, radius2)
+      mask2 = QRegion(path2.toFillPolygon().toPolygon())
+      self.ledtSearch.setMask(mask2)
+
+      self.btnSearch = QPushButton(self.hboxSearchWidget)
       self.btnSearch.setObjectName("btnSearch")
+      self.btnSearch.setMinimumWidth(40)
+      self.btnSearch.setMaximumHeight(HEIGHT_SEARCH)
       self.btnSearch.clicked.connect(self.btnTemp)
+      self.btnSearch.setStyleSheet("background-image : url(" + SEARCH + ");")
       self.hboxSearch.addWidget(self.btnSearch)
-      #self.btnLogin.setText("Login")
 
    def addNewMenu(self):
       self.menubar.clear()
