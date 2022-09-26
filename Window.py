@@ -79,7 +79,7 @@ class MainWindow(Window):
       self.vItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vItemBox = QVBoxLayout(self.vItemBoxWidget)  #vertical layout to store items
       self.vItemBox.setObjectName("vItemBox")
-      self.Grid.addWidget(self.vItemBoxWidget)
+      self.Grid.addWidget(self.vItemBoxWidget, 0, 0)
 
       
       self.vItemBo2xWidget = QWidget(self) #grid to contain vertical layouts
@@ -87,41 +87,42 @@ class MainWindow(Window):
       self.vItemBo2xWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vItemBox2 = QVBoxLayout(self.vItemBo2xWidget)  #vertical layout to store items
       self.vItemBox2.setObjectName("vItemBox2")
-      self.Grid.addWidget(self.vItemBo2xWidget)
+      self.Grid.addWidget(self.vItemBo2xWidget, 0, 1)
 
       self.vItemBo3xWidget = QWidget(self) #grid to contain vertical layouts
       self.vItemBo3xWidget.setObjectName("vItemBo3xWidget")
       self.vItemBo3xWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vItemBox3 = QVBoxLayout(self.vItemBo3xWidget)  #vertical layout to store items
       self.vItemBox3.setObjectName("vItemBox3")
-      self.Grid.addWidget(self.vItemBo3xWidget)
+      self.Grid.addWidget(self.vItemBo3xWidget, 0, 2)
 
       self.vItemBo4xWidget = QWidget(self) #grid to contain vertical layouts
       self.vItemBo4xWidget.setObjectName("vItemBo4xWidget")
       self.vItemBo4xWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vItemBox4 = QVBoxLayout(self.vItemBo4xWidget)  #vertical layout to store items
       self.vItemBox4.setObjectName("vItemBox4")
-      self.Grid.addWidget(self.vItemBo4xWidget)
+      self.Grid.addWidget(self.vItemBo4xWidget, 1, 0)
 
       self.vItemBox5Widget = QWidget(self) #grid to contain vertical layouts
       self.vItemBox5Widget.setObjectName("vItemBox5Widget")
       self.vItemBox5Widget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vItemBox5 = QVBoxLayout(self.vItemBox5Widget)  #vertical layout to store items
       self.vItemBox5.setObjectName("vItemBox5")
-      self.Grid.addWidget(self.vItemBox5Widget)
+      self.Grid.addWidget(self.vItemBox5Widget, 1, 1)
 
       self.vItemBox6Widget = QWidget(self) #grid to contain vertical layouts
       self.vItemBox6Widget.setObjectName("vItemBox6Widget")
       self.vItemBox6Widget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vItemBox6 = QVBoxLayout(self.vItemBox6Widget)  #vertical layout to store items
       self.vItemBox6.setObjectName("vItemBox6")
-      self.Grid.addWidget(self.vItemBox6Widget)
+      self.vItemBox6Widget.setContentsMargins(40, 0,0,0)
+      self.Grid.addWidget(self.vItemBox6Widget, 1, 2)
       
-      self.imageBag = QPixmap("./product/bag.png")
-      self.imageCycle = QPixmap("./product/cycle.png")
-      self.imageFootball = QPixmap("./product/football.png")
-      self.imageGlasses = QPixmap("./product/glasses.png")
-      self.imageIphone = QPixmap("./product/iphone.png")
+      self.imageBag = QPixmap("./product/bag2.png")
+      self.imageCycle = QPixmap("./product/cycle2.png")
+      self.imageFootball = QPixmap("./product/football2.png")
+      self.imageGlasses = QPixmap("./product/glasses2.png")
+      self.imageIphone = QPixmap("./product/iphone2.png")
       self.imageIT = QPixmap("./product/IT.png")
 
       self.lblBag = QLabel(self)
