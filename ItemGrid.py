@@ -7,3 +7,66 @@ class itemGrid(QWidget):
     def __init__(self, parentWindow): #parentWidnow is the mainWindow object to be passed as a parameter 
       super ().__init__()
       self.parentWindow = parentWindow
+
+
+    def addGrid(self): 
+      self.vGrid = QGridLayout(self) #grid to contain vertical layouts
+      self.vGrid.setObjectName("vGrid")
+      #self.setLayout(self.vGrid)
+
+      self.vItemBox = QVBoxLayout(self.vGrid)  #vertical layout to store items
+      self.vItemBox.setObjectName("vItemBox")
+      self.vItemBox.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
+      self.setLayout(self.vItemBox)
+
+      self.vItemBox2 = QVBoxLayout(self.vGrid)  #vertical layout to store items
+      self.vItemBox2.setObjectName("vItemBox")
+      self.vItemBox2.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
+      self.setLayout(self.vItemBox2)
+
+      self.vItemBox3 = QVBoxLayout(self.vGrid)  #vertical layout to store items
+      self.vItemBox3.setObjectName("vItemBox")
+      self.vItemBox3.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
+      self.setLayout(self.vItemBox3)
+
+      self.vItemBox4 = QVBoxLayout(self.vGrid)  #vertical layout to store items
+      self.vItemBox4.setObjectName("vItemBox")
+      self.vItemBox4.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
+      self.setLayout(self.vItemBox4)
+
+      self.vItemBox5 = QVBoxLayout(self.vGrid)  #vertical layout to store items
+      self.vItemBox5.setObjectName("vItemBox")
+      self.vItemBox5.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
+      self.setLayout(self.vItemBox5)
+
+      self.vItemBox6 = QVBoxLayout(self.vGrid)  #vertical layout to store items
+      self.vItemBox6.setObjectName("vItemBox")
+      self.vItemBox6.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
+      self.setLayout(self.vItemBox6)
+      
+      self.imageBag = QPixmap("./product/bag.png")
+      self.imageCycle = QPixmap("./product/cycle.png")
+      self.imageFootball = QPixmap("./product/football.png")
+      self.imageGlasses = QPixmap("./product/glasses.png")
+      self.imageIphone = QPixmap("./product/iphone.png")
+      self.imageIT = QPixmap("./product/IT.png")
+
+      self.lblBag = QLabel(self)
+      self.lblBag.setPixmap(self.imageBag)
+      self.lblCycle = QLabel(self)
+      self.lblCycle.setPixmap(self.imageCycle)
+      self.lblFootball = QLabel(self)
+      self.lblFootball.setPixmap(self.imageFootball)
+      self.lblGlasses = QLabel(self)
+      self.lblGlasses.setPixmap(self.imageGlasses)
+      self.lblIphone = QLabel(self)
+      self.lblIphone.setPixmap(self.imageIphone)
+      self.lblIT = QLabel(self)
+      self.lblIT.setPixmap(self.imageIT)
+
+      self.vItemBox.addWidget(self.lblBag)
+      self.vItemBox2.addWidget(self.lblCycle)
+      self.vItemBox3.addWidget(self.lblFootball)
+      self.vItemBox4.addWidget(self.lblGlasses)
+      self.vItemBox5.addWidget(self.lblIphone)
+      self.vItemBox6.addWidget(self.lblIT)
