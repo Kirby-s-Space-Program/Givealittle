@@ -89,25 +89,33 @@ class MainWindow(Window):
       self.vItemBox2.setObjectName("vItemBox2")
       self.Grid.addWidget(self.vItemBo2xWidget)
 
-      # self.vItemBox3 = QVBoxLayout(self.GridWidget)  #vertical layout to store items
-      # self.vItemBox3.setObjectName("vItemBox3")
-      # self.vItemBox3.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
-      # self.Grid.addWidget(self.vItemBox3)
+      self.vItemBo3xWidget = QWidget(self) #grid to contain vertical layouts
+      self.vItemBo3xWidget.setObjectName("vItemBo3xWidget")
+      self.vItemBo3xWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vItemBox3 = QVBoxLayout(self.vItemBo3xWidget)  #vertical layout to store items
+      self.vItemBox3.setObjectName("vItemBox3")
+      self.Grid.addWidget(self.vItemBo3xWidget)
 
-      # self.vItemBox4 = QVBoxLayout(self.GridWidget)  #vertical layout to store items
-      # self.vItemBox4.setObjectName("vItemBox4")
-      # self.vItemBox4.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
-      # self.Grid.addWidget(self.vItemBox4)
+      self.vItemBo4xWidget = QWidget(self) #grid to contain vertical layouts
+      self.vItemBo4xWidget.setObjectName("vItemBo4xWidget")
+      self.vItemBo4xWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vItemBox4 = QVBoxLayout(self.vItemBo4xWidget)  #vertical layout to store items
+      self.vItemBox4.setObjectName("vItemBox4")
+      self.Grid.addWidget(self.vItemBo4xWidget)
 
-      # self.vItemBox5 = QVBoxLayout(self.GridWidget)  #vertical layout to store items
-      # self.vItemBox5.setObjectName("vItemBox5")
-      # self.vItemBox5.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
-      # self.Grid.addWidget(self.vItemBox5)
+      self.vItemBox5Widget = QWidget(self) #grid to contain vertical layouts
+      self.vItemBox5Widget.setObjectName("vItemBox5Widget")
+      self.vItemBox5Widget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vItemBox5 = QVBoxLayout(self.vItemBox5Widget)  #vertical layout to store items
+      self.vItemBox5.setObjectName("vItemBox5")
+      self.Grid.addWidget(self.vItemBox5Widget)
 
-      # self.vItemBox6 = QVBoxLayout(self.GridWidget)  #vertical layout to store items
-      # self.vItemBox6.setObjectName("vItemBox6")
-      # self.vItemBox6.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
-      # self.Grid.addWidget(self.vItemBox6)
+      self.vItemBox6Widget = QWidget(self) #grid to contain vertical layouts
+      self.vItemBox6Widget.setObjectName("vItemBox6Widget")
+      self.vItemBox6Widget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vItemBox6 = QVBoxLayout(self.vItemBox6Widget)  #vertical layout to store items
+      self.vItemBox6.setObjectName("vItemBox6")
+      self.Grid.addWidget(self.vItemBox6Widget)
       
       self.imageBag = QPixmap("./product/bag.png")
       self.imageCycle = QPixmap("./product/cycle.png")
@@ -131,10 +139,10 @@ class MainWindow(Window):
 
       self.vItemBox.addWidget(self.lblBag)
       self.vItemBox2.addWidget(self.lblCycle)
-      # self.vItemBox3.addWidget(self.lblFootball)
-      # self.vItemBox4.addWidget(self.lblGlasses)
-      # self.vItemBox5.addWidget(self.lblIphone)
-      # self.vItemBox6.addWidget(self.lblIT)
+      self.vItemBox3.addWidget(self.lblFootball)
+      self.vItemBox4.addWidget(self.lblGlasses)
+      self.vItemBox5.addWidget(self.lblIphone)
+      self.vItemBox6.addWidget(self.lblIT)
 
    def addMenu(self):
       self.menuAccount = self.menubar.addMenu('Account') #account menu tab
