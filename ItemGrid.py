@@ -20,27 +20,27 @@ class itemGrid(QWidget):
       self.setLayout(self.vItemBox)
 
       self.vItemBox2 = QVBoxLayout(self.vGrid)  #vertical layout to store items
-      self.vItemBox2.setObjectName("vItemBox")
+      self.vItemBox2.setObjectName("vItemBox2")
       self.vItemBox2.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
       self.setLayout(self.vItemBox2)
 
       self.vItemBox3 = QVBoxLayout(self.vGrid)  #vertical layout to store items
-      self.vItemBox3.setObjectName("vItemBox")
+      self.vItemBox3.setObjectName("vItemBox3")
       self.vItemBox3.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
       self.setLayout(self.vItemBox3)
 
       self.vItemBox4 = QVBoxLayout(self.vGrid)  #vertical layout to store items
-      self.vItemBox4.setObjectName("vItemBox")
+      self.vItemBox4.setObjectName("vItemBox4")
       self.vItemBox4.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
       self.setLayout(self.vItemBox4)
 
       self.vItemBox5 = QVBoxLayout(self.vGrid)  #vertical layout to store items
-      self.vItemBox5.setObjectName("vItemBox")
+      self.vItemBox5.setObjectName("vItemBox5")
       self.vItemBox5.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
       self.setLayout(self.vItemBox5)
 
       self.vItemBox6 = QVBoxLayout(self.vGrid)  #vertical layout to store items
-      self.vItemBox6.setObjectName("vItemBox")
+      self.vItemBox6.setObjectName("vItemBox6")
       self.vItemBox6.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
       self.setLayout(self.vItemBox6)
       
