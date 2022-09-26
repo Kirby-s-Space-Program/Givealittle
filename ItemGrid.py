@@ -10,14 +10,18 @@ class itemGrid(QWidget):
 
 
     def addGrid(self): 
-      self.vGrid = QGridLayout(self) #grid to contain vertical layouts
-      self.vGrid.setObjectName("vGrid")
-      #self.setLayout(self.vGrid)
+      self.GridWidget = QWidget(self) #grid to contain vertical layouts
+      self.GridWidget.setGeometry(QRect(LEFT_GRID, TOP_GRID, WIDTH_GRID, HEIGHT_GRID))
+      self.GridWidget.setObjectName("GridWidget")
+      self.GridWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.Grid = QGridLayout(self.GridWidget)
+      self.Grid.setObjectName("Grid")
+      self.roundCorners(10.0, self.GridWidget)
 
       self.vItemBox = QVBoxLayout(self.vGrid)  #vertical layout to store items
       self.vItemBox.setObjectName("vItemBox")
       self.vItemBox.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
-      self.setLayout(self.vItemBox)
+      self.Grid.addLayout(self.vItemBox)
 
       self.vItemBox2 = QVBoxLayout(self.vGrid)  #vertical layout to store items
       self.vItemBox2.setObjectName("vItemBox2")

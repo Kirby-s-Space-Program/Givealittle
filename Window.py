@@ -24,14 +24,6 @@ class Window(QWidget):
       self.height = HEIGHT_SUB
       self.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
 
-      self.font = QFont('Kirby Classic')
-      self.font.setPointSize(50)
-
-      self.labelColorEffect = QGraphicsColorizeEffect()
-      self.labelColorEffect.setColor(PINK)
-      self.labelShadowColorEffect = QGraphicsColorizeEffect()
-      self.labelShadowColorEffect.setColor(DARK_PINK)
-
       self.vbox = QVBoxLayout()
       self.vbox.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX) 
       self.setLayout(self.vbox)
@@ -72,7 +64,77 @@ class MainWindow(Window):
       self.addItemGrid()
 
    def addItemGrid(self):
-      self.itemGrid = itemGrid(self)
+      #self.itemGrid = itemGrid(self)
+      self.GridWidget = QWidget(self) #grid to contain vertical layouts
+      self.GridWidget.setGeometry(QRect(LEFT_GRID, TOP_GRID, WIDTH_GRID, HEIGHT_GRID))
+      self.GridWidget.setObjectName("GridWidget")
+      self.GridWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.Grid = QGridLayout(self.GridWidget)
+      self.Grid.setObjectName("Grid")
+      self.roundCorners(10.0, self.GridWidget)
+
+      self.vItemBoxWidget = QWidget(self) #grid to contain vertical layouts
+      #self.vItemBoxWidget.setGeometry(QRect(LEFT_GRID, TOP_GRID, WIDTH_GRID, HEIGHT_GRID))
+      self.vItemBoxWidget.setObjectName("vItemBoxWidget")
+      self.vItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vItemBox = QVBoxLayout(self.vItemBoxWidget)  #vertical layout to store items
+      self.vItemBox.setObjectName("vItemBox")
+      self.Grid.addWidget(self.vItemBoxWidget)
+
+      
+      self.vItemBo2xWidget = QWidget(self) #grid to contain vertical layouts
+      self.vItemBo2xWidget.setObjectName("vItemBo2xWidget")
+      self.vItemBo2xWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vItemBox2 = QVBoxLayout(self.vItemBo2xWidget)  #vertical layout to store items
+      self.vItemBox2.setObjectName("vItemBox2")
+      self.Grid.addWidget(self.vItemBo2xWidget)
+
+      # self.vItemBox3 = QVBoxLayout(self.GridWidget)  #vertical layout to store items
+      # self.vItemBox3.setObjectName("vItemBox3")
+      # self.vItemBox3.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
+      # self.Grid.addWidget(self.vItemBox3)
+
+      # self.vItemBox4 = QVBoxLayout(self.GridWidget)  #vertical layout to store items
+      # self.vItemBox4.setObjectName("vItemBox4")
+      # self.vItemBox4.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
+      # self.Grid.addWidget(self.vItemBox4)
+
+      # self.vItemBox5 = QVBoxLayout(self.GridWidget)  #vertical layout to store items
+      # self.vItemBox5.setObjectName("vItemBox5")
+      # self.vItemBox5.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
+      # self.Grid.addWidget(self.vItemBox5)
+
+      # self.vItemBox6 = QVBoxLayout(self.GridWidget)  #vertical layout to store items
+      # self.vItemBox6.setObjectName("vItemBox6")
+      # self.vItemBox6.setContentsMargins(MARGIN_SUB_VBOX, TOP_SUB_VBOX, MARGIN_SUB_VBOX, TOP_SUB_VBOX)
+      # self.Grid.addWidget(self.vItemBox6)
+      
+      self.imageBag = QPixmap("./product/bag.png")
+      self.imageCycle = QPixmap("./product/cycle.png")
+      self.imageFootball = QPixmap("./product/football.png")
+      self.imageGlasses = QPixmap("./product/glasses.png")
+      self.imageIphone = QPixmap("./product/iphone.png")
+      self.imageIT = QPixmap("./product/IT.png")
+
+      self.lblBag = QLabel(self)
+      self.lblBag.setPixmap(self.imageBag)
+      self.lblCycle = QLabel(self)
+      self.lblCycle.setPixmap(self.imageCycle)
+      self.lblFootball = QLabel(self)
+      self.lblFootball.setPixmap(self.imageFootball)
+      self.lblGlasses = QLabel(self)
+      self.lblGlasses.setPixmap(self.imageGlasses)
+      self.lblIphone = QLabel(self)
+      self.lblIphone.setPixmap(self.imageIphone)
+      self.lblIT = QLabel(self)
+      self.lblIT.setPixmap(self.imageIT)
+
+      self.vItemBox.addWidget(self.lblBag)
+      self.vItemBox2.addWidget(self.lblCycle)
+      # self.vItemBox3.addWidget(self.lblFootball)
+      # self.vItemBox4.addWidget(self.lblGlasses)
+      # self.vItemBox5.addWidget(self.lblIphone)
+      # self.vItemBox6.addWidget(self.lblIT)
 
    def addMenu(self):
       self.menuAccount = self.menubar.addMenu('Account') #account menu tab
@@ -420,7 +482,7 @@ class RegisterWindow(Window):
       self.hbox.setObjectName("hbox")
       self.vbox.addWidget(self.hboxWidget)
 
-      self.btnRegister = QPushButton(self.hboxWidget)            #Refgister Button
+      self.btnRegister = QPushButton(self.hboxWidget)            #Register Button
       self.btnRegister.setObjectName("btnRegister")
       self.btnRegister.setText("Register")
       self.btnRegister.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
