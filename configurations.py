@@ -44,6 +44,11 @@ HEIGHT_GRID = int(4*HEIGHT_MAIN/5 - 100)
 LEFT_GRID = int(WIDTH_MAIN/5)
 TOP_GRID = int(HEIGHT_MAIN/5 + 50)
 
+WIDTH_DEP= int(WIDTH_MAIN/7)
+HEIGHT_DEP = int(4*HEIGHT_MAIN/10)
+LEFT_DEP = int(WIDTH_MAIN/24)
+TOP_DEP = int(HEIGHT_MAIN/6)
+
 #Color pallette
 DARK_PINK = QColor(221, 4, 89)      #0xdd0459
 PINK = QColor(235, 104, 150)        #0xeb6896
@@ -59,9 +64,10 @@ REGISTER_TITLE = "./icons/register_title.png"
 SEARCH = "./icons/search.png"
 BALL = "./icons/ball.png"
 BOOK = "./icons/book.png"
-CART = "./icons/cart.png"
+CART = "./icons/cart2.png"
 MOUSE = "./icons/mouse.png"
 SHIRT = "./icons/shirt.png"
 SOAP = "./icons/soap.png"
 USER = "./icons/user.png"
-WISHLIST = "./icons/wishlist.png"
+WISHLIST = "./icons/wishlist2.png"
+BLANK = "./icons/blank.png"

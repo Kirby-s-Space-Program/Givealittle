@@ -1,4 +1,7 @@
+from ast import BoolOp
+from re import S
 import sys
+from turtle import color
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -51,7 +54,6 @@ class MainWindow(Window):
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
-      
       self.logged = 1 #0=logged in, 1=not logged in
       self.menubar = QMenuBar(self)
       self.menubar.setGeometry(QRect(0, 0, 1116, 21))
@@ -62,6 +64,143 @@ class MainWindow(Window):
       self.addHeader()
       self.addSearch()
       self.addItemGrid()
+      self.addDepartments()
+
+   def addDepartments(self):
+      self.vDepBoxWidget = QWidget(self)
+      self.vDepBoxWidget.setGeometry(QRect(LEFT_DEP, TOP_DEP, WIDTH_DEP, HEIGHT_DEP))
+      self.vDepBoxWidget.setObjectName("vDepBoxWidget")
+      self.vDepBoxWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vDepBox = QVBoxLayout(self.vDepBoxWidget)
+      self.vDepBox.setObjectName("vItemBox")
+      self.roundCorners(10.0, self.vDepBoxWidget)
+
+      # self.scrollArea = QScrollArea(self)
+      # #self.scrollArea.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      # self.scrollArea.setGeometry(QRect(LEFT_DEP, TOP_DEP, WIDTH_DEP, HEIGHT_DEP))
+      # self.scrollArea.setWidget(self.vDepBoxWidget)
+      # #self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff) 
+      # #self.vDepBox.addWidget(self.scrollArea)
+
+      #Header title
+      self.lblDepartments = QLabel(self.vDepBoxWidget)
+      self.lblDepartments.setText("Departments")
+      self.lblDepartments.setGeometry(QRect(10, 0, WIDTH_DEP-30, 60))
+      self.lblDepartments.setFont(QFont('AnyStyle', 30))
+      self.lblDepartments.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      self.vDepBox.addWidget(self.lblDepartments)
+      
+      #Sport
+      self.hSportLayoutWidget = QWidget(self)
+      self.hSportLayoutWidget.setObjectName("hSportLayoutWidget")
+      self.hSportLayoutWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      self.hSportLayout = QHBoxLayout(self.hSportLayoutWidget)
+      self.hSportLayout.setObjectName("hSportLayout")
+      self.vDepBox.addWidget(self.hSportLayoutWidget)
+
+      self.lblSport = QLabel(self.hSportLayoutWidget)
+      self.lblSport.setPixmap(QPixmap(BALL))
+      self.hSportLayout.addWidget(self.lblSport)
+
+      self.btnSport = QPushButton("Sport", self.hSportLayoutWidget)
+      self.btnSport.setFont(QFont('AnyStyle', 15))
+      self.btnSport.clicked.connect(self.SportClick)
+      self.btnSport.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      self.hSportLayout.addWidget(self.btnSport)
+
+      self.hSportLayout.addWidget(QLabel(self))                       #Space
+
+      #Books
+      self.hBookLayoutWidget = QWidget(self)
+      self.hBookLayoutWidget.setObjectName("hBookLayoutWidget")
+      self.hBookLayoutWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      self.hBookLayout = QHBoxLayout(self.hBookLayoutWidget)
+      self.hBookLayout.setObjectName("hBookLayout")
+      self.vDepBox.addWidget(self.hBookLayoutWidget)
+
+      self.lblBook = QLabel(self.hBookLayoutWidget)
+      self.lblBook.setPixmap(QPixmap(BOOK))
+      self.hBookLayout.addWidget(self.lblBook)
+
+      self.btnBook= QPushButton("Books", self.hBookLayoutWidget)
+      self.btnBook.setFont(QFont('AnyStyle', 15))
+      self.btnBook.clicked.connect(self.BookClick)
+      self.btnBook.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      self.hBookLayout.addWidget(self.btnBook)
+
+      self.hBookLayout.addWidget(QLabel(self))                       #Space
+
+      #Clothing
+      self.hClothingLayoutWidget = QWidget(self)
+      self.hClothingLayoutWidget.setObjectName("hClothingLayoutWidget")
+      self.hClothingLayoutWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      self.hClothingLayout = QHBoxLayout(self.hClothingLayoutWidget)
+      self.hClothingLayout.setObjectName("hClothingLayout")
+      self.vDepBox.addWidget(self.hClothingLayoutWidget)
+
+      self.lblClothing = QLabel(self.hClothingLayoutWidget)
+      self.lblClothing.setPixmap(QPixmap(SHIRT))
+      self.hClothingLayout.addWidget(self.lblClothing)
+
+      self.btnClothing = QPushButton("Clothing", self.hClothingLayoutWidget)
+      self.btnClothing.setFont(QFont('AnyStyle', 15))
+      self.btnClothing.clicked.connect(self.ClothingClick)
+      self.btnClothing.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      self.hClothingLayout.addWidget(self.btnClothing)
+
+      self.hClothingLayout.addWidget(QLabel(self))                       #Space
+
+      #Electronics
+      self.hElecLayoutWidget = QWidget(self)
+      self.hElecLayoutWidget.setObjectName("hElecLayoutWidget")
+      self.hElecLayoutWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      self.hElecLayout = QHBoxLayout(self.hElecLayoutWidget)
+      self.hElecLayout.setObjectName("hElecLayout")
+      self.vDepBox.addWidget(self.hElecLayoutWidget)
+
+      self.lblElec = QLabel(self.hElecLayoutWidget)
+      self.lblElec.setPixmap(QPixmap(MOUSE))
+      self.hElecLayout.addWidget(self.lblElec)
+
+      self.btnElec = QPushButton("Electronics", self.hElecLayoutWidget)
+      self.btnElec.setFont(QFont('AnyStyle', 15))
+      self.btnElec.clicked.connect(self.ElecClick)
+      self.btnElec.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      self.hElecLayout.addWidget(self.btnElec)
+
+      self.hElecLayout.addWidget(QLabel(self))                       #Space
+
+
+   def SportClick(self):
+      self.lblIphone.setPixmap(QPixmap(BLANK))
+      self.lblIT.setPixmap(QPixmap(BLANK))
+
+   def BookClick(self):
+      self.lblBag.setPixmap(self.imageIT)
+
+      self.lblIphone.setPixmap(QPixmap(BLANK))
+      self.lblCycle.setPixmap(QPixmap(BLANK))
+      self.lblFootball.setPixmap(QPixmap(BLANK))
+      self.lblGlasses.setPixmap(QPixmap(BLANK))
+      self.lblIT.setPixmap(QPixmap(BLANK))
+
+   def ClothingClick(self):
+      self.lblBag.setPixmap(self.imageGlasses)
+
+      self.lblIphone.setPixmap(QPixmap(BLANK))
+      self.lblCycle.setPixmap(QPixmap(BLANK))
+      self.lblFootball.setPixmap(QPixmap(BLANK))
+      self.lblGlasses.setPixmap(QPixmap(BLANK))
+      self.lblIT.setPixmap(QPixmap(BLANK))
+
+   def ElecClick(self):
+      self.lblBag.setPixmap(self.imageIphone)
+
+      self.lblIphone.setPixmap(QPixmap(BLANK))
+      self.lblCycle.setPixmap(QPixmap(BLANK))
+      self.lblFootball.setPixmap(QPixmap(BLANK))
+      self.lblGlasses.setPixmap(QPixmap(BLANK))
+      self.lblIT.setPixmap(QPixmap(BLANK))
 
    def addItemGrid(self):
       #self.itemGrid = itemGrid(self)
@@ -74,17 +213,16 @@ class MainWindow(Window):
       self.roundCorners(10.0, self.GridWidget)
 
       self.vItemBoxWidget = QWidget(self) #grid to contain vertical layouts
-      #self.vItemBoxWidget.setGeometry(QRect(LEFT_GRID, TOP_GRID, WIDTH_GRID, HEIGHT_GRID))
       self.vItemBoxWidget.setObjectName("vItemBoxWidget")
       self.vItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vItemBox = QVBoxLayout(self.vItemBoxWidget)  #vertical layout to store items
       self.vItemBox.setObjectName("vItemBox")
       self.Grid.addWidget(self.vItemBoxWidget, 0, 0)
-
       
       self.vItemBo2xWidget = QWidget(self) #grid to contain vertical layouts
       self.vItemBo2xWidget.setObjectName("vItemBo2xWidget")
       self.vItemBo2xWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vItemBo2xWidget.setContentsMargins(20, 0,0,0)
       self.vItemBox2 = QVBoxLayout(self.vItemBo2xWidget)  #vertical layout to store items
       self.vItemBox2.setObjectName("vItemBox2")
       self.Grid.addWidget(self.vItemBo2xWidget, 0, 1)
@@ -115,7 +253,7 @@ class MainWindow(Window):
       self.vItemBox6Widget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vItemBox6 = QVBoxLayout(self.vItemBox6Widget)  #vertical layout to store items
       self.vItemBox6.setObjectName("vItemBox6")
-      self.vItemBox6Widget.setContentsMargins(40, 0,0,0)
+      self.vItemBox6Widget.setContentsMargins(70, 0,0,0)
       self.Grid.addWidget(self.vItemBox6Widget, 1, 2)
       
       self.imageBag = QPixmap("./product/bag2.png")
@@ -144,6 +282,93 @@ class MainWindow(Window):
       self.vItemBox4.addWidget(self.lblGlasses)
       self.vItemBox5.addWidget(self.lblIphone)
       self.vItemBox6.addWidget(self.lblIT)
+
+
+      #wishlist and carts
+      self.hWishLayoutWidget = QWidget(self)
+      self.hWishLayoutWidget.setObjectName("hWishLayoutWidget")
+      self.hWishLayoutWidget.setContentsMargins(80, 0,0,0)
+      self.hWishLayout = QHBoxLayout(self.hWishLayoutWidget)
+      self.hWishLayout.setObjectName("hWishLayout")
+      self.vItemBox.addWidget(self.hWishLayoutWidget)
+      
+      self.hWishLayoutWidget1 = QWidget(self)
+      self.hWishLayoutWidget1.setObjectName("hWishLayoutWidget1")
+      self.hWishLayoutWidget1.setContentsMargins(50, 0,0,0)
+      self.hWishLayout1 = QHBoxLayout(self.hWishLayoutWidget1)
+      self.hWishLayout1.setObjectName("hWishLayout1")
+      self.vItemBox2.addWidget(self.hWishLayoutWidget1)
+
+      self.hWishLayoutWidget2 = QWidget(self)
+      self.hWishLayoutWidget2.setObjectName("hWishLayoutWidget2")
+      self.hWishLayoutWidget2.setContentsMargins(80, 0,0,0)
+      self.hWishLayout2 = QHBoxLayout(self.hWishLayoutWidget2)
+      self.hWishLayout2.setObjectName("hWishLayout2")
+      self.vItemBox3.addWidget(self.hWishLayoutWidget2)
+
+      self.hWishLayoutWidget3 = QWidget(self)
+      self.hWishLayoutWidget3.setObjectName("hWishLayoutWidget3")
+      self.hWishLayoutWidget3.setContentsMargins(80, 0,0,0)
+      self.hWishLayout3 = QHBoxLayout(self.hWishLayoutWidget3)
+      self.hWishLayout3.setObjectName("hWishLayout3")
+      self.vItemBox4.addWidget(self.hWishLayoutWidget3)
+
+      self.hWishLayoutWidget4 = QWidget(self)
+      self.hWishLayoutWidget4.setObjectName("hWishLayoutWidget4")
+      self.hWishLayoutWidget4.setContentsMargins(60, 0,0,0)
+      self.hWishLayout4 = QHBoxLayout(self.hWishLayoutWidget4)
+      self.hWishLayout4.setObjectName("hWishLayout")
+      self.vItemBox5.addWidget(self.hWishLayoutWidget4)
+
+      self.hWishLayoutWidget5 = QWidget(self)
+      self.hWishLayoutWidget5.setObjectName("hWishLayoutWidget5")
+      self.hWishLayoutWidget5.setContentsMargins(15, 0,0,0)
+      self.hWishLayout5 = QHBoxLayout(self.hWishLayoutWidget5)
+      self.hWishLayout5.setObjectName("hWishLayout5")
+      self.vItemBox6.addWidget(self.hWishLayoutWidget5)
+      #----------------------------------------------------
+
+      self.lblCart = QLabel(self.hWishLayoutWidget)
+      self.lblCart.setPixmap(QPixmap(CART))
+      self.lblWish = QLabel(self.hWishLayoutWidget)
+      self.lblWish.setPixmap(QPixmap(WISHLIST))
+      self.hWishLayout.addWidget(self.lblWish)
+      self.hWishLayout.addWidget(self.lblCart)
+
+      self.lblCart1 = QLabel(self.hWishLayoutWidget1)
+      self.lblCart1.setPixmap(QPixmap(CART))
+      self.lblWish1 = QLabel(self.hWishLayoutWidget1)
+      self.lblWish1.setPixmap(QPixmap(WISHLIST))
+      self.hWishLayout1.addWidget(self.lblWish1)
+      self.hWishLayout1.addWidget(self.lblCart1)
+
+      self.lblCart2 = QLabel(self.hWishLayoutWidget2)
+      self.lblCart2.setPixmap(QPixmap(CART))
+      self.lblWish2 = QLabel(self.hWishLayoutWidget2)
+      self.lblWish2.setPixmap(QPixmap(WISHLIST))
+      self.hWishLayout2.addWidget(self.lblWish2)
+      self.hWishLayout2.addWidget(self.lblCart2)
+
+      self.lblCart3 = QLabel(self.hWishLayoutWidget3)
+      self.lblCart3.setPixmap(QPixmap(CART))
+      self.lblWish3 = QLabel(self.hWishLayoutWidget3)
+      self.lblWish3.setPixmap(QPixmap(WISHLIST))
+      self.hWishLayout3.addWidget(self.lblWish3)
+      self.hWishLayout3.addWidget(self.lblCart3)
+
+      self.lblCart4 = QLabel(self.hWishLayoutWidget4)
+      self.lblCart4.setPixmap(QPixmap(CART))
+      self.lblWish4 = QLabel(self.hWishLayoutWidget4)
+      self.lblWish4.setPixmap(QPixmap(WISHLIST))
+      self.hWishLayout4.addWidget(self.lblWish4)
+      self.hWishLayout4.addWidget(self.lblCart4)
+
+      self.lblCart5 = QLabel(self.hWishLayoutWidget5)
+      self.lblCart5.setPixmap(QPixmap(CART))
+      self.lblWish5 = QLabel(self.hWishLayoutWidget5)
+      self.lblWish5.setPixmap(QPixmap(WISHLIST))
+      self.hWishLayout5.addWidget(self.lblWish5)
+      self.hWishLayout5.addWidget(self.lblCart5)
 
    def addMenu(self):
       self.menuAccount = self.menubar.addMenu('Account') #account menu tab
