@@ -16,9 +16,9 @@ def register(fname, surname, email, password, salt):
     nameCheck = checkFName(fname) #if fname is "name" pass test but dont commit
     if(nameCheck==4):
         return 0
-
-    connection.commit()
-    return 0
+    if(fname != "name"):
+        connection.commit()
+        return 0
     #return 0 on registration success, 1 if there was an error
     
 
@@ -72,7 +72,7 @@ def getSalt(email): #Gets salt to compare passwords
 def addProduct(ProductName, ProductPrice, ProductEmail, ProductCategory, imagePath): #adds a product to the database, auto increments and sets the ID
     cursor = connection.cursor()
     try:
-        cursor.execute("INSERT INTO Products (ProductName, ProductPrice, ProductOwner) VALUES (?, ?, ?, ?, ?)", (ProductName, ProductPrice, ProductEmail, ProductCategory, imagePath))
+        cursor.execute("INSERT INTO Products (ProductName, ProductPrice, ProductOwner, ProductCategory, imagePath ) VALUES (?, ?, ?, ?, ?)", (ProductName, ProductPrice, ProductEmail, ProductCategory, imagePath))
     except:
         return 1
     if (ProductName == "Infinity Edge"):
