@@ -1,3 +1,4 @@
+from getpass import getuser
 import unittest
 from database import *
 
@@ -17,13 +18,13 @@ class DatabaseTest(unittest.TestCase):
         self.assertEqual(check, 1, "Should throw error code 1")
     
     def test_getInfo(self):
-        check = getInfo("reg@mail.com")
+        check = getUserInfo("reg@mail.com")
         self.assertEqual(check, ('register', 
         'tests', 'reg@mail.com', 
         '4cdacfddbf05f958ad6d93740ac38116d36018da3f15245ed066ee31f658b72de49401e320d3476873217b451324c60aea539ccbee447f3ab66f50ef2cc06bab', 
         '37fa8e0cad5040bdb78f49ef773592fa'), "Should wrong info given")
     def test_getInfoNull(self):
-        check = getInfo("")
+        check = getUserInfo("")
         self.assertEqual(check, "User does not exist", "Should wrong info given")
 
     def test_getSalt(self):
