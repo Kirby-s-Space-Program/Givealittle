@@ -1,4 +1,5 @@
 import database
+import cart
 
 class currUser:
     def __init__(self, **kwargs): #this is called after users login has been verified
@@ -9,6 +10,7 @@ class currUser:
             self.surname = userInfo[1]
             self.password = userInfo[3]
             self.Inventory = [] #this will later be use to store the items the user is selling
+            self.cart = cart.currCart() #users cart
         
     def get_Name(self):
         return self.fName
