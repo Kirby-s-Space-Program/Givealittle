@@ -176,3 +176,6 @@ class itemGrid(QWidget):
       self.lblWish5.setPixmap(QPixmap(WISHLIST))
       self.hWishLayout5.addWidget(self.lblWish5)
       self.hWishLayout5.addWidget(self.lblCart5)
+
+    def addNewItem(self):  #TODO: make the funciton with item input
+      print("I WAS HDING")
