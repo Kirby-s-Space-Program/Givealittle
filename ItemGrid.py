@@ -7,6 +7,8 @@ class itemGrid(QWidget):
     def __init__(self, parentWindow): #parentWidnow is the mainWindow object to be passed as a parameter 
       super ().__init__()
       self.parentWindow = parentWindow
+      self.row = 0
+      self.column = 0
       self.addGrid()
 
 
@@ -19,12 +21,7 @@ class itemGrid(QWidget):
       self.Grid.setObjectName("Grid")
       self.parentWindow.roundCorners(10.0, self.GridWidget)
 
-      self.vItemBoxWidget = QWidget(self.GridWidget) #grid to contain vertical layouts
-      self.vItemBoxWidget.setObjectName("vItemBoxWidget")
-      self.vItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
-      self.vItemBox = QVBoxLayout(self.vItemBoxWidget)  #vertical layout to store items
-      self.vItemBox.setObjectName("vItemBox")
-      self.Grid.addWidget(self.vItemBoxWidget, 0, 0)
+      
       
       self.vItemBo2xWidget = QWidget(self.GridWidget) #grid to contain vertical layouts
       self.vItemBo2xWidget.setObjectName("vItemBo2xWidget")
@@ -135,12 +132,7 @@ class itemGrid(QWidget):
       self.vItemBox6.addWidget(self.hWishLayoutWidget5)
       #----------------------------------------------------
 
-      self.lblCart = QLabel(self.hWishLayoutWidget)
-      self.lblCart.setPixmap(QPixmap(CART))
-      self.lblWish = QLabel(self.hWishLayoutWidget)
-      self.lblWish.setPixmap(QPixmap(WISHLIST))
-      self.hWishLayout.addWidget(self.lblWish)
-      self.hWishLayout.addWidget(self.lblCart)
+      
 
       self.lblCart1 = QLabel(self.hWishLayoutWidget1)
       self.lblCart1.setPixmap(QPixmap(CART))
@@ -177,5 +169,17 @@ class itemGrid(QWidget):
       self.hWishLayout5.addWidget(self.lblWish5)
       self.hWishLayout5.addWidget(self.lblCart5)
 
-    def addNewItem(self):  #TODO: make the funciton with item input
-      print("I WAS HDING")
+    def addNewItem(self, item):  #TODO: make the funciton with item input
+      vItemBoxWidget = QWidget(self.GridWidget) #grid to contain vertical layouts
+      vItemBoxWidget.setObjectName("vItemBoxWidget")
+      vItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      vItemBox = QVBoxLayout(vItemBoxWidget)  #vertical layout to store items
+      vItemBox.setObjectName("vItemBox")
+      self.Grid.addWidget(vItemBoxWidget, self.row, self.column)
+
+      lblCart = QLabel(self.hWishLayoutWidget)
+      lblCart.setPixmap(QPixmap(CART))
+      lblWish = QLabel(self.hWishLayoutWidget)
+      lblWish.setPixmap(QPixmap(WISHLIST))
+      self.hWishLayout.addWidget(self.lblWish)
+      self.hWishLayout.addWidget(self.lblCart)
