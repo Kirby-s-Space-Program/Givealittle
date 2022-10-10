@@ -69,6 +69,15 @@ def getSalt(email): #Gets salt to compare passwords
     
 #============================================================================================
 
+def getProductList():
+    cursor = connection.cursor()
+    try:
+        cursor.execute("SELECT * FROM Products")
+        return cursor.fetchall() #return a  full list of every product in the database
+    except:
+        print("There was an external error")
+        return -1
+
 def addProduct(ProductName, ProductPrice, ProductEmail, ProductCategory, imagePath): #adds a product to the database, auto increments and sets the ID
     cursor = connection.cursor()
     try:
@@ -97,5 +106,4 @@ def categoryList(category):
     except:
         print("There was an external error")
         return -1
-
 
