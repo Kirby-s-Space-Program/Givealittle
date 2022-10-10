@@ -75,13 +75,6 @@ class MainWindow(Window):
       self.vDepBox.setObjectName("vItemBox")
       self.roundCorners(10.0, self.vDepBoxWidget)
 
-      # self.scrollArea = QScrollArea(self)
-      # #self.scrollArea.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
-      # self.scrollArea.setGeometry(QRect(LEFT_DEP, TOP_DEP, WIDTH_DEP, HEIGHT_DEP))
-      # self.scrollArea.setWidget(self.vDepBoxWidget)
-      # #self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff) 
-      # #self.vDepBox.addWidget(self.scrollArea)
-
       #Header title
       self.lblDepartments = QLabel(self.vDepBoxWidget)
       self.lblDepartments.setText("Departments")
@@ -100,12 +93,13 @@ class MainWindow(Window):
 
       self.lblSport = QLabel(self.hSportLayoutWidget)
       self.lblSport.setPixmap(QPixmap(BALL))
+      self.lblSport.setAlignment(Qt.AlignCenter)
       self.hSportLayout.addWidget(self.lblSport)
 
       self.btnSport = QPushButton("Sport", self.hSportLayoutWidget)
       self.btnSport.setFont(QFont('AnyStyle', 15))
       self.btnSport.clicked.connect(self.SportClick)
-      self.btnSport.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      #self.btnSport.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hSportLayout.addWidget(self.btnSport)
 
       self.hSportLayout.addWidget(QLabel(self))                       #Space
@@ -120,12 +114,13 @@ class MainWindow(Window):
 
       self.lblBook = QLabel(self.hBookLayoutWidget)
       self.lblBook.setPixmap(QPixmap(BOOK))
+      self.lblBook.setAlignment(Qt.AlignCenter)
       self.hBookLayout.addWidget(self.lblBook)
 
       self.btnBook= QPushButton("Books", self.hBookLayoutWidget)
       self.btnBook.setFont(QFont('AnyStyle', 15))
       self.btnBook.clicked.connect(self.BookClick)
-      self.btnBook.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      #self.btnBook.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hBookLayout.addWidget(self.btnBook)
 
       self.hBookLayout.addWidget(QLabel(self))                       #Space
@@ -140,12 +135,13 @@ class MainWindow(Window):
 
       self.lblClothing = QLabel(self.hClothingLayoutWidget)
       self.lblClothing.setPixmap(QPixmap(SHIRT))
+      self.lblClothing.setAlignment(Qt.AlignCenter)
       self.hClothingLayout.addWidget(self.lblClothing)
 
       self.btnClothing = QPushButton("Clothing", self.hClothingLayoutWidget)
       self.btnClothing.setFont(QFont('AnyStyle', 15))
       self.btnClothing.clicked.connect(self.ClothingClick)
-      self.btnClothing.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      #self.btnClothing.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hClothingLayout.addWidget(self.btnClothing)
 
       self.hClothingLayout.addWidget(QLabel(self))                       #Space
@@ -160,12 +156,13 @@ class MainWindow(Window):
 
       self.lblElec = QLabel(self.hElecLayoutWidget)
       self.lblElec.setPixmap(QPixmap(MOUSE))
+      self.lblElec.setAlignment(Qt.AlignCenter)
       self.hElecLayout.addWidget(self.lblElec)
 
       self.btnElec = QPushButton("Electronics", self.hElecLayoutWidget)
       self.btnElec.setFont(QFont('AnyStyle', 15))
       self.btnElec.clicked.connect(self.ElecClick)
-      self.btnElec.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      #self.btnElec.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hElecLayout.addWidget(self.btnElec)
 
       self.hElecLayout.addWidget(QLabel(self))                       #Space
