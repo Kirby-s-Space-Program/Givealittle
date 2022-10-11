@@ -49,8 +49,6 @@ class MainWindow(Window):
    def __init__(self):
       super().__init__()
 
-      self.left = 0
-      self.top = 0
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
@@ -231,7 +229,7 @@ class MainWindow(Window):
          #Cart sub tabs
          self.menuCart = QAction('Cart', self.menubar)
          self.menuCart.setObjectName("menuCart")
-         self.menuCart.triggered.connect(self.btnTemp)
+         self.menuCart.triggered.connect(self.btnCart_click)
          self.menubar.addAction(self.menuCart)
 
          #Sell sub tabs
@@ -260,6 +258,7 @@ class MainWindow(Window):
       #Header text
       self.Header = QLabel("KIRBY'S MARKETPLACE", self)
       self.Header.setObjectName("Header")
+      self.Header.setAlignment(Qt.AlignCenter)
       self.Header.setGeometry(QRect(LEFT_HEADER, TOP_HEADER, WIDTH_HEADER, HEIGHT_HEADER))
 
       self.pixmapHeader = QPixmap(HEADER_TITLE)
@@ -313,6 +312,10 @@ class MainWindow(Window):
    #TODO: make functions for post login buttons
    def btnTemp(self): #Placeholder on click function for post login menu buttons
       print("Clicked")
+   
+   def btnCart_click(self): #Placeholder on click function for post login menu buttons
+      self.mydialog = CartWindow()
+      self.mydialog.show()
    
    def btnHelp_click(self): #Help button clicked
       #TODO: add help
@@ -618,6 +621,32 @@ class RegisterWindow(Window):
 
 
 ex = MainWindow() #create MainWindow object
+
+#-------------------------------------------------------------------------------------Cart window
+class CartWindow(Window):
+   def __init__(self):
+      super().__init__()
+
+      self.title = "Cart"
+
+      self.InitUI()
+      self.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
+      self.addCartWidgets()
+
+   def addCartWidgets(self):
+      self.lblCartHeader = QLabel(self)             #Register label
+      self.pixmapHeader = QPixmap(CART_TITLE)
+      self.lblCartHeader.setPixmap(self.pixmapHeader)
+      self.lblCartHeader.setAlignment(Qt.AlignCenter)
+      self.vbox.addWidget(self.lblCartHeader)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
+
+
+
+
+
+
 #-------------------------------------------------------------------------------------Start Program
 def createMain():
    app = QApplication(sys.argv)          
