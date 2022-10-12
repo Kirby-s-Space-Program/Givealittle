@@ -1,4 +1,3 @@
-from itertools import product
 import sqlite3
 from login.encrypter import encrypt
 from login.verification import checkFName

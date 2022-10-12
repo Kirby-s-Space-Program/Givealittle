@@ -1,5 +1,3 @@
-from database import categoryList
-
 class currCart:
     def __init__(self):
         self.cartList = {} #list of cart items in a dictionary with their price. Eg: cartlist["sword"] = 420.10
