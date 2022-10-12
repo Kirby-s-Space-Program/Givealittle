@@ -101,7 +101,7 @@ def removeProduct(productID): #removes item from the databse using only the ID s
 def categoryList(category):
     cursor = connection.cursor()
     try:
-        cursor.execute("SELECT ProductName, imagePath FROM Products WHERE ProductCategory = ?", (category,))
+        cursor.execute("SELECT * FROM Products WHERE ProductCategory = ?", (category,))
         return cursor.fetchall()
     except:
         print("There was an external error")
