@@ -10,9 +10,6 @@ from login.verification import *
 from ItemGrid import *
 from cart import *
 
-logged = 2 #-1=external error, 0=logged in, 1=wrong details, 2=have not tried
-user=currUser()
-
 #-------------------------------------------------------------------------------------Base Class Window
 class Window(QWidget):  
    def __init__(self):
@@ -50,7 +47,7 @@ class MainWindow(Window):
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
-      self.logged = 0 #0=logged in, 1=not logged in TODO:change back to 1
+      self.logged = 1 #0=logged in, 1=not logged in
       self.menubar = QMenuBar(self)
       self.menubar.setGeometry(QRect(0, 0, 1116, 21))
       self.menubar.setObjectName("menubar")
@@ -289,12 +286,23 @@ class MainWindow(Window):
       print("Clicked")
    
    def btnCart_click(self): #Open cart window
-      self.mydialog = CartWindow()
-      self.mydialog.show()
+      try:
+         self.mydialog.close()
+         self.mydialog = CartWindow()
+         self.mydialog.show()
+      except:
+         self.mydialog = CartWindow()
+         self.mydialog.show()
+      
 
-   def btnWishlist_click(self): #Placeholder on click function for post login menu buttons
-      self.mydialog = WishlistWindow()
-      self.mydialog.show()
+   def btnWishlist_click(self): #Open wishlist window
+      try:
+         self.mydialog.close()
+         self.mydialog = WishlistWindow()
+         self.mydialog.show()
+      except:
+         self.mydialog = WishlistWindow()
+         self.mydialog.show()
    
    def btnHelp_click(self): #Help button clicked
       #TODO: add help
