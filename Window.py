@@ -53,7 +53,7 @@ class MainWindow(Window):
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
-      self.logged = 1 #0=logged in, 1=not logged in
+      self.logged = 0 #0=logged in, 1=not logged in TODO:change back to 1
       self.menubar = QMenuBar(self)
       self.menubar.setGeometry(QRect(0, 0, 1116, 21))
       self.menubar.setObjectName("menubar")
@@ -616,7 +616,6 @@ class CartWindow(Window):
       self.vbox.setContentsMargins(MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM,MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM)
       self.vbox.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
       self.addCartWidgets()
-      
 
    def addCartWidgets(self):
       self.hHeaderWidget = QWidget(self)                    #Header HBox widget
@@ -640,34 +639,107 @@ class CartWindow(Window):
       self.vCheckoutWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vCheckoutWidget.setMinimumWidth(WIDTH_CHECKOUT_BOX)
       self.vCheckoutWidget.setMinimumHeight(HEIGHT_CHECKOUT_BOX)
-      self.vCheckoutWidget.setContentsMargins(HLAYOUT_SPACING,HLAYOUT_SPACING,2*HLAYOUT_SPACING,HLAYOUT_SPACING)
-      self.roundCorners(10.0, self.vCheckoutWidget)
+      self.roundCorners(9.0, self.vCheckoutWidget)
       self.vCheckout = QVBoxLayout(self.vCheckoutWidget)
       self.vCheckout.setObjectName("vCheckout")
-      self.vCheckout.setAlignment(Qt.AlignRight)
+      self.vCheckout.setAlignment(Qt.AlignTop)
       self.hHeader.addWidget(self.vCheckoutWidget)
 
       #total cost label
       self.lblTotal = QLabel("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost), self)
       self.lblTotal.setFont(QFont('AnyStyle', 14))
-      self.lblTotal.setAlignment(Qt.AlignCenter)
       self.vCheckout.addWidget(self.lblTotal)
 
-      #self.btncheckout = QPush TODO: checkout button
+      self.btncheckout = QPushButton("Checkout", self) #checkout button
+      self.btncheckout.setObjectName("btnCheckout")
+      self.btncheckout.setFont(QFont('AnyStyle', 12))
+      self.btncheckout.setMinimumWidth(WIDTH_CHECKOUT_BUTTON)
+      self.btncheckout.setMaximumHeight(HEIGHT_CHECKOUT_BUTTON-10)
+      self.btncheckout.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      self.roundCorners(6.0, self.btncheckout)
+      self.btncheckout.clicked.connect(self.btnCheckoutClick)
+      self.vCheckout.addWidget(self.btncheckout)
 
       self.vbox.addWidget(QLabel(self))                       #Space
+
+      height_grid_scroll = int(math.ceil(len(myCart.cartList))) * MAX_HEIGHT_ITEM_CART
 
       self.vCartWidget = QWidget(self)                    #Cart items
       self.vCartWidget.setObjectName("vCartWidget")
       self.vCartWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
-      self.vCartWidget.setMinimumHeight(HEIGHT_CART_BOX)
-      self.vCartWidget.setMinimumWidth(WIDTH_CART_BOX)
+      self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
       self.roundCorners(10.0, self.vCartWidget)
       self.vCart = QVBoxLayout(self.vCartWidget)
       self.vCart.setObjectName("vCart")
-      self.vbox.addWidget(self.vCartWidget)
 
+      self.scrollArea = QScrollArea(self) #scrollable grid
+      self.scrollArea.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 8px; border-style: outset;")
+      self.scrollArea.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX, HEIGHT_CART_BOX))
+      self.scrollArea.setWidget(self.vCartWidget)
+      self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+      self.roundCorners(10.0, self.scrollArea)
+      
+      for myProduct in myCart.cartList:
+         self.addNewItem(myCart.get_item(myProduct))
 
+   def addNewItem(self, item):
+      def remove(event):
+        myCart.add_item(item[0], item[1], item[2])
+
+      def moveToWishlist(event):
+        myWishlist.add_item(item[0], item[1], item[2])
+
+      hItemBoxWidget = QWidget(self) #horizontal layout to store item info
+      hItemBoxWidget.setObjectName("hItemBoxWidget")
+      hItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      hItemBoxWidget.setMaximumHeight(MAX_HEIGHT_ITEM_CART)
+      hItemBox = QHBoxLayout(hItemBoxWidget)  
+      hItemBox.setObjectName("hItemBox")
+      self.vCart.addWidget(hItemBoxWidget)
+
+      #image
+      mainImage = QPixmap(item[4])
+      lblProduct = QLabel(self)
+      lblProduct.setMaximumSize(MAX_HEIGHT_ITEM_CART,MAX_HEIGHT_ITEM_CART)
+      lblProduct.setPixmap(mainImage)
+      hItemBox.addWidget(lblProduct)
+
+      #name and price 
+      vNameWidget = QWidget(self) #vertical layout to store item info
+      vNameWidget.setObjectName("vNameWidget")
+      vName = QVBoxLayout(vNameWidget)
+      vName.setObjectName("vName")
+      hItemBox.addWidget(vNameWidget)
+
+      lblName = QLabel(item[0], vNameWidget)
+      lblName.setFont(QFont('AnyStyle', 14))
+      vName.addWidget(lblName)
+
+      lblPrice = QLabel("R" + str(item[1]), vNameWidget)
+      lblPrice.setFont(QFont('AnyStyle', 14))
+      vName.addWidget(lblPrice)
+
+      # #remove
+      # hWishLayoutWidget = QWidget(self)
+      # hWishLayoutWidget.setObjectName("hWishLayoutWidget")
+      # hWishLayout = QHBoxLayout(hWishLayoutWidget)
+      # hWishLayout.setObjectName("hWishLayout")
+      # hItemBox.addWidget(hWishLayoutWidget)
+
+      # lblCart = QLabel(hWishLayoutWidget)
+      # lblCart.setPixmap(QPixmap(CART))
+      # lblCart.setAlignment(Qt.AlignCenter)
+      # lblCart.mousePressEvent = addToCart
+      # hWishLayout.addWidget(lblCart)
+      
+      # lblWish = QLabel(hWishLayoutWidget)
+      # lblWish.setPixmap(QPixmap(WISHLIST))
+      # lblWish.setAlignment(Qt.AlignCenter)
+      # lblWish.mousePressEvent = moveToWishlist
+      # hWishLayout.addWidget(lblWish)
+
+   def btnCheckoutClick(self):
+      print("Thank you for shopping!")
 
 
 #-------------------------------------------------------------------------------------Start Program

@@ -26,7 +26,7 @@ class itemGrid(QWidget):
       self.Grid = QGridLayout(self.GridWidget)
       self.Grid.setObjectName("Grid")
 
-      self.scrollArea = QScrollArea(self.parentWindow)
+      self.scrollArea = QScrollArea(self.parentWindow) #scrollable grid
       self.scrollArea.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 8px; border-style: outset;")
       self.scrollArea.setGeometry(QRect(LEFT_GRID, TOP_GRID, WIDTH_GRID, HEIGHT_GRID))
       self.scrollArea.setWidget(self.GridWidget)
@@ -43,16 +43,16 @@ class itemGrid(QWidget):
 
     def addNewItem(self, item):
       def addToCart(event):
-        myCart.add_item(item[0], item[1], item[2])
+        myCart.add_item(item)
 
       def addToWishlist(event):
-        myWishlist.add_item(item[0], item[1], item[2])
+        myWishlist.add_item(item)
 
-      vItemBoxWidget = QWidget(self.GridWidget) #grid to contain vertical layouts
+      vItemBoxWidget = QWidget(self.GridWidget) #vertical layout to store item info
       vItemBoxWidget.setObjectName("vItemBoxWidget")
       vItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       vItemBoxWidget.setMaximumHeight(MAX_HEIGHT_ITEM)
-      vItemBox = QVBoxLayout(vItemBoxWidget)  #vertical layout to store items
+      vItemBox = QVBoxLayout(vItemBoxWidget)
       vItemBox.setObjectName("vItemBox")
       self.Grid.addWidget(vItemBoxWidget, self.column, self.row)
 
