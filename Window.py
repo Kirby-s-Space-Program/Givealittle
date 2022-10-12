@@ -723,6 +723,7 @@ class CartWindow(Window):
       lblProduct = QLabel(self)
       lblProduct.setMaximumSize(MAX_HEIGHT_ITEM_CART,MAX_HEIGHT_ITEM_CART)
       lblProduct.setPixmap(mainImage)
+      lblProduct.setScaledContents(True)
       hItemBox.addWidget(lblProduct)
 
       #name and price 

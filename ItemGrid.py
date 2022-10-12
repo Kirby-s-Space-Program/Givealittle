@@ -79,6 +79,7 @@ class itemGrid(QWidget):
       lblProduct = QLabel(self)
       lblProduct.setAlignment(Qt.AlignCenter)
       lblProduct.setPixmap(mainImage)
+      lblProduct.setScaledContents(True)
       vItemBox.addWidget(lblProduct)
 
       #wishlist and carts
