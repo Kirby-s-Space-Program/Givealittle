@@ -1,7 +1,4 @@
-from ast import BoolOp
-from re import S
 import sys
-from turtle import color
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
