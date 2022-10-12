@@ -49,8 +49,6 @@ class MainWindow(Window):
    def __init__(self):
       super().__init__()
 
-      self.left = 0
-      self.top = 0
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
@@ -75,13 +73,6 @@ class MainWindow(Window):
       self.vDepBox.setObjectName("vItemBox")
       self.roundCorners(10.0, self.vDepBoxWidget)
 
-      # self.scrollArea = QScrollArea(self)
-      # #self.scrollArea.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
-      # self.scrollArea.setGeometry(QRect(LEFT_DEP, TOP_DEP, WIDTH_DEP, HEIGHT_DEP))
-      # self.scrollArea.setWidget(self.vDepBoxWidget)
-      # #self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff) 
-      # #self.vDepBox.addWidget(self.scrollArea)
-
       #Header title
       self.lblDepartments = QLabel(self.vDepBoxWidget)
       self.lblDepartments.setText("Departments")
@@ -100,12 +91,13 @@ class MainWindow(Window):
 
       self.lblSport = QLabel(self.hSportLayoutWidget)
       self.lblSport.setPixmap(QPixmap(BALL))
+      self.lblSport.setAlignment(Qt.AlignCenter)
       self.hSportLayout.addWidget(self.lblSport)
 
       self.btnSport = QPushButton("Sport", self.hSportLayoutWidget)
       self.btnSport.setFont(QFont('AnyStyle', 15))
       self.btnSport.clicked.connect(self.SportClick)
-      self.btnSport.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      #self.btnSport.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hSportLayout.addWidget(self.btnSport)
 
       self.hSportLayout.addWidget(QLabel(self))                       #Space
@@ -120,12 +112,13 @@ class MainWindow(Window):
 
       self.lblBook = QLabel(self.hBookLayoutWidget)
       self.lblBook.setPixmap(QPixmap(BOOK))
+      self.lblBook.setAlignment(Qt.AlignCenter)
       self.hBookLayout.addWidget(self.lblBook)
 
       self.btnBook= QPushButton("Books", self.hBookLayoutWidget)
       self.btnBook.setFont(QFont('AnyStyle', 15))
       self.btnBook.clicked.connect(self.BookClick)
-      self.btnBook.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      #self.btnBook.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hBookLayout.addWidget(self.btnBook)
 
       self.hBookLayout.addWidget(QLabel(self))                       #Space
@@ -140,12 +133,13 @@ class MainWindow(Window):
 
       self.lblClothing = QLabel(self.hClothingLayoutWidget)
       self.lblClothing.setPixmap(QPixmap(SHIRT))
+      self.lblClothing.setAlignment(Qt.AlignCenter)
       self.hClothingLayout.addWidget(self.lblClothing)
 
       self.btnClothing = QPushButton("Clothing", self.hClothingLayoutWidget)
       self.btnClothing.setFont(QFont('AnyStyle', 15))
       self.btnClothing.clicked.connect(self.ClothingClick)
-      self.btnClothing.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      #self.btnClothing.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hClothingLayout.addWidget(self.btnClothing)
 
       self.hClothingLayout.addWidget(QLabel(self))                       #Space
@@ -160,12 +154,13 @@ class MainWindow(Window):
 
       self.lblElec = QLabel(self.hElecLayoutWidget)
       self.lblElec.setPixmap(QPixmap(MOUSE))
+      self.lblElec.setAlignment(Qt.AlignCenter)
       self.hElecLayout.addWidget(self.lblElec)
 
       self.btnElec = QPushButton("Electronics", self.hElecLayoutWidget)
       self.btnElec.setFont(QFont('AnyStyle', 15))
       self.btnElec.clicked.connect(self.ElecClick)
-      self.btnElec.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
+      #self.btnElec.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hElecLayout.addWidget(self.btnElec)
 
       self.hElecLayout.addWidget(QLabel(self))                       #Space
@@ -226,7 +221,7 @@ class MainWindow(Window):
          self.menuAccount.addAction(self.actionLogout)
       
          #Wish List sub tabs
-         self.menuWish_List = QAction('Wish List', self.menubar)
+         self.menuWish_List = QAction('Wishlist', self.menubar)
          self.menuWish_List.setObjectName("menuWish_List")
          self.menuWish_List.triggered.connect(self.btnTemp)
          self.menubar.addAction(self.menuWish_List)
@@ -234,7 +229,7 @@ class MainWindow(Window):
          #Cart sub tabs
          self.menuCart = QAction('Cart', self.menubar)
          self.menuCart.setObjectName("menuCart")
-         self.menuCart.triggered.connect(self.btnTemp)
+         self.menuCart.triggered.connect(self.btnCart_click)
          self.menubar.addAction(self.menuCart)
 
          #Sell sub tabs
@@ -263,6 +258,7 @@ class MainWindow(Window):
       #Header text
       self.Header = QLabel("KIRBY'S MARKETPLACE", self)
       self.Header.setObjectName("Header")
+      self.Header.setAlignment(Qt.AlignCenter)
       self.Header.setGeometry(QRect(LEFT_HEADER, TOP_HEADER, WIDTH_HEADER, HEIGHT_HEADER))
 
       self.pixmapHeader = QPixmap(HEADER_TITLE)
@@ -316,6 +312,14 @@ class MainWindow(Window):
    #TODO: make functions for post login buttons
    def btnTemp(self): #Placeholder on click function for post login menu buttons
       print("Clicked")
+   
+   def btnCart_click(self): #Open cart window
+      self.mydialog = CartWindow()
+      self.mydialog.show()
+
+   def btnWishlist_click(self): #Placeholder on click function for post login menu buttons
+      self.mydialog = WishlistWindow()
+      self.mydialog.show()
    
    def btnHelp_click(self): #Help button clicked
       #TODO: add help
@@ -621,6 +625,43 @@ class RegisterWindow(Window):
 
 
 ex = MainWindow() #create MainWindow object
+
+#-------------------------------------------------------------------------------------Cart window
+class CartWindow(Window):
+   def __init__(self):
+      super().__init__()
+      self.title = "Cart"
+      self.InitUI()
+      self.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
+      self.vbox.setContentsMargins(MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM,MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM)
+      self.vbox.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
+      self.addCartWidgets()
+
+   def addCartWidgets(self):
+      self.lblCartHeader = QLabel(self)             #Register label
+      self.pixmapHeader = QPixmap(CART_TITLE)
+      self.lblCartHeader.setPixmap(self.pixmapHeader)
+      self.lblCartHeader.setAlignment(Qt.AlignCenter)
+      self.vbox.addWidget(self.lblCartHeader)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
+
+      self.vCartWidget = QWidget(self)                    #Cart items
+      self.vCartWidget.setObjectName("vCartWidget")
+      self.vCartWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vCartWidget.setMinimumHeight(HEIGHT_CART_BOX)
+      self.vCartWidget.setMinimumWidth(WIDTH_CART_BOX)
+      self.roundCorners(10.0, self.vCartWidget)
+      self.vCart = QVBoxLayout(self.vCartWidget)
+      self.vCart.setObjectName("vCart")
+      self.vbox.addWidget(self.vCartWidget)
+      
+
+
+
+
+
+
 #-------------------------------------------------------------------------------------Start Program
 def createMain():
    app = QApplication(sys.argv)          

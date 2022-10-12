@@ -44,10 +44,21 @@ HEIGHT_GRID = int(4*HEIGHT_MAIN/5 - 100)
 LEFT_GRID = int(WIDTH_MAIN/5)
 TOP_GRID = int(HEIGHT_MAIN/5 + 50)
 
+MAX_HEIGHT_ITEM = 400
+
 WIDTH_DEP= int(WIDTH_MAIN/7)
 HEIGHT_DEP = int(4*HEIGHT_MAIN/10)
 LEFT_DEP = int(WIDTH_MAIN/24)
 TOP_DEP = int(HEIGHT_MAIN/6)
+
+WIDTH_CART_WINDOW =int(2*WIDTH_MAIN/3)
+HEIGHT_CART_WINDOW =int(2*HEIGHT_MAIN/3)
+TOP_CART_WINDOW=int(HEIGHT_MAIN/6)
+LEFT_CART_WINDOW=int(WIDTH_MAIN/6)
+MARGIN_CART_WINDOW_SIDES=150
+MARGIN_CART_WINDOW_BOTTOM=50
+HEIGHT_CART_BOX=int(4*HEIGHT_CART_WINDOW/5)
+WIDTH_CART_BOX=int(4*WIDTH_CART_WINDOW/5)
 
 #Color pallette
 DARK_PINK = QColor(221, 4, 89)      #0xdd0459
@@ -61,6 +72,7 @@ BLACK = QColor(7, 10, 13)           #0x070a0d
 HEADER_TITLE = "./icons/header_title.png"
 LOGIN_TITLE = "./icons/login_title.png"
 REGISTER_TITLE = "./icons/register_title.png"
+CART_TITLE = "./icons/cart_title.png"
 SEARCH = "./icons/search.png"
 BALL = "./icons/ball.png"
 BOOK = "./icons/book.png"
