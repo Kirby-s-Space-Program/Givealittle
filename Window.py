@@ -638,11 +638,32 @@ class CartWindow(Window):
       self.addCartWidgets()
 
    def addCartWidgets(self):
+      self.hHeaderWidget = QWidget(self)                    #Header HBox widget
+      self.hHeaderWidget.setObjectName("hHeaderWidget")
+      self.hHeaderWidget.setMinimumWidth(WIDTH_CART_BOX)
+      self.hHeader = QHBoxLayout(self.hHeaderWidget)
+      self.hHeader.setObjectName("hHeader")
+      self.vbox.addWidget(self.hHeaderWidget)
+
       self.lblCartHeader = QLabel(self)             #Register label
       self.pixmapHeader = QPixmap(CART_TITLE)
       self.lblCartHeader.setPixmap(self.pixmapHeader)
-      self.lblCartHeader.setAlignment(Qt.AlignCenter)
-      self.vbox.addWidget(self.lblCartHeader)
+      self.lblCartHeader.setAlignment(Qt.AlignLeft)
+      self.hHeader.addWidget(self.lblCartHeader)
+
+      self.hHeader.addWidget(QLabel(self)) #spaces
+      self.hHeader.addWidget(QLabel(self))
+
+      self.vCheckoutWidget = QWidget(self)                    #Total & Checkout Box
+      self.vCheckoutWidget.setObjectName("vCheckoutWidget")
+      self.vCheckoutWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vCheckoutWidget.setMinimumWidth(WIDTH_CHECKOUT_BOX)
+      self.vCheckoutWidget.setMinimumHeight(HEIGHT_CHECKOUT_BOX)
+      self.roundCorners(10.0, self.vCheckoutWidget)
+      self.vCheckout = QVBoxLayout(self.vCheckoutWidget)
+      self.vCheckout.setObjectName("vCheckout")
+      self.vCheckout.setAlignment(Qt.AlignRight)
+      self.hHeader.addWidget(self.vCheckoutWidget)
 
       self.vbox.addWidget(QLabel(self))                       #Space
 
