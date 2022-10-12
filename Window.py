@@ -201,7 +201,7 @@ class MainWindow(Window):
          #Wish List sub tabs
          self.menuWish_List = QAction('Wishlist', self.menubar)
          self.menuWish_List.setObjectName("menuWish_List")
-         self.menuWish_List.triggered.connect(self.btnTemp)
+         self.menuWish_List.triggered.connect(self.btnWishlist_click)
          self.menubar.addAction(self.menuWish_List)
 
          #Cart sub tabs
@@ -296,8 +296,9 @@ class MainWindow(Window):
       self.mydialog.show()
 
    def btnWishlist_click(self): #Placeholder on click function for post login menu buttons
-      self.mydialog = WishlistWindow()
-      self.mydialog.show()
+      #self.mydialog = WishlistWindow()
+      #self.mydialog.show()
+      print(myWishlist.wishlist)
    
    def btnHelp_click(self): #Help button clicked
       #TODO: add help

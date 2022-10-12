@@ -51,3 +51,4 @@ class currWishList:
             return 1
 
 myCart = currCart()
+myWishlist = currWishList()

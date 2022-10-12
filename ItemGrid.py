@@ -45,6 +45,9 @@ class itemGrid(QWidget):
       def addToCart(event):
         myCart.add_item(item[0], item[1], item[2])
 
+      def addToWishlist(event):
+        myWishlist.add_item(item[0], item[1], item[2])
+
       vItemBoxWidget = QWidget(self.GridWidget) #grid to contain vertical layouts
       vItemBoxWidget.setObjectName("vItemBoxWidget")
       vItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
@@ -94,6 +97,7 @@ class itemGrid(QWidget):
       lblWish = QLabel(hWishLayoutWidget)
       lblWish.setPixmap(QPixmap(WISHLIST))
       lblWish.setAlignment(Qt.AlignCenter)
+      lblWish.mousePressEvent = addToWishlist
       hWishLayout.addWidget(lblWish)
 
     def sortBy(self, department):
