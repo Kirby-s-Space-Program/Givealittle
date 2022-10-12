@@ -683,22 +683,43 @@ class CartWindow(Window):
          self.addNewItem(myCart.get_item(myProduct))
 
    def addNewItem(self, item):
-      def remove(event):
-        myCart.add_item(item[0], item[1], item[2])
+      def removeItem(event):
+         myCart.remove_item(item[0])
+         self.updateCost()
+
+         for i in reversed(range(self.vCart.count())): 
+            self.vCart.itemAt(i).widget().setParent(None)
+
+         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART
+         self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
+
+            
+         for myProduct in myCart.cartList:
+            self.addNewItem(myCart.get_item(myProduct))
 
       def moveToWishlist(event):
-        myWishlist.add_item(item[0], item[1], item[2])
+         myWishlist.add_item(myCart.get_item(item[0]))
+         myCart.remove_item(item[0])
+         self.updateCost()
+
+         for i in reversed(range(self.vCart.count())): 
+            self.vCart.itemAt(i).widget().setParent(None)
+
+         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART
+         self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
+
+            
+         for myProduct in myCart.cartList:
+            self.addNewItem(myCart.get_item(myProduct))
 
       hItemBoxWidget = QWidget(self) #horizontal layout to store item info
-      hItemBoxWidget.setObjectName("hItemBoxWidget")
       hItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       hItemBoxWidget.setMaximumHeight(MAX_HEIGHT_ITEM_CART)
       hItemBox = QHBoxLayout(hItemBoxWidget)  
-      hItemBox.setObjectName("hItemBox")
       self.vCart.addWidget(hItemBoxWidget)
 
       #image
-      mainImage = QPixmap(item[4])
+      mainImage = QPixmap(item[5])
       lblProduct = QLabel(self)
       lblProduct.setMaximumSize(MAX_HEIGHT_ITEM_CART,MAX_HEIGHT_ITEM_CART)
       lblProduct.setPixmap(mainImage)
@@ -711,35 +732,58 @@ class CartWindow(Window):
       vName.setObjectName("vName")
       hItemBox.addWidget(vNameWidget)
 
-      lblName = QLabel(item[0], vNameWidget)
+      lblName = QLabel(item[1], vNameWidget)
       lblName.setFont(QFont('AnyStyle', 14))
       vName.addWidget(lblName)
 
-      lblPrice = QLabel("R" + str(item[1]), vNameWidget)
+      lblPrice = QLabel("R" + str(item[2]), vNameWidget)
       lblPrice.setFont(QFont('AnyStyle', 14))
       vName.addWidget(lblPrice)
 
-      # #remove
-      # hWishLayoutWidget = QWidget(self)
-      # hWishLayoutWidget.setObjectName("hWishLayoutWidget")
-      # hWishLayout = QHBoxLayout(hWishLayoutWidget)
-      # hWishLayout.setObjectName("hWishLayout")
-      # hItemBox.addWidget(hWishLayoutWidget)
+      hItemBox.addWidget(QLabel(self))                       #Space
+      hItemBox.addWidget(QLabel(self))                       #Space
 
-      # lblCart = QLabel(hWishLayoutWidget)
-      # lblCart.setPixmap(QPixmap(CART))
-      # lblCart.setAlignment(Qt.AlignCenter)
-      # lblCart.mousePressEvent = addToCart
-      # hWishLayout.addWidget(lblCart)
-      
-      # lblWish = QLabel(hWishLayoutWidget)
-      # lblWish.setPixmap(QPixmap(WISHLIST))
-      # lblWish.setAlignment(Qt.AlignCenter)
-      # lblWish.mousePressEvent = moveToWishlist
-      # hWishLayout.addWidget(lblWish)
+      #move to wishlist
+      vWishWidget = QWidget(self) #vertical layout to store item info
+      vWish = QVBoxLayout(vWishWidget)
+      vWish.setAlignment(Qt.AlignCenter)
+      hItemBox.addWidget(vWishWidget)
+
+      lblWish = QLabel(self)                     #Wish Icon
+      lblWish.setPixmap(QPixmap(WISHLIST))
+      lblWish.setAlignment(Qt.AlignHCenter)
+      lblWish.mousePressEvent = moveToWishlist
+      vWish.addWidget(lblWish)
+
+      lblWishText = QLabel("Wishlist instead", self)          #Wish text
+      lblWishText.setFont(QFont('AnyStyle', 12))
+      lblWishText.setAlignment(Qt.AlignHCenter)
+      lblWishText.mousePressEvent = moveToWishlist
+      vWish.addWidget(lblWishText)
+
+      # #remove
+      vRemoveWidget = QWidget(self) #vertical layout to store item info
+      vRemove = QVBoxLayout(vRemoveWidget)
+      vRemove.setAlignment(Qt.AlignCenter)
+      hItemBox.addWidget(vRemoveWidget)
+
+      lblBin = QLabel(self)                           #Remove Icon
+      lblBin.setPixmap(QPixmap(BIN))
+      lblBin.mousePressEvent = removeItem
+      lblBin.setAlignment(Qt.AlignHCenter)
+      vRemove.addWidget(lblBin)
+
+      lblRemoveText = QLabel("Remove", self)       #Remove text
+      lblRemoveText.setFont(QFont('AnyStyle', 12))
+      lblRemoveText.setAlignment(Qt.AlignHCenter)
+      lblRemoveText.mousePressEvent = removeItem
+      vRemove.addWidget(lblRemoveText)
 
    def btnCheckoutClick(self):
       print("Thank you for shopping!")
+
+   def updateCost(self):
+      self.lblTotal.setText("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost))
 
 
 #-------------------------------------------------------------------------------------Start Program
