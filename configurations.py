@@ -57,8 +57,12 @@ TOP_CART_WINDOW=int(HEIGHT_MAIN/6)
 LEFT_CART_WINDOW=int(WIDTH_MAIN/6)
 MARGIN_CART_WINDOW_SIDES=150
 MARGIN_CART_WINDOW_BOTTOM=50
+
 HEIGHT_CART_BOX=int(4*HEIGHT_CART_WINDOW/5)
 WIDTH_CART_BOX=int(4*WIDTH_CART_WINDOW/5)
+
+WIDTH_CHECKOUT_BOX =int(WIDTH_CART_BOX/4)
+HEIGHT_CHECKOUT_BOX = int(HEIGHT_CART_WINDOW/9)
 
 #Color pallette
 DARK_PINK = QColor(221, 4, 89)      #0xdd0459
@@ -76,7 +80,7 @@ CART_TITLE = "./icons/cart_title.png"
 SEARCH = "./icons/search.png"
 BALL = "./icons/ball.png"
 BOOK = "./icons/book.png"
-CART = "./icons/cart2.png"
+CART = "./icons/cart.png"
 MOUSE = "./icons/mouse.png"
 SHIRT = "./icons/shirt.png"
 SOAP = "./icons/soap.png"

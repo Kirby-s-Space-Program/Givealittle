@@ -97,7 +97,6 @@ class MainWindow(Window):
       self.btnSport = QPushButton("Sport", self.hSportLayoutWidget)
       self.btnSport.setFont(QFont('AnyStyle', 15))
       self.btnSport.clicked.connect(self.SportClick)
-      #self.btnSport.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hSportLayout.addWidget(self.btnSport)
 
       self.hSportLayout.addWidget(QLabel(self))                       #Space
@@ -118,7 +117,6 @@ class MainWindow(Window):
       self.btnBook= QPushButton("Books", self.hBookLayoutWidget)
       self.btnBook.setFont(QFont('AnyStyle', 15))
       self.btnBook.clicked.connect(self.BookClick)
-      #self.btnBook.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hBookLayout.addWidget(self.btnBook)
 
       self.hBookLayout.addWidget(QLabel(self))                       #Space
@@ -139,7 +137,6 @@ class MainWindow(Window):
       self.btnClothing = QPushButton("Clothing", self.hClothingLayoutWidget)
       self.btnClothing.setFont(QFont('AnyStyle', 15))
       self.btnClothing.clicked.connect(self.ClothingClick)
-      #self.btnClothing.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hClothingLayout.addWidget(self.btnClothing)
 
       self.hClothingLayout.addWidget(QLabel(self))                       #Space
@@ -160,42 +157,22 @@ class MainWindow(Window):
       self.btnElec = QPushButton("Electronics", self.hElecLayoutWidget)
       self.btnElec.setFont(QFont('AnyStyle', 15))
       self.btnElec.clicked.connect(self.ElecClick)
-      #self.btnElec.setStyleSheet("color : rgb(" + str(YELLOW.red()) + "," + str(YELLOW.green()) + "," + str(YELLOW.blue()) + ");")
       self.hElecLayout.addWidget(self.btnElec)
 
       self.hElecLayout.addWidget(QLabel(self))                       #Space
 
 
    def SportClick(self):
-      self.lblIphone.setPixmap(QPixmap(BLANK))
-      self.lblIT.setPixmap(QPixmap(BLANK))
+      self.itemGrid.sortBy("Sports")
 
    def BookClick(self):
-      self.lblBag.setPixmap(self.imageIT)
-
-      self.lblIphone.setPixmap(QPixmap(BLANK))
-      self.lblCycle.setPixmap(QPixmap(BLANK))
-      self.lblFootball.setPixmap(QPixmap(BLANK))
-      self.lblGlasses.setPixmap(QPixmap(BLANK))
-      self.lblIT.setPixmap(QPixmap(BLANK))
+      self.itemGrid.sortBy("Books")
 
    def ClothingClick(self):
-      self.lblBag.setPixmap(self.imageGlasses)
-
-      self.lblIphone.setPixmap(QPixmap(BLANK))
-      self.lblCycle.setPixmap(QPixmap(BLANK))
-      self.lblFootball.setPixmap(QPixmap(BLANK))
-      self.lblGlasses.setPixmap(QPixmap(BLANK))
-      self.lblIT.setPixmap(QPixmap(BLANK))
+      self.itemGrid.sortBy("Clothing")
 
    def ElecClick(self):
-      self.lblBag.setPixmap(self.imageIphone)
-
-      self.lblIphone.setPixmap(QPixmap(BLANK))
-      self.lblCycle.setPixmap(QPixmap(BLANK))
-      self.lblFootball.setPixmap(QPixmap(BLANK))
-      self.lblGlasses.setPixmap(QPixmap(BLANK))
-      self.lblIT.setPixmap(QPixmap(BLANK))
+      self.itemGrid.sortBy("Electronics")
 
    def addItemGrid(self):
       self.itemGrid = itemGrid(self)
@@ -638,11 +615,32 @@ class CartWindow(Window):
       self.addCartWidgets()
 
    def addCartWidgets(self):
+      self.hHeaderWidget = QWidget(self)                    #Header HBox widget
+      self.hHeaderWidget.setObjectName("hHeaderWidget")
+      self.hHeaderWidget.setMinimumWidth(WIDTH_CART_BOX)
+      self.hHeader = QHBoxLayout(self.hHeaderWidget)
+      self.hHeader.setObjectName("hHeader")
+      self.vbox.addWidget(self.hHeaderWidget)
+
       self.lblCartHeader = QLabel(self)             #Register label
       self.pixmapHeader = QPixmap(CART_TITLE)
       self.lblCartHeader.setPixmap(self.pixmapHeader)
-      self.lblCartHeader.setAlignment(Qt.AlignCenter)
-      self.vbox.addWidget(self.lblCartHeader)
+      self.lblCartHeader.setAlignment(Qt.AlignLeft)
+      self.hHeader.addWidget(self.lblCartHeader)
+
+      self.hHeader.addWidget(QLabel(self)) #spaces
+      self.hHeader.addWidget(QLabel(self))
+
+      self.vCheckoutWidget = QWidget(self)                    #Total & Checkout Box
+      self.vCheckoutWidget.setObjectName("vCheckoutWidget")
+      self.vCheckoutWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vCheckoutWidget.setMinimumWidth(WIDTH_CHECKOUT_BOX)
+      self.vCheckoutWidget.setMinimumHeight(HEIGHT_CHECKOUT_BOX)
+      self.roundCorners(10.0, self.vCheckoutWidget)
+      self.vCheckout = QVBoxLayout(self.vCheckoutWidget)
+      self.vCheckout.setObjectName("vCheckout")
+      self.vCheckout.setAlignment(Qt.AlignRight)
+      self.hHeader.addWidget(self.vCheckoutWidget)
 
       self.vbox.addWidget(QLabel(self))                       #Space
 
