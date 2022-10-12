@@ -221,7 +221,7 @@ class MainWindow(Window):
          self.menuAccount.addAction(self.actionLogout)
       
          #Wish List sub tabs
-         self.menuWish_List = QAction('Wish List', self.menubar)
+         self.menuWish_List = QAction('Wishlist', self.menubar)
          self.menuWish_List.setObjectName("menuWish_List")
          self.menuWish_List.triggered.connect(self.btnTemp)
          self.menubar.addAction(self.menuWish_List)
@@ -313,8 +313,12 @@ class MainWindow(Window):
    def btnTemp(self): #Placeholder on click function for post login menu buttons
       print("Clicked")
    
-   def btnCart_click(self): #Placeholder on click function for post login menu buttons
+   def btnCart_click(self): #Open cart window
       self.mydialog = CartWindow()
+      self.mydialog.show()
+
+   def btnWishlist_click(self): #Placeholder on click function for post login menu buttons
+      self.mydialog = WishlistWindow()
       self.mydialog.show()
    
    def btnHelp_click(self): #Help button clicked
@@ -626,11 +630,11 @@ ex = MainWindow() #create MainWindow object
 class CartWindow(Window):
    def __init__(self):
       super().__init__()
-
       self.title = "Cart"
-
       self.InitUI()
       self.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
+      self.vbox.setContentsMargins(MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM,MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM)
+      self.vbox.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
       self.addCartWidgets()
 
    def addCartWidgets(self):
@@ -641,6 +645,17 @@ class CartWindow(Window):
       self.vbox.addWidget(self.lblCartHeader)
 
       self.vbox.addWidget(QLabel(self))                       #Space
+
+      self.vCartWidget = QWidget(self)                    #Cart items
+      self.vCartWidget.setObjectName("vCartWidget")
+      self.vCartWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vCartWidget.setMinimumHeight(HEIGHT_CART_BOX)
+      self.vCartWidget.setMinimumWidth(WIDTH_CART_BOX)
+      self.roundCorners(10.0, self.vCartWidget)
+      self.vCart = QVBoxLayout(self.vCartWidget)
+      self.vCart.setObjectName("vCart")
+      self.vbox.addWidget(self.vCartWidget)
+      
 
 
 
