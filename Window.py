@@ -11,6 +11,7 @@ from user import *
 from login.encrypter import encrypt
 from login.verification import *
 from ItemGrid import *
+from cart import *
 
 logged = 2 #-1=external error, 0=logged in, 1=wrong details, 2=have not tried
 user=currUser()
@@ -52,7 +53,7 @@ class MainWindow(Window):
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
-      self.logged = 1 #0=logged in, 1=not logged in
+      self.logged = 0 #0=logged in, 1=not logged in TODO:change back to 1
       self.menubar = QMenuBar(self)
       self.menubar.setGeometry(QRect(0, 0, 1116, 21))
       self.menubar.setObjectName("menubar")
@@ -200,7 +201,7 @@ class MainWindow(Window):
          #Wish List sub tabs
          self.menuWish_List = QAction('Wishlist', self.menubar)
          self.menuWish_List.setObjectName("menuWish_List")
-         self.menuWish_List.triggered.connect(self.btnTemp)
+         self.menuWish_List.triggered.connect(self.btnWishlist_click)
          self.menubar.addAction(self.menuWish_List)
 
          #Cart sub tabs
@@ -295,8 +296,9 @@ class MainWindow(Window):
       self.mydialog.show()
 
    def btnWishlist_click(self): #Placeholder on click function for post login menu buttons
-      self.mydialog = WishlistWindow()
-      self.mydialog.show()
+      #self.mydialog = WishlistWindow()
+      #self.mydialog.show()
+      print(myWishlist.wishlist)
    
    def btnHelp_click(self): #Help button clicked
       #TODO: add help
@@ -608,6 +610,7 @@ class CartWindow(Window):
    def __init__(self):
       super().__init__()
       self.title = "Cart"
+
       self.InitUI()
       self.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
       self.vbox.setContentsMargins(MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM,MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM)
@@ -636,28 +639,152 @@ class CartWindow(Window):
       self.vCheckoutWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vCheckoutWidget.setMinimumWidth(WIDTH_CHECKOUT_BOX)
       self.vCheckoutWidget.setMinimumHeight(HEIGHT_CHECKOUT_BOX)
-      self.roundCorners(10.0, self.vCheckoutWidget)
+      self.roundCorners(9.0, self.vCheckoutWidget)
       self.vCheckout = QVBoxLayout(self.vCheckoutWidget)
       self.vCheckout.setObjectName("vCheckout")
-      self.vCheckout.setAlignment(Qt.AlignRight)
+      self.vCheckout.setAlignment(Qt.AlignTop)
       self.hHeader.addWidget(self.vCheckoutWidget)
 
+      #total cost label
+      self.lblTotal = QLabel("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost), self)
+      self.lblTotal.setFont(QFont('AnyStyle', 14))
+      self.vCheckout.addWidget(self.lblTotal)
+
+      self.btncheckout = QPushButton("Checkout", self) #checkout button
+      self.btncheckout.setObjectName("btnCheckout")
+      self.btncheckout.setFont(QFont('AnyStyle', 12))
+      self.btncheckout.setMinimumWidth(WIDTH_CHECKOUT_BUTTON)
+      self.btncheckout.setMaximumHeight(HEIGHT_CHECKOUT_BUTTON-10)
+      self.btncheckout.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      self.roundCorners(6.0, self.btncheckout)
+      self.btncheckout.clicked.connect(self.btnCheckoutClick)
+      self.vCheckout.addWidget(self.btncheckout)
+
       self.vbox.addWidget(QLabel(self))                       #Space
+
+      height_grid_scroll = int(math.ceil(len(myCart.cartList))) * MAX_HEIGHT_ITEM_CART
 
       self.vCartWidget = QWidget(self)                    #Cart items
       self.vCartWidget.setObjectName("vCartWidget")
       self.vCartWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
-      self.vCartWidget.setMinimumHeight(HEIGHT_CART_BOX)
-      self.vCartWidget.setMinimumWidth(WIDTH_CART_BOX)
+      self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
       self.roundCorners(10.0, self.vCartWidget)
       self.vCart = QVBoxLayout(self.vCartWidget)
       self.vCart.setObjectName("vCart")
-      self.vbox.addWidget(self.vCartWidget)
+
+      self.scrollArea = QScrollArea(self) #scrollable grid
+      self.scrollArea.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 8px; border-style: outset;")
+      self.scrollArea.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX, HEIGHT_CART_BOX))
+      self.scrollArea.setWidget(self.vCartWidget)
+      self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+      self.roundCorners(10.0, self.scrollArea)
       
+      for myProduct in myCart.cartList:
+         self.addNewItem(myCart.get_item(myProduct))
 
+   def addNewItem(self, item):
+      def removeItem(event):
+         myCart.remove_item(item[0])
+         self.updateCost()
 
+         for i in reversed(range(self.vCart.count())): 
+            self.vCart.itemAt(i).widget().setParent(None)
 
+         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART
+         self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
 
+            
+         for myProduct in myCart.cartList:
+            self.addNewItem(myCart.get_item(myProduct))
+
+      def moveToWishlist(event):
+         myWishlist.add_item(myCart.get_item(item[0]))
+         myCart.remove_item(item[0])
+         self.updateCost()
+
+         for i in reversed(range(self.vCart.count())): 
+            self.vCart.itemAt(i).widget().setParent(None)
+
+         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART
+         self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
+
+            
+         for myProduct in myCart.cartList:
+            self.addNewItem(myCart.get_item(myProduct))
+
+      hItemBoxWidget = QWidget(self) #horizontal layout to store item info
+      hItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      hItemBoxWidget.setMaximumHeight(MAX_HEIGHT_ITEM_CART)
+      hItemBox = QHBoxLayout(hItemBoxWidget)  
+      self.vCart.addWidget(hItemBoxWidget)
+
+      #image
+      mainImage = QPixmap(item[5])
+      lblProduct = QLabel(self)
+      lblProduct.setMaximumSize(MAX_HEIGHT_ITEM_CART,MAX_HEIGHT_ITEM_CART)
+      lblProduct.setPixmap(mainImage)
+      lblProduct.setScaledContents(True)
+      hItemBox.addWidget(lblProduct)
+
+      #name and price 
+      vNameWidget = QWidget(self) #vertical layout to store item info
+      vNameWidget.setObjectName("vNameWidget")
+      vName = QVBoxLayout(vNameWidget)
+      vName.setObjectName("vName")
+      hItemBox.addWidget(vNameWidget)
+
+      lblName = QLabel(item[1], vNameWidget)
+      lblName.setFont(QFont('AnyStyle', 14))
+      vName.addWidget(lblName)
+
+      lblPrice = QLabel("R" + str(item[2]), vNameWidget)
+      lblPrice.setFont(QFont('AnyStyle', 14))
+      vName.addWidget(lblPrice)
+
+      hItemBox.addWidget(QLabel(self))                       #Space
+      hItemBox.addWidget(QLabel(self))                       #Space
+
+      #move to wishlist
+      vWishWidget = QWidget(self) #vertical layout to store item info
+      vWish = QVBoxLayout(vWishWidget)
+      vWish.setAlignment(Qt.AlignCenter)
+      hItemBox.addWidget(vWishWidget)
+
+      lblWish = QLabel(self)                     #Wish Icon
+      lblWish.setPixmap(QPixmap(WISHLIST))
+      lblWish.setAlignment(Qt.AlignHCenter)
+      lblWish.mousePressEvent = moveToWishlist
+      vWish.addWidget(lblWish)
+
+      lblWishText = QLabel("Wishlist instead", self)          #Wish text
+      lblWishText.setFont(QFont('AnyStyle', 12))
+      lblWishText.setAlignment(Qt.AlignHCenter)
+      lblWishText.mousePressEvent = moveToWishlist
+      vWish.addWidget(lblWishText)
+
+      # #remove
+      vRemoveWidget = QWidget(self) #vertical layout to store item info
+      vRemove = QVBoxLayout(vRemoveWidget)
+      vRemove.setAlignment(Qt.AlignCenter)
+      hItemBox.addWidget(vRemoveWidget)
+
+      lblBin = QLabel(self)                           #Remove Icon
+      lblBin.setPixmap(QPixmap(BIN))
+      lblBin.mousePressEvent = removeItem
+      lblBin.setAlignment(Qt.AlignHCenter)
+      vRemove.addWidget(lblBin)
+
+      lblRemoveText = QLabel("Remove", self)       #Remove text
+      lblRemoveText.setFont(QFont('AnyStyle', 12))
+      lblRemoveText.setAlignment(Qt.AlignHCenter)
+      lblRemoveText.mousePressEvent = removeItem
+      vRemove.addWidget(lblRemoveText)
+
+   def btnCheckoutClick(self):
+      print("Thank you for shopping!")
+
+   def updateCost(self):
+      self.lblTotal.setText("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost))
 
 
 #-------------------------------------------------------------------------------------Start Program

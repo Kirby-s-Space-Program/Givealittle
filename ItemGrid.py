@@ -3,19 +3,21 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from configurations import *
 from database import *
+from cart import *
 import math
 
 class itemGrid(QWidget):
     def __init__(self, parentWindow): #parentWidnow is the mainWindow object to be passed as a parameter 
       super ().__init__()
       self.parentWindow = parentWindow
+      self.allProducts = {}
       self.row = 0
       self.column = 0
       self.addGrid()
 
     def addGrid(self): 
-      allProducts = getProductList()
-      height_grid_scroll = int(math.ceil(len(allProducts)/3)) * MAX_HEIGHT_ITEM
+      self.allProducts = getProductList()
+      height_grid_scroll = int(math.ceil(len(self.allProducts)/3)) * MAX_HEIGHT_ITEM
 
       self.GridWidget = QWidget(self.parentWindow) #grid to contain vertical layouts
       self.GridWidget.setGeometry(QRect(LEFT_GRID, TOP_GRID, WIDTH_GRID-20, height_grid_scroll))
@@ -24,15 +26,15 @@ class itemGrid(QWidget):
       self.Grid = QGridLayout(self.GridWidget)
       self.Grid.setObjectName("Grid")
 
-      self.scrollArea = QScrollArea(self.parentWindow)
+      self.scrollArea = QScrollArea(self.parentWindow) #scrollable grid
       self.scrollArea.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 8px; border-style: outset;")
       self.scrollArea.setGeometry(QRect(LEFT_GRID, TOP_GRID, WIDTH_GRID, HEIGHT_GRID))
       self.scrollArea.setWidget(self.GridWidget)
       self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
       self.parentWindow.roundCorners(10.0, self.scrollArea)
       
-      if(allProducts!=-1):
-        for myProduct in allProducts:
+      if(self.allProducts!=-1):
+        for myProduct in self.allProducts:
           self.addNewItem(myProduct)
           self.row+=1
           if(self.row==3):
@@ -40,11 +42,17 @@ class itemGrid(QWidget):
             self.row=0
 
     def addNewItem(self, item):
-      vItemBoxWidget = QWidget(self.GridWidget) #grid to contain vertical layouts
+      def addToCart(event):
+        myCart.add_item(item)
+
+      def addToWishlist(event):
+        myWishlist.add_item(item)
+
+      vItemBoxWidget = QWidget(self.GridWidget) #vertical layout to store item info
       vItemBoxWidget.setObjectName("vItemBoxWidget")
       vItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       vItemBoxWidget.setMaximumHeight(MAX_HEIGHT_ITEM)
-      vItemBox = QVBoxLayout(vItemBoxWidget)  #vertical layout to store items
+      vItemBox = QVBoxLayout(vItemBoxWidget)
       vItemBox.setObjectName("vItemBox")
       self.Grid.addWidget(vItemBoxWidget, self.column, self.row)
 
@@ -71,6 +79,7 @@ class itemGrid(QWidget):
       lblProduct = QLabel(self)
       lblProduct.setAlignment(Qt.AlignCenter)
       lblProduct.setPixmap(mainImage)
+      lblProduct.setScaledContents(True)
       vItemBox.addWidget(lblProduct)
 
       #wishlist and carts
@@ -83,12 +92,15 @@ class itemGrid(QWidget):
       lblCart = QLabel(hWishLayoutWidget)
       lblCart.setPixmap(QPixmap(CART))
       lblCart.setAlignment(Qt.AlignCenter)
+      lblCart.mousePressEvent = addToCart
+      hWishLayout.addWidget(lblCart)
+      
       lblWish = QLabel(hWishLayoutWidget)
       lblWish.setPixmap(QPixmap(WISHLIST))
       lblWish.setAlignment(Qt.AlignCenter)
+      lblWish.mousePressEvent = addToWishlist
       hWishLayout.addWidget(lblWish)
-      hWishLayout.addWidget(lblCart)
-    
+
     def sortBy(self, department):
       for i in reversed(range(self.Grid.count())): 
         self.Grid.itemAt(i).widget().setParent(None)
@@ -96,12 +108,12 @@ class itemGrid(QWidget):
       self.row = 0
       self.column = 0
 
-      sortedProdcuts = categoryList(department)
-      height_grid_scroll = int(math.ceil(len(sortedProdcuts)/3)) * MAX_HEIGHT_ITEM
+      self.allProducts = categoryList(department)
+      height_grid_scroll = int(math.ceil(len(self.allProducts)/3)) * MAX_HEIGHT_ITEM
       self.GridWidget.setGeometry(QRect(LEFT_GRID, TOP_GRID, WIDTH_GRID-20, height_grid_scroll))
 
-      if(sortedProdcuts!=-1):
-        for myProduct in sortedProdcuts:
+      if(self.allProducts!=-1):
+        for myProduct in self.allProducts:
           self.addNewItem(myProduct)
           self.row+=1
           if(self.row==3):
