@@ -11,6 +11,7 @@ from user import *
 from login.encrypter import encrypt
 from login.verification import *
 from ItemGrid import *
+from cart import *
 
 logged = 2 #-1=external error, 0=logged in, 1=wrong details, 2=have not tried
 user=currUser()
@@ -608,11 +609,13 @@ class CartWindow(Window):
    def __init__(self):
       super().__init__()
       self.title = "Cart"
+
       self.InitUI()
       self.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
       self.vbox.setContentsMargins(MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM,MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM)
       self.vbox.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
       self.addCartWidgets()
+      
 
    def addCartWidgets(self):
       self.hHeaderWidget = QWidget(self)                    #Header HBox widget
@@ -636,11 +639,20 @@ class CartWindow(Window):
       self.vCheckoutWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.vCheckoutWidget.setMinimumWidth(WIDTH_CHECKOUT_BOX)
       self.vCheckoutWidget.setMinimumHeight(HEIGHT_CHECKOUT_BOX)
+      self.vCheckoutWidget.setContentsMargins(HLAYOUT_SPACING,HLAYOUT_SPACING,2*HLAYOUT_SPACING,HLAYOUT_SPACING)
       self.roundCorners(10.0, self.vCheckoutWidget)
       self.vCheckout = QVBoxLayout(self.vCheckoutWidget)
       self.vCheckout.setObjectName("vCheckout")
       self.vCheckout.setAlignment(Qt.AlignRight)
       self.hHeader.addWidget(self.vCheckoutWidget)
+
+      #total cost label
+      self.lblTotal = QLabel("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost), self)
+      self.lblTotal.setFont(QFont('AnyStyle', 14))
+      self.lblTotal.setAlignment(Qt.AlignCenter)
+      self.vCheckout.addWidget(self.lblTotal)
+
+      #self.btncheckout = QPush TODO: checkout button
 
       self.vbox.addWidget(QLabel(self))                       #Space
 
@@ -653,9 +665,6 @@ class CartWindow(Window):
       self.vCart = QVBoxLayout(self.vCartWidget)
       self.vCart.setObjectName("vCart")
       self.vbox.addWidget(self.vCartWidget)
-      
-
-
 
 
 
