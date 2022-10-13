@@ -14,3 +14,5 @@ class currUser:
         
     def get_Name(self):
         return self.fName
+
+myuser=currUser()
