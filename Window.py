@@ -783,7 +783,6 @@ class CartWindow(Window):
    def updateCost(self):
       self.lblTotal.setText("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost))
 
-
 #-------------------------------------------------------------------------------------Start Program
 def createMain():
    app = QApplication(sys.argv)          
