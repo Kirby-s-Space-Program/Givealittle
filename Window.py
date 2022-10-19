@@ -18,6 +18,7 @@ class Window(QWidget):
       self.title = "Kirby's Marketplace" #define window attributes
       self.left = LEFT_SUB
       self.top = TOP_SUB
+      self.widgetWidth = int(3*WIDTH_SUB/5)
       self.width = WIDTH_SUB
       self.height = HEIGHT_SUB
       self.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
@@ -39,6 +40,28 @@ class Window(QWidget):
       mask = QRegion(path.toFillPolygon().toPolygon())
       widget.setMask(mask)
 
+   def addInputWidget(self, text):
+      vboxWidget = QWidget(self)                    #Vbox 
+      vboxWidget.setObjectName("vboxWidget")
+      vboxWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      vboxWidget.setMinimumWidth(self.widgetWidth)
+      vboxWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      vboxInput = QVBoxLayout(vboxWidget)
+      vboxInput.setObjectName("vboxInput")
+      self.roundCorners(15.0, vboxWidget)
+      self.vbox.addWidget(vboxWidget)
+
+      lblTitle= QLabel(text, vboxWidget)     #Title
+      lblTitle.setFont(QFont('AnyStyle', 15))
+      vboxInput.addWidget(lblTitle)
+
+      ledtInput = QLineEdit(vboxWidget)    #Input box
+      ledtInput.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      ledtInput.setMinimumWidth(int(19*self.widgetWidth/20))
+      ledtInput.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, ledtInput)
+      vboxInput.addWidget(ledtInput)
+
 #-----------------------------------------------------------------------------------------Subclass MainWindow
 class MainWindow(Window): 
    def __init__(self):
@@ -47,7 +70,7 @@ class MainWindow(Window):
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
-      self.logged = 1 #0=logged in, 1=not logged in
+      self.logged = 0 #0=logged in, 1=not logged in TODO: change back to 1
       self.menubar = QMenuBar(self)
       self.menubar.setGeometry(QRect(0, 0, 1116, 21))
       self.menubar.setObjectName("menubar")
@@ -324,6 +347,7 @@ class LoginWindow(Window):
       self.lblLoginHeader.setPixmap(self.pixmapHeader)
       self.vbox.addWidget(self.lblLoginHeader)
 
+      self.widgetWidth = self.pixmapHeader.width()  #set widget width
       self.vbox.addWidget(QLabel(self))                       #Space
 
       self.vboxEmailWidget = QWidget(self)                    #Email
@@ -394,7 +418,7 @@ class LoginWindow(Window):
       logged = login(email, password)
       
       if(not logged):
-         user = currUser(email=email)
+         myUser = currUser(email=email)
          print("Login successful")
          ex.addNewMenu()
          self.close()
@@ -763,7 +787,7 @@ class CartWindow(Window):
       lblWishText.mousePressEvent = moveToWishlist
       vWish.addWidget(lblWishText)
 
-      # #remove
+      #remove
       vRemoveWidget = QWidget(self) #vertical layout to store item info
       vRemove = QVBoxLayout(vRemoveWidget)
       vRemove.setAlignment(Qt.AlignRight)
@@ -782,10 +806,96 @@ class CartWindow(Window):
       vRemove.addWidget(lblRemoveText)
 
    def btnCheckoutClick(self):
-      print("Thank you for shopping!")
+      self.myDialog = CheckoutWindow()
+      self.myDialog.show()
+      #print("Thank you for shopping!")
 
    def updateCost(self):
       self.lblTotal.setText("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost))
+
+#-------------------------------------------------------------------------------------Checkout window
+class CheckoutWindow(Window):
+   def __init__(self):
+      super ().__init__()
+      self.title = "Checkout"
+      self.addHeader()
+      self.addWidgets()
+      
+   def addHeader(self):             #Details header label
+      self.lblCheckoutHeader = QLabel(self)             
+      self.pixmapHeader = QPixmap(CHECKOUT_TITLE)
+      self.lblCheckoutHeader.setPixmap(self.pixmapHeader)
+      self.lblCheckoutHeader.setAlignment(Qt.AlignHCenter)
+      self.vbox.addWidget(self.lblCheckoutHeader)
+
+   def addWidgets(self):
+      self.vbox.setAlignment(Qt.AlignTop)
+      self.vbox.addWidget(QLabel(self))                  #Space
+
+      self.vNameWidget = QWidget(self)                    #Name & Surname
+      self.vNameWidget.setObjectName("vNameWidget")
+      self.vName = QVBoxLayout(self.vNameWidget)
+      self.vName.setObjectName("vName")
+      self.vNameWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      self.vNameWidget.setMinimumWidth(self.pixmapHeader.width())
+      self.vNameWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      self.roundCorners(14.0, self.vNameWidget)
+      self.vbox.addWidget(self.vNameWidget)
+
+      self.lblName= QLabel('Name & Surname', self.vNameWidget)
+      self.lblName.setFont(QFont('AnyStyle', 14))
+      self.vName.addWidget(self.lblName)
+
+      self.ledtName = QLineEdit(self.vNameWidget)
+      self.ledtName.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      self.ledtName.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
+      self.ledtName.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, self.ledtName)
+      self.vName.addWidget(self.ledtName)
+
+      self.vboxEmailWidget = QWidget(self)                    #Email
+      self.vboxEmailWidget.setObjectName("vboxEmailWidget")
+      self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
+      self.vboxEmail.setObjectName("vboxEmail")
+      self.vboxEmailWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      self.vboxEmailWidget.setMinimumWidth(self.pixmapHeader.width())
+      self.vboxEmailWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      self.roundCorners(14.0, self.vboxEmailWidget)
+      self.vbox.addWidget(self.vboxEmailWidget)
+
+      self.lblEmail= QLabel('Email', self.vboxEmailWidget)
+      self.lblEmail.setFont(QFont('AnyStyle', 14))
+      self.vboxEmail.addWidget(self.lblEmail)
+
+      self.ledtEmail = QLineEdit(self.vboxEmailWidget)
+      self.ledtEmail.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      self.ledtEmail.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
+      self.ledtEmail.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, self.ledtEmail)
+      self.vboxEmail.addWidget(self.ledtEmail)
+
+      self.vCellNumberWidget = QWidget(self)                    #Cell Number
+      self.vCellNumberWidget.setObjectName("vCellNumberWidget")
+      self.vCellNumber = QVBoxLayout(self.vCellNumberWidget)
+      self.vCellNumber.setObjectName("vCellNumber")
+      self.vCellNumberWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      self.vCellNumberWidget.setMinimumWidth(self.pixmapHeader.width())
+      self.vCellNumberWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      self.roundCorners(14.0, self.vCellNumberWidget)
+      self.vbox.addWidget(self.vCellNumberWidget)
+
+      self.lblPass= QLabel('Cell Number', self.vCellNumberWidget)
+      self.lblPass.setFont(QFont('AnyStyle', 14))
+      self.vCellNumber.addWidget(self.lblPass)
+
+      self.ledtPass = QLineEdit(self.vCellNumberWidget)
+      self.ledtPass.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      self.ledtPass.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
+      self.ledtPass.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, self.ledtPass)
+      self.vCellNumber.addWidget(self.ledtPass)
+
+      self.addInputWidget("Name & Surname")
 
 #-------------------------------------------------------------------------------------Wishlist window
 class WishlistWindow(Window):
