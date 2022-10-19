@@ -75,9 +75,9 @@ class MainWindow(Window):
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
-      self.logged = 0 #0=logged in, 1=not logged in TODO: change back to 1
+      self.logged = 1 #0=logged in, 1=not logged in
       self.menubar = QMenuBar(self)
-      self.menubar.setGeometry(QRect(0, 0, 1116, 21))
+      self.menubar.setGeometry(QRect(0, 0, 1115, 20))
       self.menubar.setObjectName("menubar")
 
       self.InitUI()
@@ -280,7 +280,6 @@ class MainWindow(Window):
       self.hboxSearch.setObjectName("hboxSearch")
       self.hboxSearchWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.roundCorners(10.0, self.hboxSearchWidget)
-      #self.hboxSearchWidget.move(QCursor.pos())                                    #Set object position to mouse position
 
       self.ledtSearch = QLineEdit(self.hboxSearchWidget)
       self.ledtSearch.setPlaceholderText("Search for products")
@@ -396,7 +395,7 @@ class LoginWindow(Window):
       logged = login(email, password)
       
       if(not logged):
-         myUser = currUser(email=email)
+         myUser.Login(email)
          print("Login successful")
          ex.addNewMenu()
          self.close()
@@ -503,7 +502,7 @@ class RegisterWindow(Window):
          snhpassword, salt = encrypt(password)
          reg = register(fname,surname,email,snhpassword, salt)
          if(not reg):
-            myUser = currUser(email=email)
+            myUser.Login(email)
             print("Successfully Registered")
             ex.addNewMenu()
             self.close()
@@ -695,7 +694,7 @@ class CartWindow(Window):
    def btnCheckoutClick(self):
       self.myDialog = CheckoutWindow()
       self.myDialog.show()
-      #print("Thank you for shopping!")
+      self.close() #TODO: Should it close cart window or nah?
 
    def updateCost(self):
       self.lblTotal.setText("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost))
@@ -724,8 +723,10 @@ class CheckoutWindow(Window):
       self.vbox.addWidget(QLabel())
 
       self.ledtName = self.addInputWidget("Name & Surname")       #Name & Surname
+      self.ledtName.setText(myUser.get_Name() + " " + myUser.get_Surname())
 
       self.ledtEmail = self.addInputWidget("Email")               #Email
+      self.ledtEmail.setText(myUser.get_Email())
 
       self.ledtCellNumber = self.addInputWidget("Cell Number")    #Cell Number
 
@@ -735,6 +736,42 @@ class CheckoutWindow(Window):
       self.cbProvince.setMinimumWidth(self.widgetWidth2)
       self.roundCorners(8.0, self.cbProvince)
       self.ledtProvince.setCursor(Qt.PointingHandCursor)
+
+      self.ledtAddress = self.addInputWidget("Address")           #Address
+
+      self.ledtPostalCode = self.addInputWidget("Postal Code")    #Postal Code
+
+      self.vbox.addWidget(QLabel())                           #Space
+
+      self.vCheckoutWidget = QWidget(self)                    #Total & Checkout Box
+      self.vCheckoutWidget.setObjectName("vCheckoutWidget")
+      self.vCheckoutWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vCheckoutWidget.setMinimumWidth(self.widgetWidth1)
+      self.vCheckoutWidget.setMinimumHeight(HEIGHT_CHECKOUT_BOX)
+      self.roundCorners(9.0, self.vCheckoutWidget)
+      self.vCheckout = QVBoxLayout(self.vCheckoutWidget)
+      self.vCheckout.setObjectName("vCheckout")
+      self.vCheckout.setAlignment(Qt.AlignHCenter)
+      self.vbox.addWidget(self.vCheckoutWidget)
+
+      #total cost label
+      self.lblTotal = QLabel("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost), self)
+      self.lblTotal.setFont(QFont('AnyStyle', 14))
+      self.vCheckout.addWidget(self.lblTotal)
+
+      self.btncheckout = QPushButton("Checkout", self) #checkout button
+      self.btncheckout.setObjectName("btnCheckout")
+      self.btncheckout.setFont(QFont('AnyStyle', 12))
+      self.btncheckout.setMinimumWidth(WIDTH_CHECKOUT_BUTTON)
+      self.btncheckout.setMaximumHeight(HEIGHT_CHECKOUT_BUTTON-10)
+      self.btncheckout.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      self.roundCorners(6.0, self.btncheckout)
+      self.btncheckout.clicked.connect(self.btnCheckoutClick)
+      self.btncheckout.setCursor(Qt.PointingHandCursor)
+      self.vCheckout.addWidget(self.btncheckout)
+
+   def btnCheckoutClick(self):
+      print("Thank you for shopping!")
 
 #-------------------------------------------------------------------------------------Wishlist window
 class WishlistWindow(Window):
