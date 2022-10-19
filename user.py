@@ -19,8 +19,19 @@ class currUser:
         self.cart = myCart #users cart
         self.wishlist = myWishlist #users wishlist
 
-        
+    def Login(self, email):
+        userInfo = database.getUserInfo(email)
+        self.fName = userInfo[0]
+        self.surname = userInfo[1]
+        self.password = userInfo[3]
+
     def get_Name(self):
         return self.fName
+
+    def get_Surname(self):
+        return self.surname
+
+    def get_Email(self):
+        return self.email
 
 myUser=currUser()

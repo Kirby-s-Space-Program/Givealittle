@@ -93,12 +93,14 @@ class itemGrid(QWidget):
       lblCart.setPixmap(QPixmap(CART))
       lblCart.setAlignment(Qt.AlignCenter)
       lblCart.mousePressEvent = addToCart
+      lblCart.setCursor(Qt.PointingHandCursor)
       hWishLayout.addWidget(lblCart)
       
       lblWish = QLabel(hWishLayoutWidget)
       lblWish.setPixmap(QPixmap(WISHLIST))
       lblWish.setAlignment(Qt.AlignCenter)
       lblWish.mousePressEvent = addToWishlist
+      lblWish.setCursor(Qt.PointingHandCursor)
       hWishLayout.addWidget(lblWish)
 
     def sortBy(self, department):
