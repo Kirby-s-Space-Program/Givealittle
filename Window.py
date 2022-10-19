@@ -115,11 +115,13 @@ class MainWindow(Window):
       self.lblSport = QLabel(self.hSportLayoutWidget)
       self.lblSport.setPixmap(QPixmap(BALL))
       self.lblSport.setAlignment(Qt.AlignCenter)
+      self.lblSport.setCursor(Qt.PointingHandCursor)
       self.hSportLayout.addWidget(self.lblSport)
 
       self.btnSport = QPushButton("Sport", self.hSportLayoutWidget)
       self.btnSport.setFont(QFont('AnyStyle', 15))
       self.btnSport.clicked.connect(self.SportClick)
+      self.btnSport.setCursor(Qt.PointingHandCursor)
       self.hSportLayout.addWidget(self.btnSport)
 
       self.hSportLayout.addWidget(QLabel(self))                       #Space
@@ -135,11 +137,13 @@ class MainWindow(Window):
       self.lblBook = QLabel(self.hBookLayoutWidget)
       self.lblBook.setPixmap(QPixmap(BOOK))
       self.lblBook.setAlignment(Qt.AlignCenter)
+      self.lblBook.setCursor(Qt.PointingHandCursor)
       self.hBookLayout.addWidget(self.lblBook)
 
       self.btnBook= QPushButton("Books", self.hBookLayoutWidget)
       self.btnBook.setFont(QFont('AnyStyle', 15))
       self.btnBook.clicked.connect(self.BookClick)
+      self.btnBook.setCursor(Qt.PointingHandCursor)
       self.hBookLayout.addWidget(self.btnBook)
 
       self.hBookLayout.addWidget(QLabel(self))                       #Space
@@ -155,11 +159,13 @@ class MainWindow(Window):
       self.lblClothing = QLabel(self.hClothingLayoutWidget)
       self.lblClothing.setPixmap(QPixmap(SHIRT))
       self.lblClothing.setAlignment(Qt.AlignCenter)
+      self.lblClothing.setCursor(Qt.PointingHandCursor)
       self.hClothingLayout.addWidget(self.lblClothing)
 
       self.btnClothing = QPushButton("Clothing", self.hClothingLayoutWidget)
       self.btnClothing.setFont(QFont('AnyStyle', 15))
       self.btnClothing.clicked.connect(self.ClothingClick)
+      self.btnClothing.setCursor(Qt.PointingHandCursor)
       self.hClothingLayout.addWidget(self.btnClothing)
 
       self.hClothingLayout.addWidget(QLabel(self))                       #Space
@@ -175,11 +181,13 @@ class MainWindow(Window):
       self.lblElec = QLabel(self.hElecLayoutWidget)
       self.lblElec.setPixmap(QPixmap(MOUSE))
       self.lblElec.setAlignment(Qt.AlignCenter)
+      self.lblElec.setCursor(Qt.PointingHandCursor)
       self.hElecLayout.addWidget(self.lblElec)
 
       self.btnElec = QPushButton("Electronics", self.hElecLayoutWidget)
       self.btnElec.setFont(QFont('AnyStyle', 15))
       self.btnElec.clicked.connect(self.ElecClick)
+      self.btnElec.setCursor(Qt.PointingHandCursor)
       self.hElecLayout.addWidget(self.btnElec)
 
       self.hElecLayout.addWidget(QLabel(self))                       #Space
@@ -288,6 +296,7 @@ class MainWindow(Window):
       self.btnSearch.setMaximumHeight(HEIGHT_SEARCH)
       self.btnSearch.clicked.connect(self.btnTemp)
       self.btnSearch.setStyleSheet("background-image : url(" + SEARCH + ");")
+      self.btnSearch.setCursor(Qt.PointingHandCursor)
       self.hboxSearch.addWidget(self.btnSearch)
 
    def addNewMenu(self):
@@ -378,6 +387,7 @@ class LoginWindow(Window):
       self.btnLogin.setMinimumWidth(2*MARGIN_BUTTON)
       self.roundCorners(6.0, self.btnLogin)
       self.btnLogin.clicked.connect(self.btnLogin_clicked)
+      self.btnLogin.setCursor(Qt.PointingHandCursor)
       self.hbox.addWidget(self.btnLogin)
 
    def btnLogin_clicked(self): #check login details
@@ -441,6 +451,7 @@ class RegisterWindow(Window):
       self.btnRegister.setMinimumWidth(4*MARGIN_BUTTON)
       self.roundCorners(6.0, self.btnRegister)
       self.btnRegister.clicked.connect(self.btnRegister_clicked)
+      self.btnRegister.setCursor(Qt.PointingHandCursor)
       self.hbox.addWidget(self.btnRegister)
 
    def btnRegister_clicked(self): #check login details
@@ -492,7 +503,7 @@ class RegisterWindow(Window):
          snhpassword, salt = encrypt(password)
          reg = register(fname,surname,email,snhpassword, salt)
          if(not reg):
-            user = currUser(email=email)
+            myUser = currUser(email=email)
             print("Successfully Registered")
             ex.addNewMenu()
             self.close()
@@ -554,11 +565,12 @@ class CartWindow(Window):
       self.btncheckout.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
       self.roundCorners(6.0, self.btncheckout)
       self.btncheckout.clicked.connect(self.btnCheckoutClick)
+      self.btncheckout.setCursor(Qt.PointingHandCursor)
       self.vCheckout.addWidget(self.btncheckout)
 
       self.vbox.addWidget(QLabel(self))                       #Space
 
-      height_grid_scroll = int(math.ceil(len(myCart.cartList))) * MAX_HEIGHT_ITEM_CART
+      height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART +20
 
       self.vCartWidget = QWidget(self)                    #Cart items
       self.vCartWidget.setObjectName("vCartWidget")
@@ -586,7 +598,7 @@ class CartWindow(Window):
          for i in reversed(range(self.vCart.count())): 
             self.vCart.itemAt(i).widget().setParent(None)
 
-         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART
+         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART +20
          self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
             
          for myProduct in myCart.cartList:
@@ -600,7 +612,7 @@ class CartWindow(Window):
          for i in reversed(range(self.vCart.count())): 
             self.vCart.itemAt(i).widget().setParent(None)
 
-         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART
+         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART +20
          self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
 
          for myProduct in myCart.cartList:
@@ -649,12 +661,14 @@ class CartWindow(Window):
       lblWish = QLabel(self)                     #Wish Icon
       lblWish.setPixmap(QPixmap(WISHLIST))
       lblWish.setAlignment(Qt.AlignHCenter)
+      lblWish.setCursor(Qt.PointingHandCursor)
       lblWish.mousePressEvent = moveToWishlist
       vWish.addWidget(lblWish)
 
       lblWishText = QLabel("Wishlist instead", self)          #Wish text
       lblWishText.setFont(QFont('AnyStyle', 12))
       lblWishText.setAlignment(Qt.AlignHCenter)
+      lblWishText.setCursor(Qt.PointingHandCursor)
       lblWishText.mousePressEvent = moveToWishlist
       vWish.addWidget(lblWishText)
 
@@ -668,12 +682,14 @@ class CartWindow(Window):
       lblBin.setPixmap(QPixmap(BIN))
       lblBin.mousePressEvent = removeItem
       lblBin.setAlignment(Qt.AlignHCenter)
+      lblBin.setCursor(Qt.PointingHandCursor)
       vRemove.addWidget(lblBin)
 
       lblRemoveText = QLabel("Remove", self)       #Remove text
       lblRemoveText.setFont(QFont('AnyStyle', 12))
       lblRemoveText.setAlignment(Qt.AlignHCenter)
       lblRemoveText.mousePressEvent = removeItem
+      lblRemoveText.setCursor(Qt.PointingHandCursor)
       vRemove.addWidget(lblRemoveText)
 
    def btnCheckoutClick(self):
@@ -713,6 +729,13 @@ class CheckoutWindow(Window):
 
       self.ledtCellNumber = self.addInputWidget("Cell Number")    #Cell Number
 
+      self.ledtProvince = self.addInputWidget("Province")         #Province
+      self.cbProvince = QComboBox(self.ledtProvince)
+      self.cbProvince.addItems(PROVINCES)
+      self.cbProvince.setMinimumWidth(self.widgetWidth2)
+      self.roundCorners(8.0, self.cbProvince)
+      self.ledtProvince.setCursor(Qt.PointingHandCursor)
+
 #-------------------------------------------------------------------------------------Wishlist window
 class WishlistWindow(Window):
    def __init__(self):
@@ -734,7 +757,7 @@ class WishlistWindow(Window):
 
       self.vbox.addWidget(QLabel(self))                       #Space
 
-      height_grid_scroll = int(math.ceil(len(myWishlist.wishlist))) * MAX_HEIGHT_ITEM_CART
+      height_grid_scroll = len(myWishlist.wishlist) * MAX_HEIGHT_ITEM_CART +20
 
       self.vCartWidget = QWidget(self)                    #Cart items
       self.vCartWidget.setObjectName("vCartWidget")
@@ -761,7 +784,7 @@ class WishlistWindow(Window):
          for i in reversed(range(self.vCart.count())): 
             self.vCart.itemAt(i).widget().setParent(None)
 
-         height_grid_scroll = len(myWishlist.wishlist) * MAX_HEIGHT_ITEM_CART
+         height_grid_scroll = len(myWishlist.wishlist) * MAX_HEIGHT_ITEM_CART +20
          self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
             
          for myProduct in myWishlist.wishlist:
@@ -774,7 +797,7 @@ class WishlistWindow(Window):
          for i in reversed(range(self.vCart.count())): 
             self.vCart.itemAt(i).widget().setParent(None)
 
-         height_grid_scroll = len(myWishlist.wishlist) * MAX_HEIGHT_ITEM_CART
+         height_grid_scroll = len(myWishlist.wishlist) * MAX_HEIGHT_ITEM_CART +20
          self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
 
          for myProduct in myWishlist.wishlist:
@@ -824,12 +847,14 @@ class WishlistWindow(Window):
       lblWish.setPixmap(QPixmap(CART))
       lblWish.setAlignment(Qt.AlignHCenter)
       lblWish.mousePressEvent = addtoCart
+      lblWish.setCursor(Qt.PointingHandCursor)
       vWish.addWidget(lblWish)
 
       lblWishText = QLabel("Add to Cart", self)          #Wish text
       lblWishText.setFont(QFont('AnyStyle', 12))
       lblWishText.setAlignment(Qt.AlignHCenter)
       lblWishText.mousePressEvent = addtoCart
+      lblWishText.setCursor(Qt.PointingHandCursor)
       vWish.addWidget(lblWishText)
 
       # #remove
@@ -842,12 +867,14 @@ class WishlistWindow(Window):
       lblBin.setPixmap(QPixmap(BIN))
       lblBin.mousePressEvent = removeItem
       lblBin.setAlignment(Qt.AlignHCenter)
+      lblBin.setCursor(Qt.PointingHandCursor)
       vRemove.addWidget(lblBin)
 
       lblRemoveText = QLabel("Remove", self)       #Remove text
       lblRemoveText.setFont(QFont('AnyStyle', 12))
       lblRemoveText.setAlignment(Qt.AlignHCenter)
       lblRemoveText.mousePressEvent = removeItem
+      lblRemoveText.setCursor(Qt.PointingHandCursor)
       vRemove.addWidget(lblRemoveText)
 
 #-------------------------------------------------------------------------------------Start Program
