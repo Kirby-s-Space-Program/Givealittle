@@ -1,4 +1,3 @@
-
 *.pyc
 __pycache__/Window.cpython-310.pyc
 KirbysDatabase.db
