@@ -75,7 +75,7 @@ class MainWindow(Window):
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
-      self.logged = 1 #0=logged in, 1=not logged in TODO: change back to 1
+      self.logged = 0 #0=logged in, 1=not logged in TODO: change back to 1
       self.menubar = QMenuBar(self)
       self.menubar.setGeometry(QRect(0, 0, 1116, 21))
       self.menubar.setObjectName("menubar")
@@ -357,9 +357,9 @@ class LoginWindow(Window):
       
       self.vbox.addWidget(QLabel(self))                       #Space
 
-      self.addInputWidget("Email")                            #Email
+      self.ledtEmail = self.addInputWidget("Email")           #Email
 
-      self.addInputWidget("Password", isPass=True)            #Password
+      self.ledtPass = self.addInputWidget("Password", isPass=True)   #Password
 
       self.vbox.addWidget(QLabel(self))                       #Space
 
@@ -445,7 +445,6 @@ class RegisterWindow(Window):
 
    def btnRegister_clicked(self): #check login details
       fname = self.ledtFName.text()
-      print("name: ", fname)
       fNameCheck = checkFName(fname)
       if(fNameCheck==1):
          print("First name too long")
@@ -693,81 +692,26 @@ class CheckoutWindow(Window):
       self.addHeader()
       self.addWidgets()
       
-   def addHeader(self):             #Details header label
+   def addHeader(self):                                           #Details header label
       self.lblCheckoutHeader = QLabel(self)             
       self.pixmapHeader = QPixmap(CHECKOUT_TITLE)
       self.lblCheckoutHeader.setPixmap(self.pixmapHeader)
       self.lblCheckoutHeader.setAlignment(Qt.AlignHCenter)
       self.vbox.addWidget(self.lblCheckoutHeader)
 
+      self.widgetWidth1 = self.pixmapHeader.width()               #set widget width
+      self.widgetWidth2 = int(19*self.widgetWidth1/20)
+
    def addWidgets(self):
       self.vbox.setAlignment(Qt.AlignTop)
-      self.vbox.addWidget(QLabel(self))                  #Space
+      self.vbox.addWidget(QLabel())                           #Space
+      self.vbox.addWidget(QLabel())
 
-      self.vNameWidget = QWidget(self)                    #Name & Surname
-      self.vNameWidget.setObjectName("vNameWidget")
-      self.vName = QVBoxLayout(self.vNameWidget)
-      self.vName.setObjectName("vName")
-      self.vNameWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
-      self.vNameWidget.setMinimumWidth(self.pixmapHeader.width())
-      self.vNameWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
-      self.roundCorners(14.0, self.vNameWidget)
-      self.vbox.addWidget(self.vNameWidget)
+      self.ledtName = self.addInputWidget("Name & Surname")       #Name & Surname
 
-      self.lblName= QLabel('Name & Surname', self.vNameWidget)
-      self.lblName.setFont(QFont('AnyStyle', 14))
-      self.vName.addWidget(self.lblName)
+      self.ledtEmail = self.addInputWidget("Email")               #Email
 
-      self.ledtName = QLineEdit(self.vNameWidget)
-      self.ledtName.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
-      self.ledtName.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
-      self.ledtName.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
-      self.roundCorners(8.0, self.ledtName)
-      self.vName.addWidget(self.ledtName)
-
-      self.vboxEmailWidget = QWidget(self)                    #Email
-      self.vboxEmailWidget.setObjectName("vboxEmailWidget")
-      self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
-      self.vboxEmail.setObjectName("vboxEmail")
-      self.vboxEmailWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
-      self.vboxEmailWidget.setMinimumWidth(self.pixmapHeader.width())
-      self.vboxEmailWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
-      self.roundCorners(14.0, self.vboxEmailWidget)
-      self.vbox.addWidget(self.vboxEmailWidget)
-
-      self.lblEmail= QLabel('Email', self.vboxEmailWidget)
-      self.lblEmail.setFont(QFont('AnyStyle', 14))
-      self.vboxEmail.addWidget(self.lblEmail)
-
-      self.ledtEmail = QLineEdit(self.vboxEmailWidget)
-      self.ledtEmail.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
-      self.ledtEmail.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
-      self.ledtEmail.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
-      self.roundCorners(8.0, self.ledtEmail)
-      self.vboxEmail.addWidget(self.ledtEmail)
-
-      self.vCellNumberWidget = QWidget(self)                    #Cell Number
-      self.vCellNumberWidget.setObjectName("vCellNumberWidget")
-      self.vCellNumber = QVBoxLayout(self.vCellNumberWidget)
-      self.vCellNumber.setObjectName("vCellNumber")
-      self.vCellNumberWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
-      self.vCellNumberWidget.setMinimumWidth(self.pixmapHeader.width())
-      self.vCellNumberWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
-      self.roundCorners(14.0, self.vCellNumberWidget)
-      self.vbox.addWidget(self.vCellNumberWidget)
-
-      self.lblPass= QLabel('Cell Number', self.vCellNumberWidget)
-      self.lblPass.setFont(QFont('AnyStyle', 14))
-      self.vCellNumber.addWidget(self.lblPass)
-
-      self.ledtPass = QLineEdit(self.vCellNumberWidget)
-      self.ledtPass.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
-      self.ledtPass.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
-      self.ledtPass.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
-      self.roundCorners(8.0, self.ledtPass)
-      self.vCellNumber.addWidget(self.ledtPass)
-
-      self.addInputWidget("Name & Surname")
+      self.ledtCellNumber = self.addInputWidget("Cell Number")    #Cell Number
 
 #-------------------------------------------------------------------------------------Wishlist window
 class WishlistWindow(Window):
