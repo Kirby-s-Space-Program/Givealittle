@@ -10,9 +10,6 @@ from login.verification import *
 from ItemGrid import *
 from cart import *
 
-logged = 2 #-1=external error, 0=logged in, 1=wrong details, 2=have not tried
-user=currUser()
-
 #-------------------------------------------------------------------------------------Base Class Window
 class Window(QWidget):  
    def __init__(self):
@@ -21,6 +18,8 @@ class Window(QWidget):
       self.title = "Kirby's Marketplace" #define window attributes
       self.left = LEFT_SUB
       self.top = TOP_SUB
+      self.widgetWidth1 = WIDTH_SUB_VBOX
+      self.widgetWidth2 = int(4*WIDTH_SUB_VBOX/5)
       self.width = WIDTH_SUB
       self.height = HEIGHT_SUB
       self.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
@@ -42,6 +41,32 @@ class Window(QWidget):
       mask = QRegion(path.toFillPolygon().toPolygon())
       widget.setMask(mask)
 
+   def addInputWidget(self, text, **kwargs):
+      password = kwargs.get('isPass', False)
+
+      vboxWidget = QWidget(self)                    #Vbox 
+      vboxWidget.setObjectName("vboxWidget")
+      vboxWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
+      vboxWidget.setMinimumWidth(self.widgetWidth1)
+      vboxWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
+      vboxInput = QVBoxLayout(vboxWidget)
+      vboxInput.setObjectName("vboxInput")
+      self.roundCorners(15.0, vboxWidget)
+      self.vbox.addWidget(vboxWidget)
+
+      lblTitle= QLabel(text, vboxWidget)     #Title
+      lblTitle.setFont(QFont('AnyStyle', 15))
+      vboxInput.addWidget(lblTitle)
+
+      ledtInput = QLineEdit(vboxWidget)    #Input box
+      ledtInput.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
+      if password: ledtInput.setEchoMode(QLineEdit.Password)
+      ledtInput.setMinimumWidth(self.widgetWidth2)
+      ledtInput.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
+      self.roundCorners(8.0, ledtInput)
+      vboxInput.addWidget(ledtInput)
+      return ledtInput
+
 #-----------------------------------------------------------------------------------------Subclass MainWindow
 class MainWindow(Window): 
    def __init__(self):
@@ -50,9 +75,9 @@ class MainWindow(Window):
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
-      self.logged = 0 #0=logged in, 1=not logged in TODO:change back to 1
+      self.logged = 1 #0=logged in, 1=not logged in
       self.menubar = QMenuBar(self)
-      self.menubar.setGeometry(QRect(0, 0, 1116, 21))
+      self.menubar.setGeometry(QRect(0, 0, 1115, 20))
       self.menubar.setObjectName("menubar")
 
       self.InitUI()
@@ -90,11 +115,13 @@ class MainWindow(Window):
       self.lblSport = QLabel(self.hSportLayoutWidget)
       self.lblSport.setPixmap(QPixmap(BALL))
       self.lblSport.setAlignment(Qt.AlignCenter)
+      self.lblSport.setCursor(Qt.PointingHandCursor)
       self.hSportLayout.addWidget(self.lblSport)
 
       self.btnSport = QPushButton("Sport", self.hSportLayoutWidget)
       self.btnSport.setFont(QFont('AnyStyle', 15))
       self.btnSport.clicked.connect(self.SportClick)
+      self.btnSport.setCursor(Qt.PointingHandCursor)
       self.hSportLayout.addWidget(self.btnSport)
 
       self.hSportLayout.addWidget(QLabel(self))                       #Space
@@ -110,11 +137,13 @@ class MainWindow(Window):
       self.lblBook = QLabel(self.hBookLayoutWidget)
       self.lblBook.setPixmap(QPixmap(BOOK))
       self.lblBook.setAlignment(Qt.AlignCenter)
+      self.lblBook.setCursor(Qt.PointingHandCursor)
       self.hBookLayout.addWidget(self.lblBook)
 
       self.btnBook= QPushButton("Books", self.hBookLayoutWidget)
       self.btnBook.setFont(QFont('AnyStyle', 15))
       self.btnBook.clicked.connect(self.BookClick)
+      self.btnBook.setCursor(Qt.PointingHandCursor)
       self.hBookLayout.addWidget(self.btnBook)
 
       self.hBookLayout.addWidget(QLabel(self))                       #Space
@@ -130,11 +159,13 @@ class MainWindow(Window):
       self.lblClothing = QLabel(self.hClothingLayoutWidget)
       self.lblClothing.setPixmap(QPixmap(SHIRT))
       self.lblClothing.setAlignment(Qt.AlignCenter)
+      self.lblClothing.setCursor(Qt.PointingHandCursor)
       self.hClothingLayout.addWidget(self.lblClothing)
 
       self.btnClothing = QPushButton("Clothing", self.hClothingLayoutWidget)
       self.btnClothing.setFont(QFont('AnyStyle', 15))
       self.btnClothing.clicked.connect(self.ClothingClick)
+      self.btnClothing.setCursor(Qt.PointingHandCursor)
       self.hClothingLayout.addWidget(self.btnClothing)
 
       self.hClothingLayout.addWidget(QLabel(self))                       #Space
@@ -150,11 +181,13 @@ class MainWindow(Window):
       self.lblElec = QLabel(self.hElecLayoutWidget)
       self.lblElec.setPixmap(QPixmap(MOUSE))
       self.lblElec.setAlignment(Qt.AlignCenter)
+      self.lblElec.setCursor(Qt.PointingHandCursor)
       self.hElecLayout.addWidget(self.lblElec)
 
       self.btnElec = QPushButton("Electronics", self.hElecLayoutWidget)
       self.btnElec.setFont(QFont('AnyStyle', 15))
       self.btnElec.clicked.connect(self.ElecClick)
+      self.btnElec.setCursor(Qt.PointingHandCursor)
       self.hElecLayout.addWidget(self.btnElec)
 
       self.hElecLayout.addWidget(QLabel(self))                       #Space
@@ -247,7 +280,6 @@ class MainWindow(Window):
       self.hboxSearch.setObjectName("hboxSearch")
       self.hboxSearchWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.roundCorners(10.0, self.hboxSearchWidget)
-      #self.hboxSearchWidget.move(QCursor.pos())                                    #Set object position to mouse position
 
       self.ledtSearch = QLineEdit(self.hboxSearchWidget)
       self.ledtSearch.setPlaceholderText("Search for products")
@@ -263,6 +295,7 @@ class MainWindow(Window):
       self.btnSearch.setMaximumHeight(HEIGHT_SEARCH)
       self.btnSearch.clicked.connect(self.btnTemp)
       self.btnSearch.setStyleSheet("background-image : url(" + SEARCH + ");")
+      self.btnSearch.setCursor(Qt.PointingHandCursor)
       self.hboxSearch.addWidget(self.btnSearch)
 
    def addNewMenu(self):
@@ -289,13 +322,23 @@ class MainWindow(Window):
       print("Clicked")
    
    def btnCart_click(self): #Open cart window
-      self.mydialog = CartWindow()
-      self.mydialog.show()
+      try:
+         self.mydialog.close()
+         self.mydialog = CartWindow()
+         self.mydialog.show()
+      except:
+         self.mydialog = CartWindow()
+         self.mydialog.show()
+      
 
-   def btnWishlist_click(self): #Placeholder on click function for post login menu buttons
-      #self.mydialog = WishlistWindow()
-      #self.mydialog.show()
-      print(myWishlist.wishlist)
+   def btnWishlist_click(self): #Open wishlist window
+      try:
+         self.mydialog.close()
+         self.mydialog = WishlistWindow()
+         self.mydialog.show()
+      except:
+         self.mydialog = WishlistWindow()
+         self.mydialog.show()
    
    def btnHelp_click(self): #Help button clicked
       #TODO: add help
@@ -307,6 +350,8 @@ class LoginWindow(Window):
       super().__init__()
 
       self.title = "Login"
+      self.widgetWidth1 = WIDTH_SUB_VBOX          #set widget width
+      self.widgetWidth2 = WIDTH_SUB_VBOX-20
 
       self.InitUI()
       self.addLoginWidgets()
@@ -315,52 +360,14 @@ class LoginWindow(Window):
       self.lblLoginHeader = QLabel(self)             #Login label
       self.pixmapHeader = QPixmap(LOGIN_TITLE)
       self.lblLoginHeader.setPixmap(self.pixmapHeader)
+      self.lblLoginHeader.setAlignment(Qt.AlignHCenter)
       self.vbox.addWidget(self.lblLoginHeader)
-
+      
       self.vbox.addWidget(QLabel(self))                       #Space
 
-      self.vboxEmailWidget = QWidget(self)                    #Email
-      self.vboxEmailWidget.setObjectName("vboxEmailWidget")
-      self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
-      self.vboxEmail.setObjectName("vboxEmail")
-      self.vboxEmailWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
-      self.vboxEmailWidget.setMinimumWidth(WIDTH_SUB_VBOX)
-      self.vboxEmailWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
-      self.roundCorners(15.0, self.vboxEmailWidget)
-      self.vbox.addWidget(self.vboxEmailWidget)
+      self.ledtEmail = self.addInputWidget("Email")           #Email
 
-      self.lblEmail= QLabel('Email', self.vboxEmailWidget)
-      self.lblEmail.setFont(QFont('AnyStyle', 15))
-      self.vboxEmail.addWidget(self.lblEmail)
-
-      self.ledtEmail = QLineEdit(self.vboxEmailWidget)
-      self.ledtEmail.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
-      self.ledtEmail.setMinimumWidth(WIDTH_SUB_VBOX-20)
-      self.ledtEmail.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
-      self.roundCorners(8.0, self.ledtEmail)
-      self.vboxEmail.addWidget(self.ledtEmail)
-
-      self.vboxPassWidget = QWidget(self)                    #Password
-      self.vboxPassWidget.setObjectName("vboxPassWidget")
-      self.vboxPass = QVBoxLayout(self.vboxPassWidget)
-      self.vboxPass.setObjectName("vboxPass")
-      self.vbox.addWidget(self.vboxPassWidget)
-      self.vboxPassWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
-      self.vboxPassWidget.setMinimumWidth(WIDTH_SUB_VBOX)
-      self.vboxPassWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
-      self.roundCorners(15.0, self.vboxPassWidget)
-
-      self.lblPass= QLabel('Password', self.vboxPassWidget)
-      self.lblPass.setFont(QFont('AnyStyle', 15))
-      self.vboxPass.addWidget(self.lblPass)
-
-      self.ledtPass = QLineEdit(self.vboxPassWidget)
-      self.ledtPass.setEchoMode(QLineEdit.Password)
-      self.ledtPass.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
-      self.ledtPass.setMinimumWidth(WIDTH_SUB_VBOX-20)
-      self.ledtPass.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
-      self.roundCorners(8.0, self.ledtPass)
-      self.vboxPass.addWidget(self.ledtPass)
+      self.ledtPass = self.addInputWidget("Password", isPass=True)   #Password
 
       self.vbox.addWidget(QLabel(self))                       #Space
 
@@ -375,10 +382,11 @@ class LoginWindow(Window):
       self.btnLogin.setObjectName("btnLogin")
       self.btnLogin.setText("Login")
       self.btnLogin.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.btnLogin.setFont(QFont('AnyStyle', 14))
       self.btnLogin.setMinimumWidth(2*MARGIN_BUTTON)
-      self.btnLogin.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
       self.roundCorners(6.0, self.btnLogin)
       self.btnLogin.clicked.connect(self.btnLogin_clicked)
+      self.btnLogin.setCursor(Qt.PointingHandCursor)
       self.hbox.addWidget(self.btnLogin)
 
    def btnLogin_clicked(self): #check login details
@@ -387,7 +395,7 @@ class LoginWindow(Window):
       logged = login(email, password)
       
       if(not logged):
-         user = currUser(email=email)
+         myUser.Login(email)
          print("Login successful")
          ex.addNewMenu()
          self.close()
@@ -398,7 +406,6 @@ class LoginWindow(Window):
       
 #----------------------------------------------------------------------------------------------Subclass RegisterWindow
 class RegisterWindow(Window): 
-
    def __init__(self):
       super().__init__()
 
@@ -413,115 +420,20 @@ class RegisterWindow(Window):
       self.lblRegisterHeader.setPixmap(self.pixmapHeader)
       self.vbox.addWidget(self.lblRegisterHeader)
 
-      self.vbox.addWidget(QLabel(self))                       #Space
+      self.widgetWidth1 = self.pixmapHeader.width()          #set widget width
+      self.widgetWidth2 = int(19*self.widgetWidth1/20)
+      self.vbox.addWidget(QLabel(self))                      #Space
+             
+      self.ledtFName = self.addInputWidget("First Name")     #First Name
+      
+      self.ledtSurname = self.addInputWidget("Surname")      #Surname
 
-      self.vboxFNameWidget = QWidget(self)                    #First Name
-      self.vboxFNameWidget.setObjectName("vboxFNameWidget")
-      self.vboxFName = QVBoxLayout(self.vboxFNameWidget)
-      self.vboxFName.setObjectName("vboxFName")
-      self.vboxFNameWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
-      self.vboxFNameWidget.setMinimumWidth(self.pixmapHeader.width())
-      self.vboxFNameWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
-      self.roundCorners(15.0, self.vboxFNameWidget)
-      self.vbox.addWidget(self.vboxFNameWidget)
+      self.ledtEmail = self.addInputWidget("Email")          #Email
 
-      self.lblFName= QLabel('First Name', self.vboxFNameWidget)
-      self.lblFName.setFont(QFont('AnyStyle', 15))
-      self.vboxFName.addWidget(self.lblFName)
+      self.ledtPassword1 = self.addInputWidget("Password", isPass=True)          #Password
 
-      self.ledtFName = QLineEdit(self.vboxFNameWidget)
-      self.ledtFName.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
-      self.ledtFName.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
-      self.ledtFName.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
-      self.roundCorners(8.0, self.ledtFName)
-      self.vboxFName.addWidget(self.ledtFName)
-
-      self.vboxSurnameWidget = QWidget(self)                    #Surname
-      self.vboxSurnameWidget.setObjectName("vboxSurnameWidget")
-      self.vboxSurname = QVBoxLayout(self.vboxSurnameWidget)
-      self.vboxSurname.setObjectName("vboxSurname")
-      self.vboxSurnameWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
-      self.vboxSurnameWidget.setMinimumWidth(self.pixmapHeader.width())
-      self.vboxSurnameWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
-      self.roundCorners(15.0, self.vboxSurnameWidget)
-      self.vbox.addWidget(self.vboxSurnameWidget)
-
-      self.lblSurname= QLabel('Surname', self.vboxSurnameWidget)
-      self.lblSurname.setFont(QFont('AnyStyle', 15))
-      self.vboxSurname.addWidget(self.lblSurname)
-
-      self.ledtSurname = QLineEdit(self.vboxSurnameWidget)
-      self.ledtSurname.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
-      self.ledtSurname.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
-      self.ledtSurname.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
-      self.roundCorners(8.0, self.ledtSurname)
-      self.vboxSurname.addWidget(self.ledtSurname)
-
-      self.vboxEmailWidget = QWidget(self)                    #Email
-      self.vboxEmailWidget.setObjectName("vboxEmailWidget")
-      self.vboxEmail = QVBoxLayout(self.vboxEmailWidget)
-      self.vboxEmail.setObjectName("vboxEmail")
-      self.vboxEmailWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
-      self.vboxEmailWidget.setMinimumWidth(self.pixmapHeader.width())
-      self.vboxEmailWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
-      self.roundCorners(15.0, self.vboxEmailWidget)
-      self.vbox.addWidget(self.vboxEmailWidget)
-
-      self.lblEmail= QLabel('Email', self.vboxEmailWidget)
-      self.lblEmail.setFont(QFont('AnyStyle', 15))
-      self.vboxEmail.addWidget(self.lblEmail)
-
-      self.ledtEmail = QLineEdit(self.vboxEmailWidget)
-      self.ledtEmail.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
-      self.ledtEmail.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
-      self.ledtEmail.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
-      self.roundCorners(8.0, self.ledtEmail)
-      self.vboxEmail.addWidget(self.ledtEmail)
-
-      self.vboxPassWidget = QWidget(self)                    #Password
-      self.vboxPassWidget.setObjectName("vboxPassWidget")
-      self.vboxPass = QVBoxLayout(self.vboxPassWidget)
-      self.vboxPass.setObjectName("vboxPass")
-      self.vboxPassWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
-      self.vboxPassWidget.setMinimumWidth(self.pixmapHeader.width())
-      self.vboxPassWidget.setMinimumHeight(HEIGHT_SUB_VBOX)
-      self.roundCorners(15.0, self.vboxPassWidget)
-      self.vbox.addWidget(self.vboxPassWidget)
-
-      self.lblPass= QLabel('Password', self.vboxPassWidget)
-      self.lblPass.setFont(QFont('AnyStyle', 15))
-      self.vboxPass.addWidget(self.lblPass)
-
-      self.ledtPass = QLineEdit(self.vboxPassWidget)
-      self.ledtPass.setEchoMode(QLineEdit.Password)
-      self.ledtPass.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
-      self.ledtPass.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
-      self.ledtPass.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
-      self.roundCorners(8.0, self.ledtPass)
-      self.vboxPass.addWidget(self.ledtPass)
-
-      self.vboxPass2Widget = QWidget(self)                    #Password Retype
-      self.vboxPass2Widget.setObjectName("vboxPass2Widget")
-      self.vboxPass2 = QVBoxLayout(self.vboxPass2Widget)
-      self.vboxPass2.setObjectName("vboxPass2")
-      self.vboxPass2Widget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); border-style: outset;")
-      self.vboxPass2Widget.setMinimumWidth(self.pixmapHeader.width())
-      self.vboxPass2Widget.setMinimumHeight(HEIGHT_SUB_VBOX)
-      self.roundCorners(15.0, self.vboxPass2Widget)
-      self.vbox.addWidget(self.vboxPass2Widget)
-
-      self.lblPass2= QLabel('Retype Password', self.vboxPass2Widget)
-      self.lblPass2.setFont(QFont('AnyStyle', 15))
-      self.vboxPass2.addWidget(self.lblPass2)
-
-      self.ledtPass2 = QLineEdit(self.vboxPass2Widget)
-      self.ledtPass2.setEchoMode(QLineEdit.Password)
-      self.ledtPass2.setStyleSheet("background-color: rgb(" + str(WHITE.red()) + "," + str(WHITE.green()) + "," + str(WHITE.blue()) + "); padding: 4px;")
-      self.ledtPass2.setMinimumWidth(int(19*self.pixmapHeader.width()/20))
-      self.ledtPass2.setMaximumHeight(int(HEIGHT_SUB_VBOX/3))
-      self.roundCorners(8.0, self.ledtPass2)
-      self.vboxPass2.addWidget(self.ledtPass2)
-
+      self.ledtPassword2 = self.addInputWidget("Confirm Password", isPass=True)  #Confirm Password
+      
       self.vbox.addWidget(QLabel(self))                       #Space
 
       self.hboxWidget = QWidget(self)                         #Register 
@@ -531,14 +443,14 @@ class RegisterWindow(Window):
       self.hbox.setObjectName("hbox")
       self.vbox.addWidget(self.hboxWidget)
 
-      self.btnRegister = QPushButton(self.hboxWidget)            #Register Button
+      self.btnRegister = QPushButton("Register", self.hboxWidget)            #Register Button
       self.btnRegister.setObjectName("btnRegister")
-      self.btnRegister.setText("Register")
+      self.btnRegister.setFont(QFont('AnyStyle', 14))
       self.btnRegister.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
       self.btnRegister.setMinimumWidth(4*MARGIN_BUTTON)
-      self.btnRegister.setMaximumHeight(int(HEIGHT_SUB_VBOX/4))
       self.roundCorners(6.0, self.btnRegister)
       self.btnRegister.clicked.connect(self.btnRegister_clicked)
+      self.btnRegister.setCursor(Qt.PointingHandCursor)
       self.hbox.addWidget(self.btnRegister)
 
    def btnRegister_clicked(self): #check login details
@@ -581,8 +493,8 @@ class RegisterWindow(Window):
          print("Email does not contain @")
          return 4
 
-      password = self.ledtPass.text()
-      password2 = self.ledtPass2.text()
+      password = self.ledtPassword1.text()
+      password2 = self.ledtPassword2.text()
       
       if(password!=password2):
          print("Passwords do not match")
@@ -590,17 +502,14 @@ class RegisterWindow(Window):
          snhpassword, salt = encrypt(password)
          reg = register(fname,surname,email,snhpassword, salt)
          if(not reg):
-            user = currUser(email=email)
+            myUser.Login(email)
             print("Successfully Registered")
             ex.addNewMenu()
             self.close()
          else:
             print("There was an error registering")
       
-      logged = login(email, password)
-
-
-ex = MainWindow() #create MainWindow object
+      self.logged = login(email, password)
 
 #-------------------------------------------------------------------------------------Cart window
 class CartWindow(Window):
@@ -655,11 +564,12 @@ class CartWindow(Window):
       self.btncheckout.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
       self.roundCorners(6.0, self.btncheckout)
       self.btncheckout.clicked.connect(self.btnCheckoutClick)
+      self.btncheckout.setCursor(Qt.PointingHandCursor)
       self.vCheckout.addWidget(self.btncheckout)
 
       self.vbox.addWidget(QLabel(self))                       #Space
 
-      height_grid_scroll = int(math.ceil(len(myCart.cartList))) * MAX_HEIGHT_ITEM_CART
+      height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART +20
 
       self.vCartWidget = QWidget(self)                    #Cart items
       self.vCartWidget.setObjectName("vCartWidget")
@@ -687,9 +597,8 @@ class CartWindow(Window):
          for i in reversed(range(self.vCart.count())): 
             self.vCart.itemAt(i).widget().setParent(None)
 
-         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART
+         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART +20
          self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
-
             
          for myProduct in myCart.cartList:
             self.addNewItem(myCart.get_item(myProduct))
@@ -702,10 +611,9 @@ class CartWindow(Window):
          for i in reversed(range(self.vCart.count())): 
             self.vCart.itemAt(i).widget().setParent(None)
 
-         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART
+         height_grid_scroll = len(myCart.cartList) * MAX_HEIGHT_ITEM_CART +20
          self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
 
-            
          for myProduct in myCart.cartList:
             self.addNewItem(myCart.get_item(myProduct))
 
@@ -738,53 +646,276 @@ class CartWindow(Window):
       lblPrice.setFont(QFont('AnyStyle', 14))
       vName.addWidget(lblPrice)
 
-      hItemBox.addWidget(QLabel(self))                       #Space
-      hItemBox.addWidget(QLabel(self))                       #Space
-
       #move to wishlist
+      hRightButtonsWidget = QWidget(self) #horizontal layout to store far buttons
+      hRightButtons = QHBoxLayout(hRightButtonsWidget)
+      hRightButtons.setAlignment(Qt.AlignRight)
+      hItemBox.addWidget(hRightButtonsWidget)
+
       vWishWidget = QWidget(self) #vertical layout to store item info
       vWish = QVBoxLayout(vWishWidget)
-      vWish.setAlignment(Qt.AlignCenter)
-      hItemBox.addWidget(vWishWidget)
+      vWish.setAlignment(Qt.AlignRight)
+      hRightButtons.addWidget(vWishWidget)
 
       lblWish = QLabel(self)                     #Wish Icon
       lblWish.setPixmap(QPixmap(WISHLIST))
       lblWish.setAlignment(Qt.AlignHCenter)
+      lblWish.setCursor(Qt.PointingHandCursor)
       lblWish.mousePressEvent = moveToWishlist
       vWish.addWidget(lblWish)
 
       lblWishText = QLabel("Wishlist instead", self)          #Wish text
       lblWishText.setFont(QFont('AnyStyle', 12))
       lblWishText.setAlignment(Qt.AlignHCenter)
+      lblWishText.setCursor(Qt.PointingHandCursor)
       lblWishText.mousePressEvent = moveToWishlist
       vWish.addWidget(lblWishText)
 
-      # #remove
+      #remove
       vRemoveWidget = QWidget(self) #vertical layout to store item info
       vRemove = QVBoxLayout(vRemoveWidget)
-      vRemove.setAlignment(Qt.AlignCenter)
-      hItemBox.addWidget(vRemoveWidget)
+      vRemove.setAlignment(Qt.AlignRight)
+      hRightButtons.addWidget(vRemoveWidget)
 
       lblBin = QLabel(self)                           #Remove Icon
       lblBin.setPixmap(QPixmap(BIN))
       lblBin.mousePressEvent = removeItem
       lblBin.setAlignment(Qt.AlignHCenter)
+      lblBin.setCursor(Qt.PointingHandCursor)
       vRemove.addWidget(lblBin)
 
       lblRemoveText = QLabel("Remove", self)       #Remove text
       lblRemoveText.setFont(QFont('AnyStyle', 12))
       lblRemoveText.setAlignment(Qt.AlignHCenter)
       lblRemoveText.mousePressEvent = removeItem
+      lblRemoveText.setCursor(Qt.PointingHandCursor)
       vRemove.addWidget(lblRemoveText)
 
    def btnCheckoutClick(self):
-      print("Thank you for shopping!")
+      self.myDialog = CheckoutWindow()
+      self.myDialog.show()
+      self.close() #TODO: Should it close cart window or nah?
 
    def updateCost(self):
       self.lblTotal.setText("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost))
 
+#-------------------------------------------------------------------------------------Checkout window
+class CheckoutWindow(Window):
+   def __init__(self):
+      super ().__init__()
+      self.title = "Checkout"
+      self.addHeader()
+      self.addWidgets()
+      
+   def addHeader(self):                                           #Details header label
+      self.lblCheckoutHeader = QLabel(self)             
+      self.pixmapHeader = QPixmap(CHECKOUT_TITLE)
+      self.lblCheckoutHeader.setPixmap(self.pixmapHeader)
+      self.lblCheckoutHeader.setAlignment(Qt.AlignHCenter)
+      self.vbox.addWidget(self.lblCheckoutHeader)
+
+      self.widgetWidth1 = self.pixmapHeader.width()               #set widget width
+      self.widgetWidth2 = int(19*self.widgetWidth1/20)
+
+   def addWidgets(self):
+      self.vbox.setAlignment(Qt.AlignTop)
+      self.vbox.addWidget(QLabel())                           #Space
+      self.vbox.addWidget(QLabel())
+
+      self.ledtName = self.addInputWidget("Name & Surname")       #Name & Surname
+      self.ledtName.setText(myUser.get_Name() + " " + myUser.get_Surname())
+
+      self.ledtEmail = self.addInputWidget("Email")               #Email
+      self.ledtEmail.setText(myUser.get_Email())
+
+      self.ledtCellNumber = self.addInputWidget("Cell Number")    #Cell Number
+
+      self.ledtProvince = self.addInputWidget("Province")         #Province
+      self.cbProvince = QComboBox(self.ledtProvince)
+      self.cbProvince.addItems(PROVINCES)
+      self.cbProvince.setMinimumWidth(self.widgetWidth2)
+      self.roundCorners(8.0, self.cbProvince)
+      self.ledtProvince.setCursor(Qt.PointingHandCursor)
+
+      self.ledtAddress = self.addInputWidget("Address")           #Address
+
+      self.ledtPostalCode = self.addInputWidget("Postal Code")    #Postal Code
+
+      self.vbox.addWidget(QLabel())                           #Space
+
+      self.vCheckoutWidget = QWidget(self)                    #Total & Checkout Box
+      self.vCheckoutWidget.setObjectName("vCheckoutWidget")
+      self.vCheckoutWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vCheckoutWidget.setMinimumWidth(self.widgetWidth1)
+      self.vCheckoutWidget.setMinimumHeight(HEIGHT_CHECKOUT_BOX)
+      self.roundCorners(9.0, self.vCheckoutWidget)
+      self.vCheckout = QVBoxLayout(self.vCheckoutWidget)
+      self.vCheckout.setObjectName("vCheckout")
+      self.vCheckout.setAlignment(Qt.AlignHCenter)
+      self.vbox.addWidget(self.vCheckoutWidget)
+
+      #total cost label
+      self.lblTotal = QLabel("Total:  (" + str(len(myCart.cartList)) + " items)  R" + str(myCart.totalCost), self)
+      self.lblTotal.setFont(QFont('AnyStyle', 14))
+      self.vCheckout.addWidget(self.lblTotal)
+
+      self.btncheckout = QPushButton("Checkout", self) #checkout button
+      self.btncheckout.setObjectName("btnCheckout")
+      self.btncheckout.setFont(QFont('AnyStyle', 12))
+      self.btncheckout.setMinimumWidth(WIDTH_CHECKOUT_BUTTON)
+      self.btncheckout.setMaximumHeight(HEIGHT_CHECKOUT_BUTTON-10)
+      self.btncheckout.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + ");")
+      self.roundCorners(6.0, self.btncheckout)
+      self.btncheckout.clicked.connect(self.btnCheckoutClick)
+      self.btncheckout.setCursor(Qt.PointingHandCursor)
+      self.vCheckout.addWidget(self.btncheckout)
+
+   def btnCheckoutClick(self):
+      print("Thank you for shopping!")
+
+#-------------------------------------------------------------------------------------Wishlist window
+class WishlistWindow(Window):
+   def __init__(self):
+      super().__init__()
+      self.title = "Wishlist"
+
+      self.InitUI()
+      self.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
+      self.vbox.setContentsMargins(MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM,MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM)
+      self.vbox.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
+      self.addWishlistWidgets()
+
+   def addWishlistWidgets(self):
+      self.lblCartHeader = QLabel(self)             #Register label
+      self.pixmapHeader = QPixmap(WISHLIST_TITLE)
+      self.lblCartHeader.setPixmap(self.pixmapHeader)
+      self.lblCartHeader.setAlignment(Qt.AlignLeft)
+      self.vbox.addWidget(self.lblCartHeader)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
+
+      height_grid_scroll = len(myWishlist.wishlist) * MAX_HEIGHT_ITEM_CART +20
+
+      self.vCartWidget = QWidget(self)                    #Cart items
+      self.vCartWidget.setObjectName("vCartWidget")
+      self.vCartWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
+      self.roundCorners(10.0, self.vCartWidget)
+      self.vCart = QVBoxLayout(self.vCartWidget)
+      self.vCart.setObjectName("vCart")
+
+      self.scrollArea = QScrollArea(self) #scrollable grid
+      self.scrollArea.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 8px; border-style: outset;")
+      self.scrollArea.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX, HEIGHT_CART_BOX))
+      self.scrollArea.setWidget(self.vCartWidget)
+      self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+      self.roundCorners(10.0, self.scrollArea)
+      
+      for myProduct in myWishlist.wishlist:
+         self.addNewItem(myWishlist.get_item(myProduct))
+
+   def addNewItem(self, item):
+      def removeItem(event):
+         myWishlist.remove_item(item[0])
+
+         for i in reversed(range(self.vCart.count())): 
+            self.vCart.itemAt(i).widget().setParent(None)
+
+         height_grid_scroll = len(myWishlist.wishlist) * MAX_HEIGHT_ITEM_CART +20
+         self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
+            
+         for myProduct in myWishlist.wishlist:
+            self.addNewItem(myWishlist.get_item(myProduct))
+
+      def addtoCart(event):
+         myCart.add_item(myWishlist.get_item(item[0]))
+         myWishlist.remove_item(item[0])
+
+         for i in reversed(range(self.vCart.count())): 
+            self.vCart.itemAt(i).widget().setParent(None)
+
+         height_grid_scroll = len(myWishlist.wishlist) * MAX_HEIGHT_ITEM_CART +20
+         self.vCartWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
+
+         for myProduct in myWishlist.wishlist:
+            self.addNewItem(myWishlist.get_item(myProduct))
+
+      hItemBoxWidget = QWidget(self) #horizontal layout to store item info
+      hItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      hItemBoxWidget.setMaximumHeight(MAX_HEIGHT_ITEM_CART)
+      hItemBox = QHBoxLayout(hItemBoxWidget)  
+      self.vCart.addWidget(hItemBoxWidget)
+
+      #image
+      mainImage = QPixmap(item[5])
+      lblProduct = QLabel(self)
+      lblProduct.setMaximumSize(MAX_HEIGHT_ITEM_CART,MAX_HEIGHT_ITEM_CART)
+      lblProduct.setPixmap(mainImage)
+      lblProduct.setScaledContents(True)
+      hItemBox.addWidget(lblProduct)
+
+      #name and price 
+      vNameWidget = QWidget(self) #vertical layout to store item info
+      vNameWidget.setObjectName("vNameWidget")
+      vName = QVBoxLayout(vNameWidget)
+      vName.setObjectName("vName")
+      hItemBox.addWidget(vNameWidget)
+
+      lblName = QLabel(item[1], vNameWidget)
+      lblName.setFont(QFont('AnyStyle', 14))
+      vName.addWidget(lblName)
+
+      lblPrice = QLabel("R" + str(item[2]), vNameWidget)
+      lblPrice.setFont(QFont('AnyStyle', 14))
+      vName.addWidget(lblPrice)
+
+      #add to cart
+      hRightButtonsWidget = QWidget(self) #horizontal layout to store far buttons
+      hRightButtons = QHBoxLayout(hRightButtonsWidget)
+      hRightButtons.setAlignment(Qt.AlignRight)
+      hItemBox.addWidget(hRightButtonsWidget)
+
+      vWishWidget = QWidget(self) #vertical layout to store item info
+      vWish = QVBoxLayout(vWishWidget)
+      vWish.setAlignment(Qt.AlignCenter)
+      hRightButtons.addWidget(vWishWidget)
+
+      lblWish = QLabel(self)                     #Wish Icon
+      lblWish.setPixmap(QPixmap(CART))
+      lblWish.setAlignment(Qt.AlignHCenter)
+      lblWish.mousePressEvent = addtoCart
+      lblWish.setCursor(Qt.PointingHandCursor)
+      vWish.addWidget(lblWish)
+
+      lblWishText = QLabel("Add to Cart", self)          #Wish text
+      lblWishText.setFont(QFont('AnyStyle', 12))
+      lblWishText.setAlignment(Qt.AlignHCenter)
+      lblWishText.mousePressEvent = addtoCart
+      lblWishText.setCursor(Qt.PointingHandCursor)
+      vWish.addWidget(lblWishText)
+
+      # #remove
+      vRemoveWidget = QWidget(self) #vertical layout to store item info
+      vRemove = QVBoxLayout(vRemoveWidget)
+      vRemove.setAlignment(Qt.AlignCenter)
+      hRightButtons.addWidget(vRemoveWidget)
+
+      lblBin = QLabel(self)                           #Remove Icon
+      lblBin.setPixmap(QPixmap(BIN))
+      lblBin.mousePressEvent = removeItem
+      lblBin.setAlignment(Qt.AlignHCenter)
+      lblBin.setCursor(Qt.PointingHandCursor)
+      vRemove.addWidget(lblBin)
+
+      lblRemoveText = QLabel("Remove", self)       #Remove text
+      lblRemoveText.setFont(QFont('AnyStyle', 12))
+      lblRemoveText.setAlignment(Qt.AlignHCenter)
+      lblRemoveText.mousePressEvent = removeItem
+      lblRemoveText.setCursor(Qt.PointingHandCursor)
+      vRemove.addWidget(lblRemoveText)
 
 #-------------------------------------------------------------------------------------Start Program
+ex = MainWindow() #create MainWindow object
 def createMain():
    app = QApplication(sys.argv)          
    ex.showMaximized()

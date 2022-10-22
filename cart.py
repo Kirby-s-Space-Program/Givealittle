@@ -53,6 +53,12 @@ class currWishList:
             return 0
         except:
             return 1
+    #get item from ID
+    def get_item(self, itemID):
+        try:   
+            return self.wishlist[itemID]
+        except:
+            return 1
 
 myCart = currCart()
 myWishlist = currWishList()

@@ -83,9 +83,8 @@ def addProduct(ProductName, ProductPrice, ProductEmail, ProductCategory, imagePa
         cursor.execute("INSERT INTO Products (ProductName, ProductPrice, ProductOwner, ProductCategory, imagePath ) VALUES (?, ?, ?, ?, ?)", (ProductName, ProductPrice, ProductEmail, ProductCategory, imagePath))
     except:
         return 1
-    if (ProductName == "Infinity Edge"):
-        return 0
-    connection.commit()
+    if (ProductName != "Infinity Edge"):
+        connection.commit()
     return 0
 
 def removeProduct(productID): #removes item from the databse using only the ID since the ID is unique to each product
@@ -99,10 +98,6 @@ def removeProduct(productID): #removes item from the databse using only the ID s
 
 def categoryList(category):
     cursor = connection.cursor()
-    try:
-        cursor.execute("SELECT * FROM Products WHERE ProductCategory = ?", (category,))
-        return cursor.fetchall()
-    except:
-        print("There was an external error")
-        return -1
+    cursor.execute("SELECT * FROM Products WHERE ProductCategory = ?", (category,))
+    return cursor.fetchall()
 

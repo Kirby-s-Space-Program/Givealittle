@@ -82,6 +82,9 @@ HEADER_TITLE = "./icons/header_title.png"
 LOGIN_TITLE = "./icons/login_title.png"
 REGISTER_TITLE = "./icons/register_title.png"
 CART_TITLE = "./icons/cart_title.png"
+WISHLIST_TITLE = "./icons/wishlist_title.png"
+DETAILS_TITLE = "./icons/details_title.png"
+CHECKOUT_TITLE = "./icons/checkout_title.png"
 SEARCH = "./icons/search.png"
 BALL = "./icons/ball.png"
 BOOK = "./icons/book.png"
@@ -92,3 +95,8 @@ SOAP = "./icons/soap.png"
 USER = "./icons/user.png"
 WISHLIST = "./icons/wishlist2.png"
 BIN = "./icons/bin.png"
+
+#Provinces
+PROVINCES = ["Eastern Cape", "Free State", "Gauteng", 
+            "KwaZulu-Natal", "Limpopo", "Mpumalanga",
+            "Northern Cape", "North West", "Western Cape"]

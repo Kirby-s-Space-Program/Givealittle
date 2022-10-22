@@ -1,21 +1,24 @@
+from locale import getpreferredencoding
 import unittest
 from database import *
 
 class DatabaseTest(unittest.TestCase):
+    #registration testing
     def test_Register_success(self):
         check = register("name", "surname", "email", "password", "salt")
         self.assertEqual(check, 0, "Should throw error code 0")
     def test_Register_fail(self):
         check = register("name", "surname", "reg@mail.com", "password", "salt")
         self.assertEqual(check, 1, "Should throw error code 1")
-
+    #login testing
     def test_Login_success(self):
         check = login("reg@mail.com", "1234")
         self.assertEqual(check, 0, "Should throw error code 0")  
     def test_Login_FailMismatch(self):
         check = login("reg@mail.com", "123")
         self.assertEqual(check, 1, "Should throw error code 1")
-    
+        
+    #User info testing
     def test_getInfo(self):
         check = getUserInfo("reg@mail.com")
         self.assertEqual(check, ('register', 
@@ -32,12 +35,20 @@ class DatabaseTest(unittest.TestCase):
     def test_getSaltNull(self):
         check = getSalt("")
         self.assertEqual(check, -1, "Should wrong info given")
-
-    def test_addProduct(self):
+    #Product testing   
+    def test_addremoveProduct(self):
         check = addProduct("Infinity Edge", 0, "ProductEmail", "productCat", "productPAth")
         self.assertEqual(check, 0, "should throw code 0")
-    #def test_addProductFail(self):
-        #check = addProduct("Infinity Edge", "ProductPrice", "ProductEmail")
-        #self.assertEqual(check, 0, "show throw code 0")
+        
+    def test_prodList(self):
+        a = getProductList()
+        check = len(a)
+        self.assertEqual(check, 21, "Length should be 21")
+        
+    def test_catList(self):
+        a = categoryList("Sports")
+        check = len(a)
+        self.assertEqual(check, 5, "Length should be 5")  
+    
 
 
