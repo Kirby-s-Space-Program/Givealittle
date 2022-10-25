@@ -118,3 +118,11 @@ def userOrders(userEmail): #returns the list of orders a user has ade
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM Orders WHERE UserEmail = ?", (userEmail,))
     return cursor.fetchall()
+
+#search
+
+def search(ProductName):
+    cursor = connection.cursor()
+    s = "%" + ProductName + "%"
+    cursor.execute("SELECT * FROM Products WHERE ProductName LIKE ?", (s,))
+    return cursor.fetchall()
