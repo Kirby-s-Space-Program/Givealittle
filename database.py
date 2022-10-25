@@ -101,3 +101,28 @@ def categoryList(category):
     cursor.execute("SELECT * FROM Products WHERE ProductCategory = ?", (category,))
     return cursor.fetchall()
 
+#=====================================================================================================================
+#Orders 
+
+def addOrder(ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Postcode): #adds an order to the database of orders
+    cursor = connection.cursor()
+    try:
+        cursor.execute("INSERT INTO Orders (ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Postcode) VALUES (?, ?, ?, ?, ?, ?, ?)", 
+                       (ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Postcode))
+    except:
+        return 1
+    connection.commit()
+    return 0
+
+def userOrders(userEmail): #returns the list of orders a user has ade
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM Orders WHERE UserEmail = ?", (userEmail,))
+    return cursor.fetchall()
+
+#search
+
+def search(ProductName):
+    cursor = connection.cursor()
+    s = "%" + ProductName + "%"
+    cursor.execute("SELECT * FROM Products WHERE ProductName LIKE ?", (s,))
+    return cursor.fetchall()

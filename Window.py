@@ -192,6 +192,8 @@ class MainWindow(Window):
 
       self.hElecLayout.addWidget(QLabel(self))                       #Space
 
+   def SearchClick(self):
+      self.itemGrid.searchBy(self.ledtSearch.text())
 
    def SportClick(self):
       self.itemGrid.sortBy("Sports")
@@ -293,7 +295,8 @@ class MainWindow(Window):
       self.btnSearch.setObjectName("btnSearch")
       self.btnSearch.setMinimumWidth(40)
       self.btnSearch.setMaximumHeight(HEIGHT_SEARCH)
-      self.btnSearch.clicked.connect(self.btnTemp)
+      self.btnSearch.clicked.connect(self.SearchClick)
+      #self.btnSport.clicked.connect(self.SportClick)
       self.btnSearch.setStyleSheet("background-image : url(" + SEARCH + ");")
       self.btnSearch.setCursor(Qt.PointingHandCursor)
       self.hboxSearch.addWidget(self.btnSearch)

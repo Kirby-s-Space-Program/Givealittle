@@ -1,3 +1,4 @@
+from getpass import getuser
 from locale import getpreferredencoding
 import unittest
 from database import *
