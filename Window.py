@@ -215,7 +215,7 @@ class MainWindow(Window):
          #Account sub tabs
          self.actionAccountDetails = QAction('Details', self.menubar) #account details
          self.actionAccountDetails.setObjectName("actionAccountDetails")
-         self.actionAccountDetails.triggered.connect(self.btnTemp)
+         self.actionAccountDetails.triggered.connect(self.btnAccount_click)
          self.menuAccount.addAction(self.actionAccountDetails)
 
          self.actionTrack_Order = QAction('Track Order', self.menubar) #track order
@@ -320,6 +320,15 @@ class MainWindow(Window):
    #TODO: make functions for post login buttons
    def btnTemp(self): #Placeholder on click function for post login menu buttons
       print("Clicked")
+   
+   def btnAccount_click(self):
+      try:
+         self.mydialog.close()
+         self.mydialog = AccountWindow()
+         self.mydialog.show()
+      except:
+         self.mydialog = AccountWindow()
+         self.mydialog.show()
    
    def btnCart_click(self): #Open cart window
       try:
@@ -913,6 +922,17 @@ class WishlistWindow(Window):
       lblRemoveText.mousePressEvent = removeItem
       lblRemoveText.setCursor(Qt.PointingHandCursor)
       vRemove.addWidget(lblRemoveText)
+
+#-------------------------------------------------------------------------------------Account window
+class AccountWindow(Window):
+   def __init__(self):
+      super().__init__()
+      self.title = "Account"
+
+      self.InitUI()
+      self.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
+      self.vbox.setContentsMargins(MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM,MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM)
+      self.vbox.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
 
 #-------------------------------------------------------------------------------------Start Program
 ex = MainWindow() #create MainWindow object
