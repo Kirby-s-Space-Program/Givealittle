@@ -75,7 +75,7 @@ class MainWindow(Window):
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
-      self.logged = 1 #0=logged in, 1=not logged in
+      self.logged = 0 #0=logged in, 1=not logged in TODO: change back to 1
       self.menubar = QMenuBar(self)
       self.menubar.setGeometry(QRect(0, 0, 1115, 20))
       self.menubar.setObjectName("menubar")
@@ -933,7 +933,16 @@ class AccountWindow(Window):
       self.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
       self.vbox.setContentsMargins(MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM,MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM)
       self.vbox.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
+      self.addWidgets()
 
+   def addWidgets(self):
+      self.lblAccountHeader = QLabel(self)             #Register label
+      self.pixmapHeader = QPixmap(ACCOUNT_TITLE)
+      self.lblAccountHeader.setPixmap(self.pixmapHeader)
+      self.lblAccountHeader.setAlignment(Qt.AlignCenter)
+      self.vbox.addWidget(self.lblAccountHeader)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
 #-------------------------------------------------------------------------------------Start Program
 ex = MainWindow() #create MainWindow object
 def createMain():
