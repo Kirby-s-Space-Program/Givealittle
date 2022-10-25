@@ -121,3 +121,21 @@ class itemGrid(QWidget):
           if(self.row==3):
             self.column+=1
             self.row=0
+    def searchBy(self, name):
+      for i in reversed(range(self.Grid.count())): 
+        self.Grid.itemAt(i).widget().setParent(None)
+
+      self.row = 0
+      self.column = 0
+
+      self.allProducts = search(name)
+      height_grid_scroll = int(math.ceil(len(self.allProducts)/3)) * MAX_HEIGHT_ITEM
+      self.GridWidget.setGeometry(QRect(LEFT_GRID, TOP_GRID, WIDTH_GRID-20, height_grid_scroll))
+
+      if(self.allProducts!=-1):
+        for myProduct in self.allProducts:
+          self.addNewItem(myProduct)
+          self.row+=1
+          if(self.row==3):
+            self.column+=1
+            self.row=0
