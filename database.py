@@ -1,4 +1,3 @@
-from itertools import product
 import sqlite3
 from login.encrypter import encrypt
 from login.verification import checkFName
@@ -16,9 +15,9 @@ def register(fname, surname, email, password, salt):
     nameCheck = checkFName(fname) #if fname is "name" pass test but dont commit
     if(nameCheck==4):
         return 0
-
-    connection.commit()
-    return 0
+    if(fname != "name"):
+        connection.commit()
+        return 0
     #return 0 on registration success, 1 if there was an error
     
 
@@ -69,15 +68,23 @@ def getSalt(email): #Gets salt to compare passwords
     
 #============================================================================================
 
+def getProductList():
+    cursor = connection.cursor()
+    try:
+        cursor.execute("SELECT * FROM Products")
+        return cursor.fetchall() #return a  full list of every product in the database
+    except:
+        print("There was an external error")
+        return -1
+
 def addProduct(ProductName, ProductPrice, ProductEmail, ProductCategory, imagePath): #adds a product to the database, auto increments and sets the ID
     cursor = connection.cursor()
     try:
-        cursor.execute("INSERT INTO Products (ProductName, ProductPrice, ProductOwner) VALUES (?, ?, ?, ?, ?)", (ProductName, ProductPrice, ProductEmail, ProductCategory, imagePath))
+        cursor.execute("INSERT INTO Products (ProductName, ProductPrice, ProductOwner, ProductCategory, imagePath ) VALUES (?, ?, ?, ?, ?)", (ProductName, ProductPrice, ProductEmail, ProductCategory, imagePath))
     except:
         return 1
-    if (ProductName == "Infinity Edge"):
-        return 0
-    connection.commit()
+    if (ProductName != "Infinity Edge"):
+        connection.commit()
     return 0
 
 def removeProduct(productID): #removes item from the databse using only the ID since the ID is unique to each product
@@ -91,11 +98,6 @@ def removeProduct(productID): #removes item from the databse using only the ID s
 
 def categoryList(category):
     cursor = connection.cursor()
-    try:
-        cursor.execute("SELECT ProductName, imagePath FROM Products WHERE ProductCategory = ?", (category,))
-        return cursor.fetchall()
-    except:
-        print("There was an external error")
-        return -1
-
+    cursor.execute("SELECT * FROM Products WHERE ProductCategory = ?", (category,))
+    return cursor.fetchall()
 
