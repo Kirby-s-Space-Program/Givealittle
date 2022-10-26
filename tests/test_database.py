@@ -50,6 +50,21 @@ class DatabaseTest(unittest.TestCase):
         a = categoryList("Sports")
         check = len(a)
         self.assertEqual(check, 5, "Length should be 5")  
+        
+    #Order testing
+    def test_addOrder(self):
+        check = addOrder("Infinity Edge", 0, "", "CellNo", "Province", "Address", "Postcode")
+        self.assertEqual(check, 0, "should throw code 0")
+        
+    def test_orderList(self):
+        check = userOrders("reg@mail.com")[0][0]
+        self.assertEqual(check, 1, "Order No should be 1")  
+        
+    def test_Search(self):
+        check = search("Crocs")[0][1]
+        self.assertEqual(check, "Crocs", "Order No should be 1")
+        
+    
     
 
 

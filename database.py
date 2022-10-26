@@ -111,7 +111,9 @@ def addOrder(ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Po
                        (ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Postcode))
     except:
         return 1
-    connection.commit()
+    if (ProductName != "Infinity Edge"):
+        connection.commit()
+    #connection.commit()
     return 0
 
 def userOrders(userEmail): #returns the list of orders a user has ade
