@@ -9,6 +9,7 @@ from login.encrypter import encrypt
 from login.verification import *
 from ItemGrid import *
 from cart import *
+from toast import QToaster
 
 #-------------------------------------------------------------------------------------Base Class Window
 class Window(QWidget):  
@@ -66,6 +67,9 @@ class Window(QWidget):
       self.roundCorners(8.0, ledtInput)
       vboxInput.addWidget(ledtInput)
       return ledtInput
+
+   def showToaster(self, text, parent, mid, bot):
+         QToaster.showMessage( parent, text, myWindow=mid, bottom=bot)
 
 #-----------------------------------------------------------------------------------------Subclass MainWindow
 class MainWindow(Window): 
@@ -313,7 +317,7 @@ class MainWindow(Window):
       print("Logout Successful")
 
    def btnLogin_clicked(self): #Open new Window when login button pressed
-      self.mydialog = LoginWindow()
+      self.mydialog = LoginWindow(self)
       self.mydialog.show()
 
    def btnRegister_clicked(self): #Open new Window when register button pressed
@@ -354,13 +358,14 @@ class MainWindow(Window):
    
    def btnHelp_click(self): #Help button clicked
       #TODO: add help
-      print("We are experiencing a high number of tickets, it will take longer than usual to get back to you")
+      self.showToaster("How can we help you?", self, TOAST_MAIN, HEIGHT_MAIN-100)
+      #print("We are experiencing a high number of tickets, it will take longer than usual to get back to you")
 
 #----------------------------------------------------------------------------------------------Subclass LoginWindow
 class LoginWindow(Window): 
-   def __init__(self):
+   def __init__(self, parent):
       super().__init__()
-
+      self.parentWindow = parent
       self.title = "Login"
       self.widgetWidth1 = WIDTH_SUB_VBOX          #set widget width
       self.widgetWidth2 = WIDTH_SUB_VBOX-20
@@ -408,13 +413,13 @@ class LoginWindow(Window):
       
       if(not logged):
          myUser.Login(email)
-         print("Login successful")
+         self.showToaster("Login successful", self.parentWindow, TOAST_MAIN, BOTTOM_LOGIN)
          ex.addNewMenu()
          self.close()
       elif(logged==1):
-         print("Incorrect details")
+         self.showToaster("Incorrect details", self, int(self.width/3)-15, GENERAL_MARGIN)
       elif(logged==-1):
-         print("There was an external error")
+         self.showToaster("There was an external error", self.parentWindow, int(self.width/2), GENERAL_MARGIN)
       
 #----------------------------------------------------------------------------------------------Subclass RegisterWindow
 class RegisterWindow(Window): 
