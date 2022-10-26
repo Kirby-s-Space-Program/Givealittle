@@ -990,7 +990,7 @@ class AccountWindow(Window):
       self.lblUseEmail = QLabel(self.email)
       self.lblUseEmail.setFont(QFont('AnyStyle', 30))
      
-     
+      
       
       self.fbox.addRow(self.lblName, self.lblUsename) #view the labels on form layout
       self.fbox.addRow(self.lblSurname, self.lblUseSurname)
@@ -1001,10 +1001,22 @@ class AccountWindow(Window):
       self.btnHistory.setFont(QFont('AnyStyle', 20))
       self.vbox.addWidget(self.btnHistory)
       
-  def btnHistory_clicked(self):
+   def btnHistory_clicked(self):
       
-      self.lbox = QWidget(self)  #list view
-      self
+      self.lboxWidget = QWidget(self)  #list view
+      self.lboxWidget.setObjectName("lboxWidget")
+      self.lbox = QListView(self.lboxWidget)
+      self.lbox.setObjectName("lbox")
+      self.vbox.addWidget(self.lboxWidget)
+      
+      self.purchase = userOrders(self.email)
+      
+      self.lblpurchase = QLabel(self.purchase)
+      self.lblpurchase.setFont(QFont('AnyStyle', 30))
+      
+      self.lbox.addItems([self.lblpurchase])
+     
+      
       
       
       
