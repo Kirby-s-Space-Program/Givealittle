@@ -9,6 +9,7 @@ from login.encrypter import encrypt
 from login.verification import *
 from ItemGrid import *
 from cart import *
+from toast import QToaster
 
 #-------------------------------------------------------------------------------------Base Class Window
 class Window(QWidget):  
@@ -67,6 +68,9 @@ class Window(QWidget):
       vboxInput.addWidget(ledtInput)
       return ledtInput
 
+   def showToaster(self, text, parent, mid, bot):
+         QToaster.showMessage( parent, text, myWindow=mid, bottom=bot)
+
 #-----------------------------------------------------------------------------------------Subclass MainWindow
 class MainWindow(Window): 
    def __init__(self):
@@ -75,7 +79,7 @@ class MainWindow(Window):
       self.width = WIDTH_MAIN
       self.height = HEIGHT_MAIN
       
-      self.logged = 1 #0=logged in, 1=not logged in
+      self.logged = 1 #0=logged in, 1=not logged in TODO: change back to 1
       self.menubar = QMenuBar(self)
       self.menubar.setGeometry(QRect(0, 0, 1115, 20))
       self.menubar.setObjectName("menubar")
@@ -217,7 +221,7 @@ class MainWindow(Window):
          #Account sub tabs
          self.actionAccountDetails = QAction('Details', self.menubar) #account details
          self.actionAccountDetails.setObjectName("actionAccountDetails")
-         self.actionAccountDetails.triggered.connect(self.btnTemp)
+         self.actionAccountDetails.triggered.connect(self.btnAccount_click)
          self.menuAccount.addAction(self.actionAccountDetails)
 
          self.actionTrack_Order = QAction('Track Order', self.menubar) #track order
@@ -310,10 +314,10 @@ class MainWindow(Window):
       self.menubar.clear()
       self.logged = 1
       self.addMenu()
-      print("Logout Successful")
+      self.showToaster("Logout Successful", self, GENERAL_MARGIN, HEIGHT_MAIN-100)
 
    def btnLogin_clicked(self): #Open new Window when login button pressed
-      self.mydialog = LoginWindow()
+      self.mydialog = LoginWindow(self)
       self.mydialog.show()
 
    def btnRegister_clicked(self): #Open new Window when register button pressed
@@ -322,15 +326,24 @@ class MainWindow(Window):
 
    #TODO: make functions for post login buttons
    def btnTemp(self): #Placeholder on click function for post login menu buttons
-      print("Clicked")
+      self.showToaster("Clicked", self, TOAST_MAIN, HEIGHT_MAIN-100)
+   
+   def btnAccount_click(self):
+      try:
+         self.mydialog.close()
+         self.mydialog = AccountWindow()
+         self.mydialog.show()
+      except:
+         self.mydialog = AccountWindow()
+         self.mydialog.show()
    
    def btnCart_click(self): #Open cart window
       try:
          self.mydialog.close()
-         self.mydialog = CartWindow()
+         self.mydialog = CartWindow(self)
          self.mydialog.show()
       except:
-         self.mydialog = CartWindow()
+         self.mydialog = CartWindow(self)
          self.mydialog.show()
       
 
@@ -345,13 +358,13 @@ class MainWindow(Window):
    
    def btnHelp_click(self): #Help button clicked
       #TODO: add help
-      print("We are experiencing a high number of tickets, it will take longer than usual to get back to you")
+      self.showToaster("How can we help you?", self, GENERAL_MARGIN, HEIGHT_MAIN-100)
 
 #----------------------------------------------------------------------------------------------Subclass LoginWindow
 class LoginWindow(Window): 
-   def __init__(self):
+   def __init__(self, parent):
       super().__init__()
-
+      self.parentWindow = parent
       self.title = "Login"
       self.widgetWidth1 = WIDTH_SUB_VBOX          #set widget width
       self.widgetWidth2 = WIDTH_SUB_VBOX-20
@@ -399,13 +412,13 @@ class LoginWindow(Window):
       
       if(not logged):
          myUser.Login(email)
-         print("Login successful")
+         self.showToaster("Login successful", self.parentWindow, TOAST_MAIN, BOTTOM_LOGIN)
          ex.addNewMenu()
          self.close()
       elif(logged==1):
-         print("Incorrect details")
+         self.showToaster("Incorrect details", self, int(self.width/3)-15, GENERAL_MARGIN)
       elif(logged==-1):
-         print("There was an external error")
+         self.showToaster("There was an external error", self.parentWindow, int(self.width/4), GENERAL_MARGIN)
       
 #----------------------------------------------------------------------------------------------Subclass RegisterWindow
 class RegisterWindow(Window): 
@@ -460,64 +473,65 @@ class RegisterWindow(Window):
       fname = self.ledtFName.text()
       fNameCheck = checkFName(fname)
       if(fNameCheck==1):
-         print("First name too long")
+         self.showToaster("First name too long", self, int(2*self.width/5), GENERAL_MARGIN)
          return 1
       elif(fNameCheck==2):
-         print("First name too short")
+         self.showToaster("First name too short", self, int(2*self.width/5), GENERAL_MARGIN)
          return 2
       elif(fNameCheck==3):
-         print("First name cannot contain special characters")
+         self.showToaster("First name cannot contain special characters", self, int(self.width/5)+5, GENERAL_MARGIN)
          return 3
 
       surname = self.ledtSurname.text()
       surnameCheck = checkSurname(surname)
       if(surnameCheck==1):
-         print("Surname too long")
+         self.showToaster("Surname too long", self, int(2*self.width/5)+5, GENERAL_MARGIN)
          return 1
       elif(surnameCheck==2):
-         print("Surname too short")
+         self.showToaster("Surname too short", self, int(2*self.width/5)+5, GENERAL_MARGIN)
          return 2
       elif(surnameCheck==3):
-         print("Surname cannot contain special characters")
+         self.showToaster("Surname cannot contain special characters", self, int(self.width/5)+10, GENERAL_MARGIN)
          return 3
 
       email = self.ledtEmail.text()
       emailCheck = checkEmail(email)
       if(emailCheck==1):
-         print("Email too long")
+         self.showToaster("Email too long", self, int(2*self.width/5)+15, GENERAL_MARGIN)
          return 1
       elif(emailCheck==2):
-         print("Email too short")
+         self.showToaster("Email too short", self, int(2*self.width/5)+15, GENERAL_MARGIN)
          return 2
       elif(emailCheck==3):
-         print("Email cannot contain special characters")
+         self.showToaster("Email cannot contain special characters", self, int(self.width/5)+20, GENERAL_MARGIN)
          return 3
       elif(emailCheck==4):
-         print("Email does not contain @")
+         self.showToaster("Email does not contain @", self, int(2*self.width/5)-20, GENERAL_MARGIN)
          return 4
 
       password = self.ledtPassword1.text()
       password2 = self.ledtPassword2.text()
       
       if(password!=password2):
-         print("Passwords do not match")
+         self.showToaster("Passwords do not match", self, int(2*self.width/5)-15, GENERAL_MARGIN)
       else:
          snhpassword, salt = encrypt(password)
          reg = register(fname,surname,email,snhpassword, salt)
          if(not reg):
             myUser.Login(email)
-            print("Successfully Registered")
+            self.showToaster("Successfully Registered", self, int(2*self.width/5)-10, GENERAL_MARGIN)
             ex.addNewMenu()
             self.close()
          else:
-            print("There was an error registering")
+            self.showToaster("There was an error registering", self, GENERAL_MARGIN, GENERAL_MARGIN)
       
       self.logged = login(email, password)
 
 #-------------------------------------------------------------------------------------Cart window
 class CartWindow(Window):
-   def __init__(self):
+   def __init__(self, parent):
       super().__init__()
+      self.parentWindow = parent
       self.title = "Cart"
 
       self.InitUI()
@@ -695,7 +709,7 @@ class CartWindow(Window):
       vRemove.addWidget(lblRemoveText)
 
    def btnCheckoutClick(self):
-      self.myDialog = CheckoutWindow()
+      self.myDialog = CheckoutWindow(self.parentWindow)
       self.myDialog.show()
       self.close() #TODO: Should it close cart window or nah?
 
@@ -704,8 +718,9 @@ class CartWindow(Window):
 
 #-------------------------------------------------------------------------------------Checkout window
 class CheckoutWindow(Window):
-   def __init__(self):
+   def __init__(self, parent):
       super ().__init__()
+      self.parentWindow = parent
       self.title = "Checkout"
       self.addHeader()
       self.addWidgets()
@@ -774,7 +789,8 @@ class CheckoutWindow(Window):
       self.vCheckout.addWidget(self.btncheckout)
 
    def btnCheckoutClick(self):
-      print("Thank you for shopping!")
+      self.showToaster("Thank you for shopping!", self.parentWindow, TOAST_MAIN, BOTTOM_LOGIN)
+      self.close()
 
 #-------------------------------------------------------------------------------------Wishlist window
 class WishlistWindow(Window):
@@ -917,6 +933,26 @@ class WishlistWindow(Window):
       lblRemoveText.setCursor(Qt.PointingHandCursor)
       vRemove.addWidget(lblRemoveText)
 
+#-------------------------------------------------------------------------------------Account window
+class AccountWindow(Window):
+   def __init__(self):
+      super().__init__()
+      self.title = "Account"
+
+      self.InitUI()
+      self.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
+      self.vbox.setContentsMargins(MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM,MARGIN_CART_WINDOW_SIDES,MARGIN_CART_WINDOW_BOTTOM)
+      self.vbox.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
+      self.addWidgets()
+
+   def addWidgets(self):
+      self.lblAccountHeader = QLabel(self)             #Register label
+      self.pixmapHeader = QPixmap(ACCOUNT_TITLE)
+      self.lblAccountHeader.setPixmap(self.pixmapHeader)
+      self.lblAccountHeader.setAlignment(Qt.AlignCenter)
+      self.vbox.addWidget(self.lblAccountHeader)
+
+      self.vbox.addWidget(QLabel(self))                       #Space
 #-------------------------------------------------------------------------------------Start Program
 ex = MainWindow() #create MainWindow object
 def createMain():

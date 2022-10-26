@@ -9,6 +9,7 @@ screen = app.primaryScreen()
 #Sizes
 WIDTH_MAIN = screen.size().width()
 HEIGHT_MAIN = screen.size().height()
+TOAST_MAIN = int(WIDTH_MAIN/2) -100
 
 LEFT_HEADER = int(WIDTH_MAIN/5)
 TOP_HEADER = int(HEIGHT_MAIN/25)
@@ -31,6 +32,7 @@ WIDTH_SUB = int(WIDTH_MAIN/4)
 HEIGHT_SUB = int(HEIGHT_MAIN/2.5)
 LEFT_SUB = int(WIDTH_MAIN/2 - WIDTH_SUB/2)
 TOP_SUB = int(HEIGHT_MAIN/4)
+BOTTOM_LOGIN = int(HEIGHT_MAIN/3)
 
 MARGIN_SUB_VBOX = int(WIDTH_SUB/4)
 HEIGHT_SUB_VBOX = int(HEIGHT_SUB/6)
@@ -69,6 +71,8 @@ HEIGHT_CHECKOUT_BOX = int(HEIGHT_CART_WINDOW/10)
 WIDTH_CHECKOUT_BUTTON = int(28*WIDTH_CHECKOUT_BOX/30)
 HEIGHT_CHECKOUT_BUTTON = int(2*HEIGHT_CHECKOUT_BOX/5)
 
+GENERAL_MARGIN = 20
+
 #Color pallette
 DARK_PINK = QColor(221, 4, 89)      #0xdd0459
 PINK = QColor(235, 104, 150)        #0xeb6896
@@ -85,6 +89,7 @@ CART_TITLE = "./icons/cart_title.png"
 WISHLIST_TITLE = "./icons/wishlist_title.png"
 DETAILS_TITLE = "./icons/details_title.png"
 CHECKOUT_TITLE = "./icons/checkout_title.png"
+ACCOUNT_TITLE = "./icons/account_title.png"
 SEARCH = "./icons/search.png"
 BALL = "./icons/ball.png"
 BOOK = "./icons/book.png"
