@@ -100,6 +100,7 @@ SOAP = "./icons/soap.png"
 USER = "./icons/user.png"
 WISHLIST = "./icons/wishlist2.png"
 BIN = "./icons/bin.png"
+PROFILE = "./icons/profile.png"
 
 #Provinces
 PROVINCES = ["Eastern Cape", "Free State", "Gauteng", 
