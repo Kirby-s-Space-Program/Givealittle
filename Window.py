@@ -952,14 +952,14 @@ class AccountWindow(Window):
       self.lblAccountHeader.setAlignment(Qt.AlignCenter)
       self.vbox.addWidget(self.lblAccountHeader)
 
-      self.vbox.addWidget(QLabel(self))   #Space
+      #self.vbox.addWidget(QLabel(self))   #Space
       
       self.name = myUser.get_Name() #get info of user
       self.email = myUser.get_Email()
       self.surname = myUser.get_Surname()
       
       self.lblprofile = QLabel(self) #profile icon
-      self.pixprofile = QPixmap(PROFILE)
+      self.pixprofile = QPixmap(USER)
       self.lblprofile.setPixmap(self.pixprofile)
       #self.lblprofile.setAlignment(Qt.AlignCenter)
       self.vbox.addWidget(self.lblprofile)
@@ -982,8 +982,6 @@ class AccountWindow(Window):
       self.fbox = QFormLayout(self.fboxWidget)
       self.fbox.setObjectName("fbox")
       self.vbox.addWidget(self.fboxWidget)
-      
-     
       
       
       self.lblUsename = QLabel(self.name) #user info in label
