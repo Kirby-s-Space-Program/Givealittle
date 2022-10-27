@@ -958,6 +958,11 @@ class AccountWindow(Window):
       self.email = myUser.get_Email()
       self.surname = myUser.get_Surname()
       
+      self.lblprofile = QLabel(self) #profile icon
+      self.pixprofile = QPixmap(PROFILE)
+      self.lblprofile.setPixmap(self.pixprofile)
+      #self.lblprofile.setAlignment(Qt.AlignCenter)
+      self.vbox.addWidget(self.lblprofile)
       
       self.lblName = QLabel("Name:                     ") #info to display
       self.lblName.setFont(QFont('AnyStyle', 30))
@@ -1001,7 +1006,7 @@ class AccountWindow(Window):
       self.btnHistory.setFont(QFont('AnyStyle', 20))
       self.vbox.addWidget(self.btnHistory)
       
-   def btnHistory_clicked(self):
+   def btnHistory_clicked(self): #show orders
       
       self.lboxWidget = QWidget(self)  #list view
       self.lboxWidget.setObjectName("lboxWidget")
