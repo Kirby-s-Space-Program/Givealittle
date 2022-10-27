@@ -952,7 +952,78 @@ class AccountWindow(Window):
       self.lblAccountHeader.setAlignment(Qt.AlignCenter)
       self.vbox.addWidget(self.lblAccountHeader)
 
-      self.vbox.addWidget(QLabel(self))                       #Space
+      self.vbox.addWidget(QLabel(self))   #Space
+      
+      self.name = myUser.get_Name() #get info of user
+      self.email = myUser.get_Email()
+      self.surname = myUser.get_Surname()
+      
+      
+      self.lblName = QLabel("Name:                     ") #info to display
+      self.lblName.setFont(QFont('AnyStyle', 30))
+      
+      self.lblSurname = QLabel("Surname:                     ")
+      self.lblSurname.setFont(QFont('AnyStyle', 30))
+      
+      self.lblemail = QLabel("Email:                     ")
+      self.lblemail.setFont(QFont('AnyStyle', 30))
+     
+     # self.orders = self.database.useOrders()
+    #  print(self.orders[1])
+      
+      
+      self.fboxWidget = QWidget(self)  #form layout to view info
+      self.fboxWidget.setObjectName("fboxWidget")
+      self.fbox = QFormLayout(self.fboxWidget)
+      self.fbox.setObjectName("fbox")
+      self.vbox.addWidget(self.fboxWidget)
+      
+     
+      
+      
+      self.lblUsename = QLabel(self.name) #user info in label
+      self.lblUsename.setFont(QFont('AnyStyle', 30))
+      
+      self.lblUseSurname = QLabel(self.surname)
+      self.lblUseSurname.setFont(QFont('AnyStyle', 30))
+      
+      self.lblUseEmail = QLabel(self.email)
+      self.lblUseEmail.setFont(QFont('AnyStyle', 30))
+     
+      
+      
+      self.fbox.addRow(self.lblName, self.lblUsename) #view the labels on form layout
+      self.fbox.addRow(self.lblSurname, self.lblUseSurname)
+      self.fbox.addRow(self.lblemail, self.lblUseEmail)
+      
+      self.btnHistory = QPushButton("Purchase History", self)
+      self.btnHistory.setObjectName("btnHistory")
+      self.btnHistory.setFont(QFont('AnyStyle', 20))
+      self.vbox.addWidget(self.btnHistory)
+      
+   def btnHistory_clicked(self):
+      
+      self.lboxWidget = QWidget(self)  #list view
+      self.lboxWidget.setObjectName("lboxWidget")
+      self.lbox = QListView(self.lboxWidget)
+      self.lbox.setObjectName("lbox")
+      self.vbox.addWidget(self.lboxWidget)
+      
+      self.purchase = userOrders(self.email)
+      
+      self.lblpurchase = QLabel(self.purchase)
+      self.lblpurchase.setFont(QFont('AnyStyle', 30))
+      
+      self.lbox.addItems([self.lblpurchase])
+     
+      
+      
+      
+      
+      
+       
+        
+    
 #-------------------------------------------------------------------------------------Start Program
 ex = MainWindow() #create MainWindow object
 def createMain():
