@@ -104,11 +104,11 @@ def categoryList(category):
 #=====================================================================================================================
 #Orders 
 
-def addOrder(ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Postcode): #adds an order to the database of orders
+def addOrder(ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Postcode, imgPath): #adds an order to the database of orders
     cursor = connection.cursor()
     try:
-        cursor.execute("INSERT INTO Orders (ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Postcode) VALUES (?, ?, ?, ?, ?, ?, ?)", 
-                       (ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Postcode))
+        cursor.execute("INSERT INTO Orders (ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Postcode, imgPath) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
+                       (ProductName, ProductPrice, UserEmail, CellNo, Province, Address, Postcode, imgPath))
     except:
         return 1
     if (ProductName != "Infinity Edge"):

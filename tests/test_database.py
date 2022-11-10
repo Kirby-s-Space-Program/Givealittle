@@ -53,7 +53,7 @@ class DatabaseTest(unittest.TestCase):
         
     #Order testing
     def test_addOrder(self):
-        check = addOrder("Infinity Edge", 0, "", "CellNo", "Province", "Address", "Postcode")
+        check = addOrder("Infinity Edge", 0, "", "CellNo", "Province", "Address", "Postcode", "imgPath")
         self.assertEqual(check, 0, "should throw code 0")
         
     def test_orderList(self):
