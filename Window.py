@@ -791,7 +791,7 @@ class CheckoutWindow(Window):
    def btnCheckoutClick(self): #ID, Name, Price, Seller, Department, imagePath
       for myProduct in myCart.cartList:
          product = myCart.get_item(myProduct)
-         addOrder(product[1], product[2], myUser.get_Email(), self.ledtCellNumber.text, self.cbProvince.itemText, self.ledtAddress.text, self.ledtPostalCode.text, product[5])
+         addOrder(product[1], product[2], myUser.get_Email(), self.ledtCellNumber.text(), self.cbProvince.currentText(), self.ledtAddress.text(), self.ledtPostalCode.text(), product[5])
       self.showToaster("Thank you for shopping!", self.parentWindow, TOAST_MAIN, BOTTOM_LOGIN)
       self.close()
 
