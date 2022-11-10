@@ -788,7 +788,10 @@ class CheckoutWindow(Window):
       self.btncheckout.setCursor(Qt.PointingHandCursor)
       self.vCheckout.addWidget(self.btncheckout)
 
-   def btnCheckoutClick(self):
+   def btnCheckoutClick(self): #ID, Name, Price, Seller, Department, imagePath
+      for myProduct in myCart.cartList:
+         product = myCart.get_item(myProduct)
+         addOrder(product[1], product[2], myUser.get_Email(), self.ledtCellNumber.text, self.cbProvince.itemText, self.ledtAddress.text, self.ledtPostalCode.text, product[5])
       self.showToaster("Thank you for shopping!", self.parentWindow, TOAST_MAIN, BOTTOM_LOGIN)
       self.close()
 
@@ -1027,14 +1030,14 @@ class AccountWindow(Window):
       self.fbox.addRow(self.lblHeaders)
       
       for order in self.orders:
-         print(order)
          self.addNewItem(order)
 
    def addNewItem(self, item): 
       hItemBoxWidget = QWidget(self) #horizontal layout to store item info
       hItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
       hItemBoxWidget.setMaximumHeight(MAX_HEIGHT_ITEM_CART)
-      hItemBox = QHBoxLayout(hItemBoxWidget)  
+      hItemBox = QHBoxLayout(hItemBoxWidget) 
+      hItemBox.setAlignment(Qt.AlignLeft) 
       self.vDetails.addWidget(hItemBoxWidget)
       #orderNo, ProductName, ProductPrice, userEmail, CellNo, Province, Address, Postcode
 
@@ -1043,13 +1046,17 @@ class AccountWindow(Window):
       lblOrderNo.setFont(QFont('AnyStyle', 14))
       hItemBox.addWidget(lblOrderNo)
 
+      hItemBox.addWidget(QLabel("                        ", self)) #space
+
       #image
-      # mainImage = QPixmap(item[5])
-      # lblProduct = QLabel(self)
-      # lblProduct.setMaximumSize(MAX_HEIGHT_ITEM_CART,MAX_HEIGHT_ITEM_CART)
-      # lblProduct.setPixmap(mainImage)
-      # lblProduct.setScaledContents(True)
-      # hItemBox.addWidget(lblProduct)
+      mainImage = QPixmap(item[8])
+      lblProduct = QLabel(self)
+      lblProduct.setMaximumSize(MAX_HEIGHT_ITEM_CART,MAX_HEIGHT_ITEM_CART)
+      lblProduct.setPixmap(mainImage)
+      lblProduct.setScaledContents(True)
+      hItemBox.addWidget(lblProduct)
+
+      hItemBox.addWidget(QLabel("          ",self)) #space
 
       #name and price 
       vNameWidget = QWidget(self) #vertical layout to store item info
@@ -1065,6 +1072,8 @@ class AccountWindow(Window):
       lblPrice = QLabel("R" + str(item[2]), vNameWidget)
       lblPrice.setFont(QFont('AnyStyle', 14))
       vName.addWidget(lblPrice)
+
+      hItemBox.addWidget(QLabel("                                   ",self)) #space
 
       #Address info
       vAddressWidget = QWidget(self) #vertical layout to store address info
