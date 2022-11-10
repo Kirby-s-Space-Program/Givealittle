@@ -548,7 +548,7 @@ class CartWindow(Window):
       self.hHeader.setObjectName("hHeader")
       self.vbox.addWidget(self.hHeaderWidget)
 
-      self.lblCartHeader = QLabel(self)             #Register label
+      self.lblCartHeader = QLabel(self)             #Cart label
       self.pixmapHeader = QPixmap(CART_TITLE)
       self.lblCartHeader.setPixmap(self.pixmapHeader)
       self.lblCartHeader.setAlignment(Qt.AlignLeft)
@@ -938,6 +938,7 @@ class AccountWindow(Window):
    def __init__(self):
       super().__init__()
       self.title = "Account"
+      self.orders = []
 
       self.InitUI()
       self.setGeometry(QRect(LEFT_CART_WINDOW,TOP_CART_WINDOW,WIDTH_CART_WINDOW,HEIGHT_CART_WINDOW))
@@ -952,17 +953,39 @@ class AccountWindow(Window):
       self.lblAccountHeader.setAlignment(Qt.AlignCenter)
       self.vbox.addWidget(self.lblAccountHeader)
 
-      #self.vbox.addWidget(QLabel(self))   #Space
-      
+      self.vbox.addWidget(QLabel(self))   #Space
+      self.vbox.addWidget(QLabel(self))   #Space
+      self.vbox.addWidget(QLabel(self))   #Space
+      self.vbox.addWidget(QLabel(self))   #Space
+      self.vbox.addWidget(QLabel(self))   #Space
+
       self.name = myUser.get_Name() #get info of user
       self.email = myUser.get_Email()
       self.surname = myUser.get_Surname()
+
+      #order history= orderNo, ProductName, ProductPrice, userEmail, CellNo, Province, Address, Postcode
+      self.orders = userOrders(self.email)
+      height_grid_scroll = len(self.orders) * MAX_HEIGHT_ITEM_CART + 570
+
+      self.vDetialsWidget = QWidget(self)                    #purchase history
+      self.vDetialsWidget.setObjectName("vDetialsWidget")
+      self.vDetialsWidget.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 4px; border-style: outset;")
+      self.vDetialsWidget.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX-20, height_grid_scroll))
+      self.roundCorners(10.0, self.vDetialsWidget)
+      self.vDetails = QVBoxLayout(self.vDetialsWidget)
+      self.vDetails.setObjectName("vDetails")
+
+      self.scrollArea = QScrollArea(self) #scrollable grid
+      self.scrollArea.setStyleSheet("background-color: rgb(" + str(PINK.red()) + "," + str(PINK.green()) + "," + str(PINK.blue()) + "); padding: 8px; border-style: outset;")
+      self.scrollArea.setGeometry(QRect(LEFT_CART_BOX, TOP_CART_BOX, WIDTH_CART_BOX, HEIGHT_CART_BOX))
+      self.scrollArea.setWidget(self.vDetialsWidget)
+      self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+      self.roundCorners(10.0, self.scrollArea)
       
       self.lblprofile = QLabel(self) #profile icon
       self.pixprofile = QPixmap(USER)
       self.lblprofile.setPixmap(self.pixprofile)
-      #self.lblprofile.setAlignment(Qt.AlignCenter)
-      self.vbox.addWidget(self.lblprofile)
+      self.vDetails.addWidget(self.lblprofile)
       
       self.lblName = QLabel("Name:                     ") #info to display
       self.lblName.setFont(QFont('AnyStyle', 30))
@@ -972,17 +995,12 @@ class AccountWindow(Window):
       
       self.lblemail = QLabel("Email:                     ")
       self.lblemail.setFont(QFont('AnyStyle', 30))
-     
-     # self.orders = self.database.useOrders()
-    #  print(self.orders[1])
-      
       
       self.fboxWidget = QWidget(self)  #form layout to view info
       self.fboxWidget.setObjectName("fboxWidget")
       self.fbox = QFormLayout(self.fboxWidget)
       self.fbox.setObjectName("fbox")
-      self.vbox.addWidget(self.fboxWidget)
-      
+      self.vDetails.addWidget(self.fboxWidget)
       
       self.lblUsename = QLabel(self.name) #user info in label
       self.lblUsename.setFont(QFont('AnyStyle', 30))
@@ -992,40 +1010,80 @@ class AccountWindow(Window):
       
       self.lblUseEmail = QLabel(self.email)
       self.lblUseEmail.setFont(QFont('AnyStyle', 30))
-     
-      
       
       self.fbox.addRow(self.lblName, self.lblUsename) #view the labels on form layout
       self.fbox.addRow(self.lblSurname, self.lblUseSurname)
       self.fbox.addRow(self.lblemail, self.lblUseEmail)
+
+      self.fbox.addRow(QLabel(self)) #space
+
+      #order history heading
+      self.lblOrders = QLabel("Order History:", self.vDetialsWidget)
+      self.lblOrders.setFont(QFont('AnyStyle', 30))
+      self.fbox.addRow(self.lblOrders)
+
+      self.lblHeaders = QLabel("Order No |           Image             |       Product Info                          |         Delivery Address", self.vDetialsWidget)
+      self.lblHeaders.setFont(QFont('AnyStyle', 14))
+      self.fbox.addRow(self.lblHeaders)
       
-      self.btnHistory = QPushButton("Purchase History", self)
-      self.btnHistory.setObjectName("btnHistory")
-      self.btnHistory.setFont(QFont('AnyStyle', 20))
-      self.vbox.addWidget(self.btnHistory)
-      
-   def btnHistory_clicked(self): #show orders
-      
-      self.lboxWidget = QWidget(self)  #list view
-      self.lboxWidget.setObjectName("lboxWidget")
-      self.lbox = QListView(self.lboxWidget)
-      self.lbox.setObjectName("lbox")
-      self.vbox.addWidget(self.lboxWidget)
-      
-      self.purchase = userOrders(self.email)
-      
-      self.lblpurchase = QLabel(self.purchase)
-      self.lblpurchase.setFont(QFont('AnyStyle', 30))
-      
-      self.lbox.addItems([self.lblpurchase])
-     
-      
-      
-      
-      
-      
-       
-        
+      for order in self.orders:
+         print(order)
+         self.addNewItem(order)
+
+   def addNewItem(self, item): 
+      hItemBoxWidget = QWidget(self) #horizontal layout to store item info
+      hItemBoxWidget.setStyleSheet("background-color: rgb(" + str(SOFT_PINK.red()) + "," + str(SOFT_PINK.green()) + "," + str(SOFT_PINK.blue()) + "); padding: 4px; border-style: outset;")
+      hItemBoxWidget.setMaximumHeight(MAX_HEIGHT_ITEM_CART)
+      hItemBox = QHBoxLayout(hItemBoxWidget)  
+      self.vDetails.addWidget(hItemBoxWidget)
+      #orderNo, ProductName, ProductPrice, userEmail, CellNo, Province, Address, Postcode
+
+      #Order ID
+      lblOrderNo = QLabel(str(item[0]), self)
+      lblOrderNo.setFont(QFont('AnyStyle', 14))
+      hItemBox.addWidget(lblOrderNo)
+
+      #image
+      # mainImage = QPixmap(item[5])
+      # lblProduct = QLabel(self)
+      # lblProduct.setMaximumSize(MAX_HEIGHT_ITEM_CART,MAX_HEIGHT_ITEM_CART)
+      # lblProduct.setPixmap(mainImage)
+      # lblProduct.setScaledContents(True)
+      # hItemBox.addWidget(lblProduct)
+
+      #name and price 
+      vNameWidget = QWidget(self) #vertical layout to store item info
+      vNameWidget.setObjectName("vNameWidget")
+      vName = QVBoxLayout(vNameWidget)
+      vName.setObjectName("vName")
+      hItemBox.addWidget(vNameWidget)
+
+      lblName = QLabel(item[1], vNameWidget)
+      lblName.setFont(QFont('AnyStyle', 14))
+      vName.addWidget(lblName)
+
+      lblPrice = QLabel("R" + str(item[2]), vNameWidget)
+      lblPrice.setFont(QFont('AnyStyle', 14))
+      vName.addWidget(lblPrice)
+
+      #Address info
+      vAddressWidget = QWidget(self) #vertical layout to store address info
+      vAddressWidget.setObjectName("vAddressWidget")
+      vAddress = QVBoxLayout(vAddressWidget)
+      vAddress.setObjectName("vAddress")
+      hItemBox.addWidget(vAddressWidget)
+
+      lblName = QLabel(item[5], vAddressWidget) #province
+      lblName.setFont(QFont('AnyStyle', 14))
+      vAddress.addWidget(lblName)
+
+      lblPrice = QLabel(item[7], vAddressWidget) #postal code
+      lblPrice.setFont(QFont('AnyStyle', 14))
+      vAddress.addWidget(lblPrice)
+
+      lblPrice = QLabel(item[6], vAddressWidget) #address
+      lblPrice.setFont(QFont('AnyStyle', 14))
+      vAddress.addWidget(lblPrice)
     
 #-------------------------------------------------------------------------------------Start Program
 ex = MainWindow() #create MainWindow object
