@@ -22,6 +22,11 @@ To begin using the program run
 ```
 main.py
 ```
+Test login details
+```
+Email:      test@mail.com
+Password:   6969
+```
 
 # Some Snapshots of the program
 HomePage 
