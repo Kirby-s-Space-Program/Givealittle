@@ -31,9 +31,11 @@ Sort By Department
 ![sorted_snap](https://user-images.githubusercontent.com/93909209/203320351-84dc95f5-04a6-486a-96ac-6954d8ea79e3.png)
 
 Login
+
 ![login_snap](https://user-images.githubusercontent.com/93909209/203320422-02fa9eae-77a3-4215-b90b-b312b8de0141.png)
 
 Register
+
 ![register_snap](https://user-images.githubusercontent.com/93909209/203320455-581505c8-c48e-47b2-aa51-2f04f27dd189.png)
 
 Account
@@ -46,6 +48,7 @@ Cart
 ![cart_snap](https://user-images.githubusercontent.com/93909209/203320533-79f90726-ca14-49ae-aa68-5d6a8c1401e2.png)
 
 Checkout
+
 ![checkout_snap](https://user-images.githubusercontent.com/93909209/203320673-2b918215-a16a-47cd-a648-fb5c3f1e973f.png)
 
 ### Developed by Kirbys-Space-Program
